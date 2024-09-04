@@ -14,6 +14,9 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Theme toggler -->
+    <script src="/theme-toggle.js" defer></script>
 </head>
 
 <body class="font-sans antialiased">
@@ -26,6 +29,7 @@
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
+                <!-- <button onclick="toggleDarkMode()">Toggle Theme</button> -->
             </header>
         @endisset
 
