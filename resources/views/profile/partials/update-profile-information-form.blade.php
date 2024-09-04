@@ -47,6 +47,34 @@
             @endif
         </div>
 
+        @if(Auth::user()->role=='candidate')
+        <div>
+            <x-input-label for="candidate_job_title" :value="__('candidate_job_title')" />
+            <x-text-input id="candidate_job_title" name="candidate_job_title" type="text" class="mt-1 block w-full" :value="old('job_title', $user->job_title)" required autofocus autocomplete="job_title" />
+            <x-input-error class="mt-2" :messages="$errors->get('job_title')" />
+        </div>
+
+        <div>
+            <x-input-label for="candidate_job_description" :value="__('candidate_job_description')" />
+            <textarea name="candidate_job_description" id="" cols="30" rows="5"></textarea>
+        </div>
+        <div id="skills">
+        <label for="skills">Skills:</label>
+        <input type="text" name="candidate_skills[]" class="form-control" placeholder="Enter skill">
+    </div>
+    <button type="button" onclick="addSkill()">Add More Skills</button>
+
+    <button type="submit">Submit</button>
+
+    <div id="projects">
+        <label for="projects">projects:</label>
+        <input type="text" name="candidate_projects[]" class="form-control" placeholder="Enter link github of your projcet">
+    </div>
+    <button type="button" onclick="addproject()">Add More project</button>
+
+    <button type="submit">Submit</button>
+        @endif
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
@@ -62,3 +90,24 @@
         </div>
     </form>
 </section>
+
+
+<script>
+function addSkill() {
+    var newSkill = document.createElement('input');
+    newSkill.type = 'text';
+    newSkill.name = 'candidate_skills[]';
+    newSkill.className = 'form-control';
+    newSkill.placeholder = 'Enter skill';
+    document.getElementById('skills').appendChild(newSkill);
+}
+
+function addproject() {
+    var newproject = document.createElement('input');
+    newproject.type = 'text';
+    newproject.name = 'candidate_projects[]';
+    newproject.className = 'form-control';
+    newproject.placeholder = 'Enter link github of your projcet';
+    document.getElementById('projects').appendChild(newproject);
+}
+</script>
