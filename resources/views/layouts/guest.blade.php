@@ -14,6 +14,9 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Toggle Theme -->
+    <script src="/theme-toggle.js" defer></script>
 </head>
 
 <body class="font-sans text-zinc-900 antialiased bg-zinc-100 dark:bg-zinc-900">
