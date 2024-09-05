@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('fixed_salary', 10, 2)->nullable();
             $table->decimal('hourly_rate', 10, 2)->nullable();
             $table->json('skills')->nullable();
-            $table->string('status');
+            $table->enum('status', ['pending', 'approved', 'declined'])->default('pending');
             $table->timestamps();
         });
     }
