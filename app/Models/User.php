@@ -23,6 +23,11 @@ class User extends Authenticatable
         'role',
         'company_name', 
         'website',
+        'candidate_skills',
+        'candidate_projects',
+        'candidate_job_title',
+        'candidate_job_description',
+
     ];
 
     /**
@@ -47,4 +52,28 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function getCandidateSkillsAttribute($value)
+    {
+        return json_decode($value, true); // Convert JSON string to array
+    }
+
+   
+    public function setCandidateSkillsAttribute($value)
+    {
+        $this->attributes['candidate_skills'] = json_encode($value); // Convert array to JSON string
+    }
+
+    public function getCandidateProjectsAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    // Mutator: Convert array to JSON string for candidate_projects
+    public function setCandidateProjectsAttribute($value)
+    {
+        $this->attributes['candidate_projects'] = json_encode($value);
+    }
 }
+
+
+
