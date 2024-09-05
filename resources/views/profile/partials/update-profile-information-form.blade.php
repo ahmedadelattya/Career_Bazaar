@@ -18,15 +18,15 @@
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="block w-full mt-1"
-                :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-text-input id="name" name="name" type="text" class="block w-full mt-1" :value="old('name', $user->name)"
+                required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="block w-full mt-1"
-                :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="block w-full mt-1" :value="old('email', $user->email)"
+                required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
@@ -52,8 +52,8 @@
         @if (Auth::user()->role == 'candidate')
             <div>
                 <x-input-label for="candidate_job_title" :value="__('Candidate Job Title')" />
-                <x-text-input id="candidate_job_title" name="candidate_job_title" type="text" class="block w-full mt-1"
-                    :value="old('job_title', $user->job_title)" required autofocus autocomplete="job_title" />
+                <x-text-input id="candidate_job_title" name="candidate_job_title" type="text"
+                    class="block w-full mt-1" :value="old('job_title', $user->job_title)" required autofocus autocomplete="job_title" />
                 <x-input-error class="mt-2" :messages="$errors->get('job_title')" />
             </div>
 
@@ -101,7 +101,8 @@
         const newSkill = document.createElement('input');
         newSkill.type = 'text';
         newSkill.name = 'candidate_skills[]';
-        newSkill.className = 'mt-2 block w-full border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-zinc-800 dark:text-zinc-100';
+        newSkill.className =
+            'mt-2 block w-full border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-zinc-800 dark:text-zinc-100';
         newSkill.placeholder = 'Enter skill';
         skillContainer.appendChild(newSkill);
     }
@@ -111,7 +112,8 @@
         const newProject = document.createElement('input');
         newProject.type = 'text';
         newProject.name = 'candidate_projects[]';
-        newProject.className = 'mt-2 block w-full border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-zinc-800 dark:text-zinc-100';
+        newProject.className =
+            'mt-2 block w-full border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-zinc-800 dark:text-zinc-100';
         newProject.placeholder = 'Enter GitHub project link';
         projectContainer.appendChild(newProject);
     }
