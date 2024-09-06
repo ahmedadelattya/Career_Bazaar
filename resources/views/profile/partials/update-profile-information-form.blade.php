@@ -1,9 +1,8 @@
 <section>
-    <header>
+    <header class="mb-6">
         <h2 class="text-lg font-medium text-zinc-900 dark:text-zinc-100">
             {{ __('Profile Information') }}
         </h2>
-
         <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
             {{ __("Update your account's profile information and email address.") }}
         </p>
@@ -13,35 +12,36 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="space-y-6">
         @csrf
         @method('patch')
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
+            <x-text-input id="name" name="name" type="text" class="block w-full mt-1" :value="old('name', $user->name)"
                 required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="block w-full mt-1" :value="old('email', $user->email)"
+                required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-zinc-800 dark:text-zinc-200">
+                <div class="mt-2">
+                    <p class="text-sm text-zinc-800 dark:text-zinc-200">
                         {{ __('Your email address is unverified.') }}
 
                         <button form="send-verification"
-                            class="underline text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-zinc-800">
+                            class="ml-2 text-sm underline rounded-md text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-zinc-800">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
 
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
+                        <p class="mt-2 text-sm font-medium text-green-600 dark:text-green-400">
                             {{ __('A new verification link has been sent to your email address.') }}
                         </p>
                     @endif
@@ -49,35 +49,42 @@
             @endif
         </div>
 
-        @if(Auth::user()->role=='candidate')
-        <div>
-            <x-input-label for="candidate_job_title" :value="__('candidate_job_title')" />
-            <x-text-input id="candidate_job_title" name="candidate_job_title" type="text" class="mt-1 block w-full" :value="old('job_title', $user->job_title)" required autofocus autocomplete="job_title" />
-            <x-input-error class="mt-2" :messages="$errors->get('job_title')" />
-        </div>
+        @if (Auth::user()->role == 'candidate')
+            <div>
+                <x-input-label for="candidate_job_title" :value="__('Candidate Job Title')" />
+                <x-text-input id="candidate_job_title" name="candidate_job_title" type="text"
+                    class="block w-full mt-1" :value="old('job_title', $user->job_title)" required autofocus autocomplete="job_title" />
+                <x-input-error class="mt-2" :messages="$errors->get('job_title')" />
+            </div>
 
-        <div>
-            <x-input-label for="candidate_job_description" :value="__('candidate_job_description')" />
-            <textarea name="candidate_job_description" id="" cols="30" rows="5"></textarea>
-        </div>
-        <div id="skills">
-        <label for="skills">Skills:</label>
-        <input type="text" name="candidate_skills[]" class="form-control" placeholder="Enter skill">
-    </div>
-    <button type="button" onclick="addSkill()">Add More Skills</button>
+            <div>
+                <x-input-label for="candidate_job_description" :value="__('Candidate Job Description')" />
+                <textarea name="candidate_job_description" id="candidate_job_description" rows="5"
+                    class="block w-full mt-1 rounded-md shadow-sm border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-zinc-100"></textarea>
+            </div>
 
-    <button type="submit">Submit</button>
+            <div id="skills">
+                <x-input-label for="skills" :value="__('Skills')" />
+                <x-text-input type="text" name="candidate_skills[]" class="block w-full mt-1"
+                    placeholder="Enter skill" />
+            </div>
+            <button type="button" onclick="addSkill()"
+                class="inline-flex items-center px-4 py-2 mt-2 text-xs font-semibold tracking-widest uppercase border border-transparent rounded-md bg-zinc-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-800">
+                Add More Skills
+            </button>
 
-    <div id="projects">
-        <label for="projects">projects:</label>
-        <input type="text" name="candidate_projects[]" class="form-control" placeholder="Enter link github of your projcet">
-    </div>
-    <button type="button" onclick="addproject()">Add More project</button>
-
-    <button type="submit">Submit</button>
+            <div id="projects" class="mt-4">
+                <x-input-label for="projects" :value="__('Projects')" />
+                <x-text-input type="text" name="candidate_projects[]" class="block w-full mt-1"
+                    placeholder="Enter GitHub project link" />
+            </div>
+            <button type="button" onclick="addProject()"
+                class="inline-flex items-center px-4 py-2 mt-2 text-xs font-semibold tracking-widest uppercase border border-transparent rounded-md bg-zinc-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-800">
+                Add More Projects
+            </button>
         @endif
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 mt-6">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
@@ -88,23 +95,26 @@
     </form>
 </section>
 
-
 <script>
-function addSkill() {
-    var newSkill = document.createElement('input');
-    newSkill.type = 'text';
-    newSkill.name = 'candidate_skills[]';
-    newSkill.className = 'form-control';
-    newSkill.placeholder = 'Enter skill';
-    document.getElementById('skills').appendChild(newSkill);
-}
+    function addSkill() {
+        const skillContainer = document.getElementById('skills');
+        const newSkill = document.createElement('input');
+        newSkill.type = 'text';
+        newSkill.name = 'candidate_skills[]';
+        newSkill.className =
+            'mt-2 block w-full border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-zinc-800 dark:text-zinc-100';
+        newSkill.placeholder = 'Enter skill';
+        skillContainer.appendChild(newSkill);
+    }
 
-function addproject() {
-    var newproject = document.createElement('input');
-    newproject.type = 'text';
-    newproject.name = 'candidate_projects[]';
-    newproject.className = 'form-control';
-    newproject.placeholder = 'Enter link github of your projcet';
-    document.getElementById('projects').appendChild(newproject);
-}
+    function addProject() {
+        const projectContainer = document.getElementById('projects');
+        const newProject = document.createElement('input');
+        newProject.type = 'text';
+        newProject.name = 'candidate_projects[]';
+        newProject.className =
+            'mt-2 block w-full border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-zinc-800 dark:text-zinc-100';
+        newProject.placeholder = 'Enter GitHub project link';
+        projectContainer.appendChild(newProject);
+    }
 </script>
