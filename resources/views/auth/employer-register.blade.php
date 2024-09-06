@@ -14,8 +14,7 @@
                     margin: 0 !important;
                 }
             </style>
-            <form method="POST" action="{{ route('register') }}" class="grid grid-cols-1 md:grid-cols-2  gap-6 "
-                novalidate>
+            <form method="POST" action="{{ route('register') }}" class="grid grid-cols-1 md:grid-cols-2  gap-6 ">
                 @csrf
 
                 <x-input-error :messages="$errors->all()" class="" />

@@ -7,9 +7,37 @@
         <div class="flex md:gap-8 lg:gap-12 xl:gap-20">
             <form method="POST" action="{{ route('register') }}">
                 @csrf
+                <x-input-error :messages="$errors->all()" />
 
                 <!-- Common Registration Fields -->
-                <x-registration-form />
+                <!-- Name -->
+                <div>
+                    <x-input-label for="name" :value="__('Name')" />
+                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
+                        required autofocus autocomplete="name" />
+                </div>
+
+                <!-- Email Address -->
+                <div class="mt-4">
+                    <x-input-label for="email" :value="__('Email')" />
+                    <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
+                        required autocomplete="username" />
+                </div>
+
+                <!-- Password -->
+                <div class="mt-4">
+                    <x-input-label for="password" :value="__('Password')" />
+                    <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                        autocomplete="new-password" />
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="mt-4">
+                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                    <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
+                        name="password_confirmation" required autocomplete="new-password" />
+                </div>
+
 
                 <!-- Hidden field for the role -->
                 <input type="hidden" name="role" value="candidate">
