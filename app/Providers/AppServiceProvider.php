@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Policies\JobPolicy;
+use app\Models\Job;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Paginator::useBootstrapFive();
+        Gate::policy(Job::class, JobPolicy::class);
     }
 }

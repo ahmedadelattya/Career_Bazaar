@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Job;
+
 
 class User extends Authenticatable
 {
@@ -21,7 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'company_name', 
+        'company_name',
         'website',
         'candidate_skills',
         'candidate_projects',
@@ -57,7 +59,7 @@ class User extends Authenticatable
         return json_decode($value, true); // Convert JSON string to array
     }
 
-   
+
     public function setCandidateSkillsAttribute($value)
     {
         $this->attributes['candidate_skills'] = json_encode($value); // Convert array to JSON string
@@ -73,7 +75,9 @@ class User extends Authenticatable
     {
         $this->attributes['candidate_projects'] = json_encode($value);
     }
+    // Relation Between jobs and Employer
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'employer_id');
+    }
 }
-
-
-
