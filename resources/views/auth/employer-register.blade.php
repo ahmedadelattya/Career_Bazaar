@@ -1,12 +1,12 @@
 <x-guest-layout>
 
-    <div class="grid grid-rows-[auto,1fr,auto] h-full gap-8">
+    <div class="flex flex-col items-center justify-between min-h-[calc(100dvh-32px)]">
         <!-- Header -->
         <header class="flex justify-center mt-12 mb-8">
             <h1 class="text-3xl dark:text-zinc-200 font-semibold">Register as Employer</h1>
         </header>
-        <div class="mb-auto flex md:flex-col md:gap-0 xl:flex-row-reverse xl:gap-28 items-center justify-center">
-            <div class="hidden md:block md:w-64">
+        <div class="flex md:flex-col md:gap-0 xl:flex-row-reverse xl:gap-12 items-center justify-center">
+            <div class="hidden md:block md:w-64 xl:w-80">
                 <img src="assets/business-deal-2.svg" class="" alt="business deal illustration">
             </div>
             <style>
@@ -77,7 +77,7 @@
                 </div>
             </form>
         </div>
-        <div class="max-w-lg md:max-w-8xl w-screen mx-auto flex items-center flex-col mt-auto">
+        <div class="max-w-lg md:max-w-8xl w-screen mx-auto flex items-center flex-col">
             <hr class="border-zinc-500 dark:border-zinc-700 w-full mb-8">
             <h2 class="text-zinc-800 dark:text-zinc-200 text-xl font-semibold">Try other methods</h2>
             <div class="mt-4 flex items-center justify-center gap-2 w-full">

@@ -1,5 +1,6 @@
 <x-guest-layout>
-    <div class="max-w-sm sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl mx-auto flex flex-col items-center gap-8">
+    <div
+        class="max-w-sm sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl mx-auto min-h-[calc(100dvh-32px)] flex flex-col items-center justify-between gap-8">
         <header class="flex justify-center mt-12 mb-8">
             <h1 class="text-3xl dark:text-zinc-200 font-semibold">Register as Candidate</h1>
         </header>
@@ -24,11 +25,11 @@
                     </x-primary-button>
                 </div>
             </form>
-            <div class="hidden md:block md:w-64">
+            <div class="hidden md:block md:w-64 xl:w-80">
                 <img src="assets/business-deal-2.svg" class="" alt="business deal illustration">
             </div>
         </div>
-        <div class="mx-auto flex items-center flex-col mt-auto">
+        <div class="mx-auto flex items-center flex-col">
             <hr class="border-zinc-500 dark:border-zinc-700 w-full mb-8">
             <h2 class="text-zinc-800 dark:text-zinc-200 text-xl font-semibold">Try other methods</h2>
             <div class="mt-4 flex items-center justify-center gap-2 w-full flex-wrap">
