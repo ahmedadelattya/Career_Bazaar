@@ -1,7 +1,4 @@
 <x-guest-layout>
-    <h1 class="absolute bottom-12 text-white sm:text-red-500 md:text-green-300 lg:text-yellow-500 xl:text-blue-600">
-        Check</h1>
-
     <div class="max-w-sm sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl mx-auto flex flex-col items-center gap-8">
         <header class="flex justify-center mt-12 mb-8">
             <h1 class="text-3xl dark:text-zinc-200 font-semibold">Register as Candidate</h1>
