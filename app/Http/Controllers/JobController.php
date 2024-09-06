@@ -6,17 +6,21 @@ use App\Models\Job;
 use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class JobController extends Controller
 {
     public function create()
     {
+        Gate::authorize('create', Job::class);
         $skills = Skill::all();
         return view('employer.jobs.job-create', compact('skills'));
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('create', Job::class);
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -55,20 +59,19 @@ class JobController extends Controller
 
     public function index()
     {
+        Gate::authorize('viewAny', Job::class);
         $user = Auth::user();
-
-        if ($user->role === 'employer') {
-            $jobs = $user->jobs()->paginate(10);
-            return view('employer.jobs.index', compact('jobs'));
-        } else {
-            return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
-        }
+        $jobs = $user->jobs()->paginate(10);
+        return view('employer.jobs.index', compact('jobs'));
     }
 
     public function show($id)
     {
+
         // Find the job by ID
         $job = Job::findOrFail($id);
+
+        Gate::authorize('view', $job);
 
         // Decode the skills JSON string into an array
         $job->skills = json_decode($job->skills, true);
@@ -80,6 +83,8 @@ class JobController extends Controller
     {
         // Find the job by ID
         $job = Job::findOrFail($id);
+
+        Gate::authorize('update', $job);
 
         // Decode the skills JSON string into an array
         $job->skills = json_decode($job->skills, true);
@@ -115,6 +120,8 @@ class JobController extends Controller
         // Find the job by ID
         $job = Job::findOrFail($id);
 
+        Gate::authorize('update', $job);
+
         // Convert skills input to an array
         $skills = $request->input('skills', []);
 
@@ -133,6 +140,8 @@ class JobController extends Controller
     {
         // Find the job by ID
         $job = Job::findOrFail($id);
+
+        Gate::authorize('delete', $job);
 
         // Delete the job
         $job->delete();
