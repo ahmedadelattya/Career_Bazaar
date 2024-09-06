@@ -38,14 +38,22 @@ class ProfileController extends Controller
     // public function update(EmployerUpdateRequest $requestEmployer): RedirectResponse
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // dd(request()->all());
         $user = User::findOrFail(Auth::user()->id);
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-
-        $user = User::findOrFail(Auth::user()->id);
+        $image_path = public_path('images/employers/' . $user->image);
+        if (file_exists($image_path)) {
+            unlink($image_path);
+        }
+        if ($request->hasFile('image')) {
+            // dd("FILE RECeieved");
+            $image = $request->file('image');
+            $image_path = $image->store("images", 'employers_images');
+        }
         $user->name = $request->name;
         $user->email = $request->email;
         $user->candidate_skills = $request->candidate_skills;
@@ -55,6 +63,7 @@ class ProfileController extends Controller
         $user->company_name = $request->company_name;
         $user->about = $request->about;
         $user->website = $request->website;
+        $user->image = $image_path;
 
         $user->save();
 

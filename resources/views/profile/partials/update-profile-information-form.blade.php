@@ -12,7 +12,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('patch')
 
@@ -86,11 +86,18 @@
         @endif
 
         @if (Auth::user()->role == 'employer')
+            {{-- Company Name field --}}
             <div class="mt-4">
                 <x-input-label for="company_name" :value="__('Company Name')" />
                 <x-text-input id="company_name" class="block mt-1 w-full" type="text" name="company_name"
                     :value="old('company_name')" required />
                 <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
+            </div>
+            {{-- image field --}}
+            <div class="mt-4">
+                <x-input-label :value="__('Image/Logo')" />
+                <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" required />
+                <x-input-error :messages="$errors->get('image')" class="mt-2" />
             </div>
             {{-- about me field --}}
             <div class="mt-4">

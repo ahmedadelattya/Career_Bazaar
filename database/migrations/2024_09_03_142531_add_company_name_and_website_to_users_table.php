@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('company_name')->nullable()->after('role');
             $table->string('website')->nullable()->after('company_name');
             $table->string('about')->nullable();
+            $table->string('image')->nullable();
         });
     }
 

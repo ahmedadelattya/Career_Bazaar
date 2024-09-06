@@ -6,9 +6,13 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-zinc-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
+            <div class="bg-white dark:bg-zinc-800 overflow-hidden shadow-sm sm:rounded-lg flex">
+                <div class="">
+                    <img src="{{ asset('images/employers/' . Auth::user()->image) }}">
+                </div>
                 <div class="p-6 text-zinc-900 dark:text-zinc-100">
+                    <p class="font-bold text-4xl"> {{ Auth::user()->name }} </p>
                     {{ __("You're logged in!") }}
                 </div>
             </div>
