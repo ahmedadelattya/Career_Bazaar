@@ -47,6 +47,7 @@
                     @endif
                 </div>
             @endif
+
         </div>
 
         @if (Auth::user()->role == 'candidate')
@@ -83,6 +84,30 @@
                 Add More Projects
             </button>
         @endif
+
+        @if (Auth::user()->role == 'employer')
+            <div class="mt-4">
+                <x-input-label for="company_name" :value="__('Company Name')" />
+                <x-text-input id="company_name" class="block mt-1 w-full" type="text" name="company_name"
+                    :value="old('company_name')" required />
+                <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
+            </div>
+            {{-- about me field --}}
+            <div class="mt-4">
+                <x-input-label for="about" :value="__('About')" />
+                <x-text-input id="about" class="block mt-1 w-full" type="text" name="about" :value="old('about')"
+                    required />
+                <x-input-error :messages="$errors->get('about')" class="mt-2" />
+            </div>
+            {{-- Web site field --}}
+            <div class="mt-4">
+                <x-input-label for="website" :value="__('Website')" />
+                <x-text-input id="website" class="block mt-1 w-full" type="url" name="website"
+                    :value="old('website')" />
+                <x-input-error :messages="$errors->get('website')" class="mt-2" />
+            </div>
+        @endif
+
 
         <div class="flex items-center gap-4 mt-6">
             <x-primary-button>{{ __('Save') }}</x-primary-button>

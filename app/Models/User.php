@@ -21,13 +21,13 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'company_name', 
+        'company_name',
         'website',
         'candidate_skills',
         'candidate_projects',
         'candidate_job_title',
         'candidate_job_description',
-
+        'about'
     ];
 
     /**
@@ -57,7 +57,7 @@ class User extends Authenticatable
         return json_decode($value, true); // Convert JSON string to array
     }
 
-   
+
     public function setCandidateSkillsAttribute($value)
     {
         $this->attributes['candidate_skills'] = json_encode($value); // Convert array to JSON string
