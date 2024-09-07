@@ -23,7 +23,7 @@ class ProfileController extends Controller
         if ($user->role == 'employer') {
             return view('profiles.employer-profile', ['user' => $user]);
         } elseif ($user->role == 'candidate') {
-            return view('profiles.candidate-profile', ['user' => $user]);
+            return view('profiles.edit-candidate-profile', ['user' => $user]);
         } elseif ($user->role == 'admin') {
             return view('profiles.admin-profile', ['user' => $user]);
         }
@@ -79,5 +79,11 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function show()
+    {
+
+        return view('profiles.show-candidate-profile', ['user' => Auth::user()]);
     }
 }

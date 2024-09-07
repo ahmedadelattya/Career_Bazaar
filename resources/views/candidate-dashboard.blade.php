@@ -1,88 +1,88 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-zinc-800 dark:text-zinc-200 leading-tight">
-            {{ __('Candidate_DashBoard') }}
-        </h2>
-         <!-- Search Bar -->
-         <div class="row mb-4">
-            <div class="col-md-6 mx-auto">
-                <input type="text" class="form-control" id="jobSearch" placeholder="Search by job title or skills needed">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Table with Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    
+    <div class="container mx-auto p-6">
+        <div class="mx-auto mt-6 max-w-7xl sm:px-6 lg:px-8 text-center">
+        <h1>All Jobs</h1>
+
+            <div class="overflow-x-auto bg-white rounded-lg shadow-md dark:bg-zinc-800">
+                <table id="default-table" class="min-w-full text-sm bg-white dark:bg-zinc-800">
+                    <thead class="text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
+                        <tr>
+                            <th class="px-6 py-3 text-xs font-medium text-left uppercase">Title</th>
+                            <th class="px-6 py-3 text-xs font-medium text-left uppercase">Creator</th>
+                            <th class="px-6 py-3 text-xs font-medium text-left uppercase">Category</th>
+                            <th class="px-6 py-3 text-xs font-medium text-left uppercase">Location</th>
+                            <th class="px-6 py-3 text-xs font-medium text-left uppercase">Salary Type</th>
+                            <th class="px-6 py-3 text-xs font-medium text-left uppercase">Salary</th>
+                            <th class="px-6 py-3 text-xs font-medium text-left uppercase">Status</th>
+                            <th class="px-6 py-3 text-xs font-medium text-left uppercase">Created At</th>
+                            <th class="px-6 py-3 text-xs font-medium text-center uppercase">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <tr>
+                            <td class="px-6 py-4">Job Title Example</td>
+                            <td class="px-6 py-4">John Doe</td>
+                            <td class="px-6 py-4">Engineering</td>
+                            <td class="px-6 py-4">cairo</td>
+                            <td class="px-6 py-4">Hourly</td>
+                            <td class="px-6 py-4">$50</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full">Active</span>
+                            </td>
+                            <td class="px-6 py-4">2024-09-07</td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded mr-2">
+                                    Apply
+                                </button>
+                             
+                            </td>
+                        </tr>
+                       <tr>
+                            <td class="px-6 py-4">IT</td>
+                            <td class="px-6 py-4">Jane Doe</td>
+                            <td class="px-6 py-4">Engineering</td>
+                            <td class="px-6 py-4">alexandria</td>
+                            <td class="px-6 py-4">Hourly</td>
+                            <td class="px-6 py-4">$50</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full">Closed</span>
+                            </td>
+                            <td class="px-6 py-4">2024-09-07</td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded mr-2">
+                                    Apply
+                                </button>
+                            </td>
+                       </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-
-    </x-slot>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-zinc-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-zinc-900 dark:text-zinc-100">
-                <div class="container mt-5">
-       
-
-        <!-- Job Listings Table -->
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col">Job Title</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Skills Needed</th>
-                        <th scope="col">Salary</th>
-                        <th scope="col">Apply</th>
-                    </tr>
-                </thead>
-                <tbody id="jobTable">
-                    <tr>
-                        <td>Frontend Developer</td>
-                        <td>Develop user-facing features using HTML, CSS, and JavaScript</td>
-                        <td>HTML, CSS, JavaScript, React</td>
-                        <td>$80,000/year</td>
-                        <td><button class="btn btn-primary">Apply</button></td>
-                    </tr>
-                    <tr>
-                        <td>Backend Developer</td>
-                        <td>Build and maintain server-side logic</td>
-                        <td>Node.js, Express, MongoDB</td>
-                        <td>$90,000/year</td>
-                        <td><button class="btn btn-primary">Apply</button></td>
-                    </tr>
-                    <tr>
-                        <td>Full Stack Developer</td>
-                        <td>Work on both frontend and backend components</td>
-                        <td>HTML, CSS, JavaScript, Node.js</td>
-                        <td>$100,000/year</td>
-                        <td><button class="btn btn-primary">Apply</button></td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 
+    <!-- Include simple-datatables -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+    
+    <!-- Initialize the DataTable -->
     <script>
-        // Search filter functionality
-        document.getElementById('jobSearch').addEventListener('input', function() {
-            let searchValue = this.value.toLowerCase();
-            let rows = document.querySelectorAll('#jobTable tr');
-
-            rows.forEach(function(row) {
-                let jobTitle = row.cells[0].textContent.toLowerCase();
-                let skills = row.cells[2].textContent.toLowerCase();
-
-                if (jobTitle.includes(searchValue) || skills.includes(searchValue)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            const dataTable = new simpleDatatables.DataTable("#default-table", {
+                searchable: true, // Enable search
+                perPage: 5, // Pagination
+                perPageSelect: [5, 10, 20], // Dropdown for pagination options
+                sortable: true, // Enable sorting
             });
         });
     </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+</body>
+</html>
