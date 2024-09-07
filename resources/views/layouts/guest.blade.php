@@ -14,19 +14,33 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Toggle Theme -->
+    <script src="/theme-toggle.js" defer></script>
 </head>
 
-<body class="font-sans text-zinc-900 antialiased bg-zinc-100 dark:bg-zinc-900">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center container mx-auto p-4 ">
-        <!-- <div>
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-zinc-500" />
-            </a>
-        </div> -->
+<body class="font-sans relative  text-zinc-900 antialiased bg-zinc-100 dark:bg-zinc-900 min-h-screen">
+    <div class="container mx-auto p-4">
+        <div class="gradient-bg  text-zinc-950 dark:text-zinc-950 ">
+        </div>
+        <style>
+            .gradient-bg {
+                position: absolute;
+                inset: 0;
+                z-index: -100;
+                background: radial-gradient(ellipse at bottom,
+                        color-mix(in lab, currentColor 46%, white 9%),
+                        color-mix(in lab, currentColor 44%, transparent 89%))
+            }
 
-        <!-- <div> -->
+            /* Optional: Transition effect when switching between light and dark mode */
+            @media (prefers-color-scheme: dark) {
+                .gradient-bg {
+                    transition: background 0.3s ease-in-out;
+                }
+            }
+        </style>
         {{ $slot }}
-        <!-- </div> -->
     </div>
 </body>
 
