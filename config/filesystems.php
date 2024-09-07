@@ -64,6 +64,14 @@ return [
             'throw' => false,
         ],
 
+        'candidates_images' => [
+            "driver" => "local",
+            'root' => public_path('images/candidates'),
+            'visibility' => 'public',
+            'url' => env('APP_URL') . '/public',
+            'throw' => false,
+        ],
+
     ],
 
     /*

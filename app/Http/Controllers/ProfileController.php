@@ -14,16 +14,22 @@ use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
+
+    public function show()
+    {
+        $user = Auth::user();
+        return view('profiles.employer.show-employer-profile', compact('user'));
+    }
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function edit(Request $request)
     {
         $user = $request->user();
 
         // Determine which profile view to return based on role
         if ($user->role == 'employer') {
-            return view('profiles.employer-profile', ['user' => $user]);
+            return view('profiles.employer.edit-employer-profile', ['user' => $user]);
         } elseif ($user->role == 'candidate') {
             return view('profiles.candidate-profile', ['user' => $user]);
         } elseif ($user->role == 'admin') {
@@ -45,17 +51,24 @@ class ProfileController extends Controller
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-        $image_path = public_path('images/employers/' . $user->image);
+
+        if ($user->role === 'candidate') {
+            $image_path = public_path('images/candidates/' . $user->image);
+        } else if ($user->role === 'employer') {
+            $image_path = public_path('images/employers/' . $user->image);
+        }
+
         if ($user->image != null) {
-            # code...
             if (file_exists($image_path)) {
                 unlink($image_path);
             }
         }
-        if ($request->hasFile('image')) {
-            // dd("FILE RECeieved");
-            $image = $request->file('image');
+        $image = $request->file('image');
+        if ($request->hasFile('image') && $user->role === 'candidate') {
+            $image_path = $image->store("images", 'candidates_images');
+        } else if ($request->hasFile('image') && $user->role === 'employer') {
             $image_path = $image->store("images", 'employers_images');
+
         }
         $user->name = $request->name;
         $user->email = $request->email;
