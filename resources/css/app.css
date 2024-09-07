@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* [Choices] styles - a dropdown addon  */
+.choices__item {
+    @apply text-zinc-800 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900 focus-within:bg-zinc-950;
+}
+.is-highlighted {
+    @apply !bg-zinc-200 text-zinc-700 dark:!bg-zinc-950 dark:!text-white;
+}
+.choices__inner {
+    @apply !border-zinc-300 dark:!border-zinc-700 dark:!bg-zinc-900 dark:!text-zinc-300 focus:!border-indigo-500 dark:focus:!border-indigo-600 focus:!ring-indigo-500 dark:focus:!ring-indigo-600 !rounded-md !shadow-sm p-3 flex items-center;
+}
+.choices {
+    @apply !bg-transparent;
+}
+.choices__input.choices__input--cloned {
+    all: unset !important;
+    margin-left: 0.5rem !important;
+}
+
+.choices__list.choices__list--multiple {
+    @apply !flex !items-center !gap-2 !flex-wrap !max-w-72  md:!max-w-96 lg:!max-w-xl xl:!max-w-4xl;
+}
+.choices__list--multiple .choices__item {
+    @apply !m-0 border-indigo-400 dark:!border-indigo-800 bg-zinc-600 dark:!bg-zinc-800 shadow;
+}
+
+.choices[data-type*="select-multiple"] .choices__button,
+.choices[data-type*="text"] .choices__button {
+    @apply border-l-indigo-400 dark:border-l-indigo-800;
+}

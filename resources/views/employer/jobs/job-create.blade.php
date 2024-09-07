@@ -1,87 +1,92 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Create Job Posting') }}
+        <h2 class="font-semibold text-xl text-zinc-800 dark:text-zinc-200 leading-tight">
+            {{ __('Add new job') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <form method="POST" action="{{ route('jobs.store') }}">
-                    @csrf
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 p-6">
+            <x-input-error :messages="$errors->all()" class="mt-2" />
+            <div
+                class="bg-white dark:bg-zinc-800 overflow-hidden shadow rounded-lg p-6 text-zinc-800 dark:text-zinc-300">
+                <form id="jobForm" method="POST" action="{{ route('jobs.store') }}" class="space-y-6" novalidate>
                     <!-- Job Title -->
-                    <div class="mb-4">
+                    <div>
                         <x-input-label for="title" :value="__('Job Title')" />
-                        <x-text-input id="title" class="block mt-1 w-full" type="text" name="title"
-                            :value="old('title')" required autofocus />
-                        <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                        <x-text-input id="title" class="block mt-2 w-full 
+                        " type="text" name="title" :value="old('title')" required autofocus />
                     </div>
 
                     <!-- Job Description -->
-                    <div class="mb-4">
+                    <div>
                         <x-input-label for="description" :value="__('Job Description')" />
-                        <textarea id="description" class="block mt-1 w-full" name="description" required>{{ old('description') }}</textarea>
-                        <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                        <textarea id="description"
+                            class="block mt-1 w-full
+                        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                            name="description" required>{{ old('description') }}</textarea>
+                    </div>
+                    <!-- Job Requirements -->
+                    <div>
+                        <x-input-label for="requirements" :value="__('Job Requirements')" />
+                        <textarea id="requirements"
+                            class="block mt-1 w-full
+                        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                            name="requirements" required>{{ old('requirements') }}</textarea>
                     </div>
 
                     <!-- Skills Dropdown -->
-                    <div class="mb-4">
+                    <div>
                         <x-input-label for="skills" :value="__('Skills')" />
                         <select id="skills" name="skills[]" multiple>
                             @foreach ($skills as $skill)
                                 <option value="{{ $skill->name }}">{{ $skill->name }}</option>
                             @endforeach
                         </select>
-                        <x-input-error :messages="$errors->get('skills')" class="mt-2" />
                     </div>
-
-                    <!-- Salary Type -->
-                    <div class="mb-4">
+                    <!-- Salary  -->
+                    <div>
                         <x-input-label for="salary_type" :value="__('Salary Type')" />
-                        <div>
-                            <label>
-                                <input type="radio" name="salary_type" value="fixed" checked> {{ __('Fixed Price') }}
-                            </label>
-                            <label class="ml-4">
-                                <input type="radio" name="salary_type" value="hourly"> {{ __('Per Hour') }}
-                            </label>
+                        <div class="flex mt-1">
+                            <div class="flex">
+                                <!-- Fixed -->
+                                <input id="fixed" type="radio" name="salary_type" value="fixed" checked
+                                    class="sr-only peer/fixed">
+                                <label for="fixed"
+                                    class="cursor-pointer py-auto flex items-center justify-center px-4 rounded-s-lg bg-indigo-200 text-indigo-900 peer-checked/fixed:bg-indigo-700 peer-checked/fixed:text-indigo-50 duration-75 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/fixed:bg-indigo-900 dark:peer-checked/fixed:text-indigo-50">
+                                    {{ __('Fixed') }}
+                                </label>
+
+                                <!-- Hourly -->
+                                <input id="hourly" type="radio" name="salary_type" value="hourly"
+                                    class="sr-only peer/hourly">
+                                <label for="hourly"
+                                    class="cursor-pointer py-auto flex items-center justify-center px-4 bg-indigo-200 text-indigo-900 peer-checked/hourly:bg-indigo-700 peer-checked/hourly:text-indigo-50 duration-75 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/hourly:bg-indigo-900 dark:peer-checked/hourly:text-indigo-50">
+                                    {{ __('Hourly') }}
+                                </label>
+                            </div>
+                            <input type="text" id="salary-input"
+                                class="rounded-e-lg flex-1
+        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 shadow-sm border-l-0 border-l-transparent" />
                         </div>
                     </div>
-
-                    <!-- Fixed Salary Field -->
-                    <div class="mb-4 salary-input" id="fixed-salary-input">
-                        <x-input-label for="fixed_salary" :value="__('Fixed Salary ($USD)')" />
-                        <x-text-input id="fixed_salary" class="block mt-1 w-full" type="text" name="fixed_salary"
-                            placeholder="Enter fixed salary..." />
-                        <x-input-error :messages="$errors->get('fixed_salary')" class="mt-2" />
-                    </div>
-
-                    <!-- Hourly Rate Field -->
-                    <div class="mb-4 salary-input" id="hourly-rate-input" style="display:none;">
-                        <x-input-label for="hourly_rate" :value="__('Hourly Rate ($USD)')" />
-                        <x-text-input id="hourly_rate" class="block mt-1 w-full" type="text" name="hourly_rate"
-                            placeholder="Enter hourly rate..." />
-                        <x-input-error :messages="$errors->get('hourly_rate')" class="mt-2" />
-                    </div>
-
                     <!-- Location Input Field -->
-                    <div class="mb-4">
+                    <div>
                         <x-input-label for="location" :value="__('Location')" />
-                        <input id="location" type="text" class="block mt-1 w-full" name="location"
+                        <x-text-input id="location" type="text" class="block mt-1 w-full" name="location"
                             placeholder="Select or type location..." />
-                        <x-input-error :messages="$errors->get('location')" class="mt-2" />
                     </div>
 
                     <!-- Category -->
-                    <div class="mb-4">
+                    <div>
                         <x-input-label for="category" :value="__('Category')" />
-                        <select id="category" name="category" class="block mt-1 w-full" required>
+                        <select id="category" name="category"
+                            class="block mt-1 w-full border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                            required>
                             <option value="programming">Programming</option>
                             <option value="management">Management</option>
                             <option value="translation">Translation</option>
                         </select>
-                        <x-input-error :messages="$errors->get('category')" class="mt-2" />
                     </div>
 
                     <!-- Submit Button -->
@@ -91,17 +96,17 @@
                             {{ __('Create Job') }}
                         </x-primary-button>
                     </div>
+                    @csrf
                 </form>
             </div>
         </div>
-    </div>
 </x-app-layout>
 
 <!-- Include Choices.js JS from CDN -->
 <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const skillInput = document.getElementById('skills');
         if (skillInput) {
             new Choices(skillInput, {
@@ -113,28 +118,41 @@
             });
         }
 
-        // Handle Salary Type Toggle
-        const salaryTypeRadios = document.querySelectorAll('input[name="salary_type"]');
-        const fixedSalaryInput = document.getElementById('fixed-salary-input');
-        const hourlyRateInput = document.getElementById('hourly-rate-input');
 
-        // Initialize fields based on the selected radio button
-        function toggleSalaryFields() {
-            if (document.querySelector('input[name="salary_type"]:checked').value === 'fixed') {
-                fixedSalaryInput.style.display = 'block';
-                hourlyRateInput.style.display = 'none';
-            } else {
-                fixedSalaryInput.style.display = 'none';
-                hourlyRateInput.style.display = 'block';
-            }
-        }
+        document.querySelector('form#jobForm').addEventListener('submit', function (event) {
+            // event.preventDefault(); // Prevent form from submitting normally
 
-        // Add event listener for salary type radio buttons
-        salaryTypeRadios.forEach(radio => {
-            radio.addEventListener('change', toggleSalaryFields);
+            const formData = new FormData(this); // Gather form data
+            formData.forEach((value, key) => {
+                console.log(`${key}: ${value}`); // Log each key-value pair
+            });
+            console.log('first')
         });
+    });
 
-        // Call toggle function initially to set the correct fields
-        toggleSalaryFields();
+</script>
+
+
+<script>
+    function updateSalaryInputName() {
+        const selectedRadio = document.querySelector('input[name="salary_type"]:checked');
+        const salaryInput = document.getElementById('salary-input');
+        if (selectedRadio.value === 'fixed') {
+            salaryInput.setAttribute('name', selectedRadio.value + '_salary');
+            salaryInput.setAttribute('placeholder', 'Enter fixed salary');
+        } else if (selectedRadio.value === 'hourly') {
+            salaryInput.setAttribute('name', selectedRadio.value + '_rate');
+            salaryInput.setAttribute('placeholder', 'Enter hourly rate');
+        }
+    }
+
+    document.getElementById('fixed').addEventListener('change', updateSalaryInputName);
+    document.getElementById('hourly').addEventListener('change', updateSalaryInputName);
+
+    updateSalaryInputName();
+
+    document.getElementById('salary-input').addEventListener('input', function (e) {
+        const regex = /[^0-9]/g;
+        e.target.value = e.target.value.replace(regex, '');
     });
 </script>
