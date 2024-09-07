@@ -17,27 +17,29 @@
                         <x-text-input id="title" class="block mt-2 w-full 
                         " type="text" name="title" :value="old('title')" required autofocus />
                     </div>
-
-                    <!-- Job Description -->
-                    <div>
-                        <x-input-label for="description" :value="__('Job Description')" />
-                        <textarea id="description"
-                            class="block mt-1 w-full
-                        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-                            name="description" required>{{ old('description') }}</textarea>
+                    <!-- Job Description & Requirements -->
+                    <div class="flex items-center gap-6 flex-wrap">
+                        <!-- Job Description -->
+                        <div class="flex-1 basis-96">
+                            <x-input-label for="description" :value="__('Job Description')" />
+                            <textarea id="description"
+                                class="block mt-1 w-full
+                        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                name="description" required>{{ old('description') }}</textarea>
+                        </div>
+                        <!-- Job Requirements -->
+                        <div class="flex-1 basis-96">
+                            <x-input-label for="requirements" :value="__('Job Requirements')" />
+                            <textarea id="requirements"
+                                class="block mt-1 w-full
+                        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                name="requirements" required>{{ old('requirements') }}</textarea>
+                        </div>
                     </div>
-                    <!-- Job Requirements -->
-                    <div>
-                        <x-input-label for="requirements" :value="__('Job Requirements')" />
-                        <textarea id="requirements"
-                            class="block mt-1 w-full
-                        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-                            name="requirements" required>{{ old('requirements') }}</textarea>
-                    </div>
-
                     <!-- Skills Dropdown -->
                     <div>
                         <x-input-label for="skills" :value="__('Skills')" />
+                        <div class="mt-2"></div>
                         <select id="skills" name="skills[]" multiple>
                             @foreach ($skills as $skill)
                                 <option value="{{ $skill->name }}">{{ $skill->name }}</option>
@@ -67,27 +69,64 @@
                             </div>
                             <input type="text" id="salary-input"
                                 class="rounded-e-lg flex-1
-        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 shadow-sm border-l-0 border-l-transparent" />
+        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 shadow-sm border-l-0 border-l-transparent" />
                         </div>
                     </div>
-                    <!-- Location Input Field -->
-                    <div>
-                        <x-input-label for="location" :value="__('Location')" />
-                        <x-text-input id="location" type="text" class="block mt-1 w-full" name="location"
-                            placeholder="Select or type location..." />
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Category -->
+                        <div class="">
+                            <label for="categories"
+                                class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Category</label>
+                            <select id="categories"
+                                class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
+                                @foreach($categories as $category)
+                                    <option value="{{ $category }}">{{$category}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="">
+                            <label for="jobType"
+                                class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Job type</label>
+                            <select id="jobType"
+                                class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
+                                <option selected value="onsite">Full-time</option>
+                                <option value="remote">Part time</option>
+                                <option value="hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                        <div class="">
+                            <label for="workPlace"
+                                class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Work
+                                place</label>
+                            <select id="workPlace"
+                                class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
+                                <option selected value="onsite">On-site</option>
+                                <option value="remote">Remote</option>
+                                <option value="hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                        <div class="">
+                            <label for="locations"
+                                class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Location</label>
+                            <select id="locations"
+                                class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
+                                @foreach($locations as $location)
+                                    <option value="{{ $location }}">{{$location}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="">
+                            <label for="experience"
+                                class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Experience</label>
+                            <select id="experience"
+                                class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
+                                @foreach($experienceLevel as $level)
+                                    <option value="{{ $level }}">{{$level}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- Category -->
-                    <div>
-                        <x-input-label for="category" :value="__('Category')" />
-                        <select id="category" name="category"
-                            class="block mt-1 w-full border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-                            required>
-                            <option value="programming">Programming</option>
-                            <option value="management">Management</option>
-                            <option value="translation">Translation</option>
-                        </select>
-                    </div>
 
                     <!-- Submit Button -->
                     <div class="flex items-center justify-end mt-4">
