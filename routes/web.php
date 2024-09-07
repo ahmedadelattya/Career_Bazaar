@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Job;
 
 
 Route::get('/', function () {
@@ -15,7 +16,7 @@ Route::get('/dashboard', function () {
     if (Auth::user()->role == 'employer') {
         return redirect()->route('jobs.index');
     } else if (Auth::user()->role == 'candidate') {
-        return view('candidate-dashboard');
+        return view('candidate-dashboard' ,['jobs' => Job::all()]);
     } else if (Auth::user()->role == 'admin') {
         return view('admin-dashboard');
     }
