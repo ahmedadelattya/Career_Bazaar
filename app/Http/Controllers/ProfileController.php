@@ -46,8 +46,11 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
         $image_path = public_path('images/employers/' . $user->image);
-        if (file_exists($image_path)) {
-            unlink($image_path);
+        if ($user->image != null) {
+            # code...
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
         }
         if ($request->hasFile('image')) {
             // dd("FILE RECeieved");
