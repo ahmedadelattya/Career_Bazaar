@@ -1,4 +1,52 @@
 <x-app-layout>
+    <div id="notificationsContainer" class="fixed top-0 right-0 z-50 w-full p-4 space-y-4 md:w-1/3">
+        @foreach (Auth::user()->notifications as $notification)
+            <div x-data="{ show: true, timer: 5 }" x-show="show" x-init="setTimeout(() => show = false, 5000);
+            setInterval(() => timer--, 1000)"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 transform translate-x-full"
+                x-transition:enter-end="opacity-100 transform translate-x-0"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 transform translate-x-0"
+                x-transition:leave-end="opacity-0 transform translate-x-full"
+                class="relative flex items-center p-4 text-gray-700 bg-white border-l-4 rounded-lg shadow-lg dark:bg-zinc-800 dark:text-gray-100
+                        {{ $notification->data['status'] === 'approved' ? 'border-green-500' : 'border-red-500' }}">
+                <div class="flex-shrink-0 mr-3">
+                    @if ($notification->data['status'] === 'approved')
+                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4">
+                            </path>
+                        </svg>
+                    @else
+                        <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    @endif
+                </div>
+                <div class="flex-grow">
+                    <p class="text-sm font-medium">
+                        {{ $notification->data['job_title'] }} has been {{ $notification->data['status'] }}.
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ $notification->created_at->diffForHumans() }}
+                    </p>
+                </div>
+                <div class="ml-auto text-sm font-medium" x-text="timer"></div>
+                <button @click="show = false" class="ml-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        @endforeach
+    </div>
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            {{ __('Employer_DashBoard') }}
+        </h2>
+    </x-slot>
     @if (session('success'))
         <!-- <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -7,14 +55,15 @@
     @endif
     <div class="py-12">
         <div class="container mx-auto">
-            <div class="text-zinc-800 dark:text-zinc-200 p-6">
+            <div class="p-6 text-zinc-800 dark:text-zinc-200">
                 @if ($jobs->count())
                     <div class="flex flex-col justify-between min-h-[calc(100dvh-220px)]">
                         <div class="flex justify-end mb-12">
                             <a href="{{ route('jobs.create') }}" title="Add new job"
-                                class="group cursor-pointer outline-none hover:rotate-90 duration-300 text-4xl">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"
-                                    class="stroke-indigo-400 fill-none group-hover:fill-indigo-100 group-hover:stroke-indigo-600 group-active:stroke-indigo-500 group-active:fill-indigo-200 group-active:duration-0 duration-300 dark:group-hover:fill-indigo-800 dark:group-active:stroke-indigo-200 dark:group-active:fill-indigo-600">
+                                class="text-4xl duration-300 outline-none cursor-pointer group hover:rotate-90">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                    viewBox="0 0 24 24"
+                                    class="duration-300 stroke-indigo-400 fill-none group-hover:fill-indigo-100 group-hover:stroke-indigo-600 group-active:stroke-indigo-500 group-active:fill-indigo-200 group-active:duration-0 dark:group-hover:fill-indigo-800 dark:group-active:stroke-indigo-200 dark:group-active:fill-indigo-600">
                                     <path
                                         d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
                                         stroke-width="1.5"></path>
@@ -24,30 +73,31 @@
                             </a>
 
                         </div>
-                        <div class="mb-auto grid grid-cols-1 lg:grid-cols-2  gap-4">
+                        <div class="grid grid-cols-1 gap-4 mb-auto lg:grid-cols-2">
                             @foreach ($jobs as $job)
                                 <div
-                                    class="bg-zinc-50 dark:bg-zinc-800 p-6 rounded-lg shadow-md hover:shadow-lg dark:shadow-indigo-950 border border-zinc-50 hover:border-indigo-200 dark:border-zinc-800 dark:hover:border-indigo-700 dark:hover:bg-zinc-950 hover:bg-white duration-500 text-zinc-600 dark:text-zinc-200">
+                                    class="p-6 duration-500 border rounded-lg shadow-md bg-zinc-50 dark:bg-zinc-800 hover:shadow-lg dark:shadow-indigo-950 border-zinc-50 hover:border-indigo-200 dark:border-zinc-800 dark:hover:border-indigo-700 dark:hover:bg-zinc-950 hover:bg-white text-zinc-600 dark:text-zinc-200">
                                     <div class="flex items-center justify-between">
                                         <h2 class="text-xl">{{ $job->title }}</h2>
                                         <span
-                                            class="px-3 py-1 rounded-md bg-indigo-800 text-white text-sm capitalize shadow">{{ $job->status }}
+                                            class="px-3 py-1 text-sm text-white capitalize bg-indigo-800 rounded-md shadow">{{ $job->status }}
                                         </span>
                                     </div>
                                     <span
                                         class="mt-2 text-sm text-zinc-400 dark:text-zinc-600">{{ $job->created_at->diffForHumans() }}</span>
-                                    <div class="flex items-center mt-4 gap-2 capitalize">
+                                    <div class="flex items-center gap-2 mt-4 capitalize">
                                         <div class="flex flex-col">
                                             <p class="dark:text-zinc-400">{{ $job->category }}</p>
                                             <p class="dark:text-zinc-500">{{ $job->location }}</p>
                                         </div>
                                         <a href="{{ route('jobs.show', $job->id) }}"
-                                            class="flex items-center gap-1 text-md text-indigo-400 ml-auto hover:text-indigo-600 hover:animate-pulse duration-150 group">
+                                            class="flex items-center gap-1 ml-auto text-indigo-400 duration-150 text-md hover:text-indigo-600 hover:animate-pulse group">
                                             <span>View</span>
-                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="1em"
-                                                height="1em" class="transform duration-300 group-hover:rotate-45">
-                                                <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                width="1em" height="1em"
+                                                class="duration-300 transform group-hover:rotate-45">
+                                                <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 </path>
                                             </svg>
                                         </a>
@@ -64,7 +114,7 @@
                 @else
                     <div class="flex flex-col items-center justify-center gap-10 ">
                         <div
-                            class="text-6xl p-8 text-indigo-600 rounded-full dark:bg-zinc-800 border border-indigo-600 shadow-lg">
+                            class="p-8 text-6xl text-indigo-600 border border-indigo-600 rounded-full shadow-lg dark:bg-zinc-800">
                             <svg width="1em" height="1em" viewBox="0 0 312 312" xmlns="http://www.w3.org/2000/svg">
                                 <g id="empty_inbox" data-name="empty inbox" transform="translate(-2956.982 -3048.416)">
                                     <path id="Path_26" data-name="Path 26"
@@ -73,7 +123,8 @@
                                 </g>
                             </svg>
                         </div>
-                        <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-600">You have not posted any jobs
+                        <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-600">You have not posted any
+                            jobs
                             yet
                         </h1>
                         <div class="">
@@ -85,7 +136,7 @@
                                         class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 dark:bg-zinc-900"></span>
                                 </span>
                                 <span
-                                    class="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-indigo-800 rounded group-hover:-ml-4 group-hover:-mb-4">
+                                    class="absolute bottom-0 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out rotate-180 bg-indigo-800 rounded group-hover:-ml-4 group-hover:-mb-4">
                                     <span
                                         class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 dark:bg-zinc-900"></span>
                                 </span>
@@ -103,33 +154,48 @@
     </div>
 </x-app-layout>
 
-<!--  <table class="min-w-full leading-normal">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Category</th>
-                                <th>Location</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($jobs as $job)
-<tr>
-                                    <td>{{ $job->title }}</td>
-                                    <td>{{ $job->category }}</td>
-                                    <td>{{ $job->location }}</td>
-                                    <td>{{ $job->status }}</td>
-                                    <td>
-                                        <a href="{{ route('jobs.show', $job->id) }}">Show</a> |
-                                        <a href="{{ route('jobs.edit', $job) }}">Edit</a> |
-                                        <form method="POST" action="{{ route('jobs.destroy', $job->id) }}" class="inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-@endforeach
-                        </tbody>
-                    </table> -->
+
+<script>
+    function createNotification(data) {
+        const container = document.getElementById('notificationsContainer');
+        const notification = document.createElement('div');
+
+        notification.innerHTML = `
+                <div x-data="{ show: true, timer: 5 }"
+                     x-show="show"
+                     x-init="setTimeout(() => { show = false; $el.remove(); }, 5000); setInterval(() => timer--, 1000)"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform translate-x-full"
+                     x-transition:enter-end="opacity-100 transform translate-x-0"
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100 transform translate-x-0"
+                     x-transition:leave-end="opacity-0 transform translate-x-full"
+                     class="relative flex items-center p-4 mb-4 text-gray-700 bg-white border-l-4 rounded-lg shadow-lg dark:bg-zinc-800 dark:text-gray-100
+                            ${data.status === 'approved' ? 'border-green-500' : 'border-red-500'}">
+                    <div class="flex-shrink-0 mr-3">
+                        ${data.status === 'approved'
+                            ? '<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path></svg>'
+                            : '<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>'
+                        }
+                    </div>
+                    <div class="flex-grow">
+                        <p class="text-sm font-medium">
+                            ${data.job_title} has been ${data.status}.
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            Just now
+                        </p>
+                    </div>
+                    <div class="ml-auto text-sm font-medium" x-text="timer"></div>
+                    <button @click="show = false" class="ml-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            `;
+
+        container.prepend(notification.firstElementChild);
+    }
+</script>
+</x-app-layout>
