@@ -6,11 +6,12 @@
                 <header class="p-6 border-b border-zinc-200 dark:border-zinc-700">
                     <div class="flex justify-between">
                         <div>
-                            <h1 class="text-2xl font-bold">{{$job->title}}</h1>
-                            <h4 class="dark:text-zinc-500 capitalize mt-2">{{$job->category}} - {{$job->location}}</h4>
+                            <h1 class="text-2xl font-bold">{{ $job->title }}</h1>
+                            <h4 class="dark:text-zinc-500 capitalize mt-2">{{ $job->category }} - {{ $job->location }}
+                            </h4>
                         </div>
                         <div>
-                            @if($job->status === 'pending')
+                            @if ($job->status === 'pending')
                                 <span data-tooltip-target="tooltip-pending" data-tooltip-placement="bottom"
                                     class="bg-amber-100 text-amber-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-amber-700 dark:text-amber-400 border border-amber-500 capitalize ">
                                     <svg class="w-[1em] h-[1em] me-1.5" aria-hidden="true"
@@ -18,7 +19,7 @@
                                         <path
                                             d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
                                     </svg>
-                                    {{$job->status}}
+                                    {{ $job->status }}
                                 </span>
                                 <div id="tooltip-pending" role="tooltip"
                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-zinc-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-zinc-700">
@@ -30,7 +31,8 @@
                                     class="bg-emerald-100 text-emerald-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-emerald-700 dark:text-emerald-400 border border-emerald-500 capitalize">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-[1em] h-[1em] me-1.5"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="feather feather-check-circle">
                                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                                     </svg>
@@ -55,7 +57,7 @@
                                         </path>
                                     </svg>
 
-                                    {{$job->status}}
+                                    {{ $job->status }}
                                 </span>
                                 <div id="tooltip-declined" role="tooltip"
                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-zinc-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-zinc-700 max-w-48">
@@ -69,15 +71,15 @@
                 <div class="p-6 grid grid-cols-2 gap-6">
                     <div class="space-y-2">
                         <h3 class="text-xl font-semibold">Job type</h3>
-                        <p class="text-zinc-400">{{$job->job_type ?? "N/A"}}</p>
+                        <p class="text-zinc-400">{{ $job->job_type ?? 'N/A' }}</p>
                     </div>
                     <div class="space-y-2">
                         <h3 class="text-xl font-semibold">Workplace</h3>
-                        <p class="text-zinc-400">{{$job->workPlace ?? "N/A"}}</p>
+                        <p class="text-zinc-400">{{ $job->work_place ?? 'N/A' }}</p>
                     </div>
                     <div class="space-y-2">
                         <h3 class="text-xl font-semibold">Experience Level</h3>
-                        <p class="text-zinc-400">{{$job->experience_level ?? "N/A"}}</p>
+                        <p class="text-zinc-400">{{ $job->experience_level ?? 'N/A' }}</p>
                     </div>
                     <div class="space-y-2">
                         <h3 class="text-xl font-semibold">Salary</h3>
@@ -85,13 +87,13 @@
                             <div class="flex items-center gap-2 text-zinc-400">
                                 <span>Fixed (USD)</span>
                                 <span>-</span>
-                                <span>${{$job->fixed_salary}}</span>
+                                <span>${{ $job->fixed_salary }}</span>
                             </div>
                         @else
                             <div class="flex items-center gap-2 text-zinc-400">
                                 <span>Hourly (USD)</span>
                                 <span>-</span>
-                                <span>${{$job->hourly_rate}}</span>
+                                <span>${{ $job->hourly_rate }}</span>
                             </div>
                         @endif
                     </div>
@@ -99,15 +101,15 @@
                 <div class="p-6 space-y-4">
                     <div class="space-y-2">
                         <h2 class="text-xl font-semibold">Description</h2>
-                        <p class="text-zinc-400">{{$job->description}}</p>
+                        <p class="text-zinc-400">{{ $job->description }}</p>
                     </div>
                     <div class="space-y-2">
                         <h2 class="text-xl font-semibold">Requirements</h2>
-                        <p class="text-zinc-400">{{$job->requirements ?? "N/A"}}</p>
+                        <p class="text-zinc-400">{{ $job->requirements ?? 'N/A' }}</p>
                     </div>
                     <div class="space-y-2">
                         <h2 class="text-xl font-semibold">Skills</h2>
-                        @if(!$job->skills)
+                        @if (!$job->skills)
                             <p class="text-zinc-400">N/A</p>
                         @else
                             <ul class="mt-2 flex items-center gap-2 flex-wrap">
@@ -126,11 +128,12 @@
                 <div class="p-6 border-t border-zinc-200 dark:border-zinc-700">
                     <div class="flex items-center justify-between">
                         <div class="flex items-end gap-2 text-sm">
-                            <h4 class="text-zinc-600 dark:text-zinc-300">Created {{$job->created_at->diffForHumans()}}
+                            <h4 class="text-zinc-600 dark:text-zinc-300">Created
+                                {{ $job->created_at->diffForHumans() }}
                             </h4>
                             <span>-</span>
                             <h4 class="text-zinc-400 dark:text-zinc-500">Last update
-                                {{$job->updated_at->diffForHumans()}}
+                                {{ $job->updated_at->diffForHumans() }}
                             </h4>
                         </div>
 
