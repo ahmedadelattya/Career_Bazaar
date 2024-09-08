@@ -1,6 +1,4 @@
 <x-app-layout>
-
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 p-6">
             <x-input-error :messages="$errors->all()" class="mt-2" />
@@ -74,7 +72,7 @@
                             <div class="">
                                 <label for="categories"
                                     class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Category</label>
-                                <select id="categories"
+                                <select id="categories" name="category"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
                                     @foreach($categories as $category)
                                         <option value="{{ $category }}">{{$category}}</option>
@@ -109,21 +107,21 @@
                             <div class="">
                                 <label for="locations"
                                     class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Location</label>
-                                <select id="locations"
+                                <select id="locations" name="location"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
                                     @foreach($locations as $location)
                                         <option value="{{ $location }}">{{$location}}</option>
                                     @endforeach
-                                </select>
+                                    l/select>
                             </div>
-                            <!-- Experience -->
+                            <!-- Experience Level -->
                             <div class="">
-                                <label for="experience"
-                                    class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Experience</label>
-                                <select id="experience"
+                                <label for="experienceLevel"
+                                    class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Category</label>
+                                <select id="experienceLevel" name="experienceLevel"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
-                                    @foreach($experienceLevel as $level)
-                                        <option value="{{ $level }}">{{$level}}</option>
+                                    @foreach ($experienceLevel as $expLvl)
+                                        <option value="{{ $expLvl }}">{{$expLvl}}</option>
                                     @endforeach
                                 </select>
                             </div>
