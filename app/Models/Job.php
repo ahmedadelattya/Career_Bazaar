@@ -14,13 +14,17 @@ class Job extends Model
         'employer_id',
         'title',
         'description',
+        'requirements',
         'category',
         'location',
         'salary_type',
         'fixed_salary',
         'hourly_rate',
         'skills',
-        'status'
+        'status',
+        'job_type',
+        'work_place',
+        'experience_level'
     ];
 
     protected $casts = [
