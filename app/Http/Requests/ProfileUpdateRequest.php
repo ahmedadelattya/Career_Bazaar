@@ -25,6 +25,7 @@ class ProfileUpdateRequest extends FormRequest
                 'candidate_job_description' => ['nullable', 'string', 'max:500'],
                 'candidate_skills' => ['required', 'array'],
                 'candidate_projects' => ['required', 'array'],
+                "image" => "image|mimes:jpeg,jpg,png|max:2048",
             ];
         } else {
             return [
