@@ -10,7 +10,7 @@
                         <div class="space-y-6 flex-grow pr-3">
                             <div>
                                 <x-input-label for="title" :value="__('Job Title')" />
-                                <x-text-input id="title" class="block mt-2 w-full 
+                                <x-text-input id="title" class="block mt-2 w-full
                         " type="text" name="title" :value="old('title')" required autofocus />
                             </div>
                             <!-- Job Description & Requirements -->
@@ -36,7 +36,9 @@
                                 <div class="mt-2"></div>
                                 <select id="skills" name="skills[]" multiple>
                                     @foreach ($skills as $skill)
-                                        <option value="{{ $skill->name }}">{{ $skill->name }}</option>
+                                        <option value="{{ $skill->name }}" {{ in_array($skill->name, old('skills', [])) ? 'selected' : '' }}>
+                                            {{ $skill->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -46,7 +48,7 @@
                                 <div class="flex mt-1">
                                     <div class="flex">
                                         <!-- Fixed -->
-                                        <input id="fixed" type="radio" name="salary_type" value="fixed" checked
+                                        <input id="fixed" type="radio" name="salary_type" value="fixed" {{ old('salary_type', 'fixed') == 'fixed' ? 'checked' : '' }}
                                             class="sr-only peer/fixed">
                                         <label for="fixed"
                                             class="cursor-pointer py-auto flex items-center justify-center px-4 rounded-s-lg bg-indigo-200 text-indigo-900 peer-checked/fixed:bg-indigo-700 peer-checked/fixed:text-indigo-50 duration-75 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/fixed:bg-indigo-900 dark:peer-checked/fixed:text-indigo-50">
@@ -54,7 +56,7 @@
                                         </label>
 
                                         <!-- Hourly -->
-                                        <input id="hourly" type="radio" name="salary_type" value="hourly"
+                                        <input id="hourly" type="radio" name="salary_type" value="hourly" {{ old('salary_type', 'fixed') == 'hourly' ? 'checked' : '' }}
                                             class="sr-only peer/hourly">
                                         <label for="hourly"
                                             class="cursor-pointer py-auto flex items-center justify-center px-4 bg-indigo-200 text-indigo-900 peer-checked/hourly:bg-indigo-700 peer-checked/hourly:text-indigo-50 duration-75 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/hourly:bg-indigo-900 dark:peer-checked/hourly:text-indigo-50">
@@ -62,6 +64,7 @@
                                         </label>
                                     </div>
                                     <input type="text" id="salary-input"
+                                        value="{{ old('fixed_salary') ?: old('hourly_rate') }}"
                                         class="rounded-e-lg flex-1
         border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 shadow-sm border-l-0 border-l-transparent" />
                                 </div>
@@ -74,8 +77,10 @@
                                     class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Category</label>
                                 <select id="categories" name="category"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category }}">{{$category}}</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->name }}" {{ old('category') == $category->name ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -84,11 +89,12 @@
                                 <label for="jobType"
                                     class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Job
                                     type</label>
-                                <select id="jobType"
+                                <select id="jobType" name="job_type"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
-                                    <option selected value="onsite">Full-time</option>
-                                    <option value="remote">Part time</option>
-                                    <option value="hybrid">Hybrid</option>
+                                    <option value="full-time" {{ old('job_type') == 'full-time' ? 'selected' : '' }}>
+                                        Full-time</option>
+                                    <option value="part-time" {{ old('job_type') == 'part-time' ? 'selected' : '' }}>
+                                        Part time</option>
                                 </select>
                             </div>
                             <!-- Work Place -->
@@ -96,11 +102,14 @@
                                 <label for="workPlace"
                                     class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Work
                                     place</label>
-                                <select id="workPlace"
+                                <select id="workPlace" name="work_place"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
-                                    <option selected value="onsite">On-site</option>
-                                    <option value="remote">Remote</option>
-                                    <option value="hybrid">Hybrid</option>
+                                    <option value="on-site" {{ old('work_place') == 'on-site' ? 'selected' : '' }}>
+                                        On-site</option>
+                                    <option value="remote" {{ old('work_place') == 'remote' ? 'selected' : '' }}>Remote
+                                    </option>
+                                    <option value="hybrid" {{ old('work_place') == 'hybrid' ? 'selected' : '' }}>Hybrid
+                                    </option>
                                 </select>
                             </div>
                             <!-- Location -->
@@ -109,20 +118,26 @@
                                     class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Location</label>
                                 <select id="locations" name="location"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
-                                    @foreach($locations as $location)
-                                        <option value="{{ $location }}">{{$location}}</option>
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->name }}" {{ old('location') == $location->name ? 'selected' : '' }}>
+                                            {{ $location->name }}
+                                        </option>
                                     @endforeach
                                     l/select>
                             </div>
                             <!-- Experience Level -->
                             <div class="">
-                                <label for="experienceLevel"
-                                    class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Category</label>
-                                <select id="experienceLevel" name="experienceLevel"
+                                <label for="experience"
+                                    class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Experience</label>
+                                <select id="experience" name="experience_level"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
-                                    @foreach ($experienceLevel as $expLvl)
-                                        <option value="{{ $expLvl }}">{{$expLvl}}</option>
-                                    @endforeach
+                                    <option value="entry-level" {{ old('experience_level') == 'entry-level' ? 'selected' : '' }}>Entry Level
+                                    </option>
+                                    <option value="intermediate" {{ old('experience_level') == 'intermediate' ? 'selected' : '' }}>Intermediate
+                                    </option>
+                                    <option value="expert" {{ old('experience_level') == 'expert' ? 'selected' : '' }}>
+                                        Expert
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -182,7 +197,6 @@
             console.log('first')
         });
     });
-
 </script>
 
 
@@ -190,14 +204,21 @@
     function updateSalaryInputName() {
         const selectedRadio = document.querySelector('input[name="salary_type"]:checked');
         const salaryInput = document.getElementById('salary-input');
-        if (selectedRadio.value === 'fixed') {
-            salaryInput.setAttribute('name', selectedRadio.value + '_salary');
-            salaryInput.setAttribute('placeholder', 'Enter fixed salary');
-        } else if (selectedRadio.value === 'hourly') {
-            salaryInput.setAttribute('name', selectedRadio.value + '_rate');
-            salaryInput.setAttribute('placeholder', 'Enter hourly rate');
+        if (selectedRadio) {
+            if (selectedRadio.value === 'fixed') {
+                salaryInput.setAttribute('name', selectedRadio.value + '_salary');
+                salaryInput.setAttribute('placeholder', 'Enter fixed salary');
+            } else if (selectedRadio.value === 'hourly') {
+                salaryInput.setAttribute('name', selectedRadio.value + '_rate');
+                salaryInput.setAttribute('placeholder', 'Enter hourly rate');
+            }
         }
     }
+
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     // Call it initially to set the correct name and placeholder based on old value
+    //     updateSalaryInputName();
+    // });
 
     document.getElementById('fixed').addEventListener('change', updateSalaryInputName);
     document.getElementById('hourly').addEventListener('change', updateSalaryInputName);

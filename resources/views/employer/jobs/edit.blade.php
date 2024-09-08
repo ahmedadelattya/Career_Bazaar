@@ -70,83 +70,64 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="space-y-6 sm:space-y-0 pl-3 flex flex-col justify-between">
-                            <!-- Category -->
-                            <div>
-                                <label for="categories"
-                                    class="block mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-400">Category</label>
-                                <select id="categories" name="category"
-                                    class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white">
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category }}" {{ $category == $job->category ? 'selected' : '' }}>
-                                            {{ $category }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Job Type -->
-                            <div>
-                                <label for="jobType"
-                                    class="block mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-400">Job
-                                    Type</label>
-                                <select id="jobType" name="jobType"
-                                    class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white">
-                                    <option value="full-time" {{ $job->jobType == 'full-time' ? 'selected' : '' }}>
-                                        Full-time</option>
-                                    <option value="part-time" {{ $job->jobType == 'part-time' ? 'selected' : '' }}>Part
-                                        time</option>
-                                    <option value="contract" {{ $job->jobType == 'contract' ? 'selected' : '' }}>Contract
-                                    </option>
-                                </select>
-                            </div>
-
-                            <!-- Work Place -->
-                            <div>
-                                <label for="workPlace"
-                                    class="block mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-400">Work
-                                    Place</label>
-                                <select id="workPlace" name="workPlace"
-                                    class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white">
-                                    <option value="onsite" {{ $job->workPlace == 'onsite' ? 'selected' : '' }}>On-site
-                                    </option>
-                                    <option value="remote" {{ $job->workPlace == 'remote' ? 'selected' : '' }}>Remote
-                                    </option>
-                                    <option value="hybrid" {{ $job->workPlace == 'hybrid' ? 'selected' : '' }}>Hybrid
-                                    </option>
-                                </select>
-                            </div>
-
-                            <!-- Location -->
-                            <div>
-                                <label for="locations"
-                                    class="block mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-400">Location</label>
-                                <select id="locations" name="location"
-                                    class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white">
-                                    @foreach ($locations as $location)
-                                        <option value="{{ $location }}" {{ $location == $job->location ? 'selected' : '' }}>
-                                            {{ $location }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Experience Level -->
-                            <div>
-                                <label for="experienceLevel"
-                                    class="block mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-400">Experience
-                                    Level</label>
-                                <select id="experienceLevel" name="experienceLevel"
-                                    class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white">
-                                    @foreach ($experienceLevel as $expLvl)
-                                        <option value="{{ $expLvl }}" {{ $expLvl == $job->experienceLevel ? 'selected' : '' }}>{{ $expLvl }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
                     </div>
 
+                    <!-- Fixed Salary Field -->
+                    <div class="mb-4 salary-input" id="fixed-salary-input"
+                        style="{{ old('salary_type', $job->salary_type) === 'fixed' ? '' : 'display:none;' }}">
+                        <x-input-label for="fixed_salary" :value="__('Fixed Salary ($USD)')" />
+                        <x-text-input id="fixed_salary" class="block mt-1 w-full" type="text" name="fixed_salary"
+                            :value="old('fixed_salary', $job->fixed_salary)" placeholder="Enter fixed salary..." />
+                        <x-input-error :messages="$errors->get('fixed_salary')" class="mt-2" />
+                    </div>
+
+                    <!-- Hourly Rate Field -->
+                    <div class="mb-4 salary-input" id="hourly-rate-input"
+                        style="{{ old('salary_type', $job->salary_type) === 'hourly' ? '' : 'display:none;' }}">
+                        <x-input-label for="hourly_rate" :value="__('Hourly Rate ($USD)')" />
+                        <x-text-input id="hourly_rate" class="block mt-1 w-full" type="text" name="hourly_rate"
+                            :value="old('hourly_rate', $job->hourly_rate)" placeholder="Enter hourly rate..." />
+                        <x-input-error :messages="$errors->get('hourly_rate')" class="mt-2" />
+                    </div>
+
+                    <!-- Location Input Field -->
+                    <div class="mb-4">
+                        <x-input-label for="location" :value="__('Location')" />
+                        <input id="location" type="text" class="block mt-1 w-full" name="location"
+                            value="{{ old('location', $job->location) }}" placeholder="Select or type location..." />
+                        <x-input-error :messages="$errors->get('location')" class="mt-2" />
+                    </div>
+
+                    <!-- Category, Work Type-->
+                    <div class="mb-4">
+                        <x-input-label for="category" :value="__('Category')" />
+                        <select id="category" name="category" class="block mt-1 w-full" required>
+                            <option value="programming" {{ old('category', $job->category) === 'programming' ? 'selected' : '' }}>Programming
+                            </option>
+                            <option value="management" {{ old('category', $job->category) === 'management' ? 'selected' : '' }}>Management
+                            </option>
+                            <option value="translation" {{ old('category', $job->category) === 'translation' ? 'selected' : '' }}>Translation
+                            </option>
+                        </select>
+                        <x-input-error :messages="$errors->get('category')" class="mt-2" />
+                    </div>
+
+                    <!-- Status Field -->
+                    <div class="mb-4">
+                        <x-input-label for="status" :value="__('Job Status')" />
+                        <select id="status" name="status" class="block mt-1 w-full" required>
+                            <option value="pending" {{ old('status', $job->status) === 'pending' ? 'selected' : '' }}>
+                                Pending
+                            </option>
+                            <option value="approved" {{ old('status', $job->status) === 'approved' ? 'selected' : '' }}>
+                                Approved
+                            </option>
+                            <option value="declined" {{ old('status', $job->status) === 'declined' ? 'selected' : '' }}>
+                                Declined
+                            </option>
+                        </select>
+                        <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                    </div>
                     <!-- Submit Button -->
                     <div class="flex flex-row-reverse items-center justify-between mt-4">
                         <button type="submit" class="relative rounded-lg w-36 h-10 overflow-hidden text-white group">

@@ -34,13 +34,13 @@ class RegisteredUserController extends Controller
         }
 
         return back()->withErrors(['role' => 'Invalid role selected.']);
-    }   
+    }
 
     public function showEmployerRegisterForm()
     {
         return view('auth.employer-register');
     }
-    
+
     public function showCandidateRegisterForm()
     {
         return view('auth.candidate-register');
@@ -55,10 +55,10 @@ class RegisteredUserController extends Controller
     {
         $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => [
-                'required', 
-                'confirmed', 
+                'required',
+                'confirmed',
                 Rules\Password::min(8)
                     ->mixedCase()
                     ->numbers()
@@ -66,7 +66,7 @@ class RegisteredUserController extends Controller
             ],
             'role' => ['required', Rule::in(['candidate', 'employer'])],
         ];
-    
+
         // Additional validation rules for role-specific fields
         if ($request->role === 'employer') {
             $rules = array_merge($rules, [
@@ -74,9 +74,9 @@ class RegisteredUserController extends Controller
                 'website' => ['nullable', 'url'],
             ]);
         }
-    
+
         $validatedData = $request->validate($rules);
-    
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -85,9 +85,9 @@ class RegisteredUserController extends Controller
             'company_name' => $request->input('company_name', null),
             'website' => $request->input('website', null),
         ]);
-    
+
         event(new Registered($user));
-    
+
         Auth::login($user);
 
         return redirect()->route('dashboard');

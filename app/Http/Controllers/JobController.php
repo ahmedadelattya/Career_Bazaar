@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JobStoreRequest;
+use App\Models\Category;
 use App\Models\Job;
 use App\Models\Skill;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -14,62 +17,15 @@ class JobController extends Controller
     {
         Gate::authorize('create', Job::class);
         $skills = Skill::all();
-        $locations = [
-            "Cairo, Egypt",
-            "Alexandria, Egypt",
-            "Assiut, Egypt",
-            "Aswan, Egypt",
-            "Beheira, Egypt",
-            "Bani Suef, Egypt",
-            "Daqahliya, Egypt",
-            "Damietta, Egypt",
-            "Fayyoum, Egypt",
-            "Gharbiya, Egypt",
-            "Giza, Egypt",
-            "Ismailia, Egypt",
-            "Kafr El Sheikh, Egypt",
-            "Luxor, Egypt",
-            "Marsa Matrouh, Egypt",
-            "Minya, Egypt",
-            "Monofiya, Egypt",
-            "New Valley, Egypt",
-            "North Sinai, Egypt",
-            "Port Said, Egypt",
-            "Red Sea, Egypt",
-            "Sharqiya, Egypt",
-            "Sohag, Egypt",
-            "South Sinai, Egypt",
-            "Suez, Egypt",
-            "Tanta, Egypt"
-        ];
-        $categories = ["Programming", "Management", "IT"];
-        $experienceLevel = ["Internship", "Entry Level", "Junior", "Mid Level", "Senior"];
-        return view('employer.jobs.job-create', compact('skills', 'locations', 'categories', 'experienceLevel'));
+        $locations = Location::all();
+        $categories = Category::all();
+        return view('employer.jobs.job-create', compact('skills', 'locations', 'categories'));
     }
 
-    public function store(Request $request)
+    public function store(JobStoreRequest $request)
     {
         Gate::authorize('create', Job::class);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category' => 'required|string',
-            'location' => 'required|string',
-            'salary_type' => 'required|string|in:fixed,hourly',
-            'fixed_salary' => [
-                'nullable',
-                'required_if:salary_type,fixed',
-                'numeric',
-            ],
-            'hourly_rate' => [
-                'nullable',
-                'required_if:salary_type,hourly',
-                'numeric',
-            ],
-            'skills' => 'array',
-            'skills.*' => 'string', // Each skill should be a string
-        ]);
 
         // Convert skills input to an array
         $skills = $request->input('skills', []);
@@ -176,6 +132,7 @@ class JobController extends Controller
             ],
             'skills' => 'array',
             'skills.*' => 'string',
+            'status' => 'required|string|in:pending,approved,declined'
         ]);
 
         // Find the job by ID
