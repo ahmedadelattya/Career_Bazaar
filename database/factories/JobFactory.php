@@ -31,6 +31,10 @@ class JobFactory extends Factory
                 'skill2' => $this->faker->randomElement(['PHP', 'Laravel', 'JavaScript', 'React', 'Vue.js']),
             ]),
             'status' => $this->faker->randomElement(['pending', 'approved', 'declined']),
+            'requirements' => $this->faker->sentence(7),
+            'job_type' => $this->faker->randomElement(['full-time', 'part-time']),
+            "work_place" => $this->faker->randomElement(['on-site', 'remote', 'hybrid']),
+            'experience_level' => $this->faker->randomElement(['entry-level', 'intermediate', 'expert']),
 
         ];
     }

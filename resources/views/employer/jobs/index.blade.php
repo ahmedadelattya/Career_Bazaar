@@ -152,15 +152,14 @@
             </div>
         </div>
     </div>
-</x-app-layout>
 
 
-<script>
-    function createNotification(data) {
-        const container = document.getElementById('notificationsContainer');
-        const notification = document.createElement('div');
+    <script>
+        function createNotification(data) {
+            const container = document.getElementById('notificationsContainer');
+            const notification = document.createElement('div');
 
-        notification.innerHTML = `
+            notification.innerHTML = `
                 <div x-data="{ show: true, timer: 5 }"
                      x-show="show"
                      x-init="setTimeout(() => { show = false; $el.remove(); }, 5000); setInterval(() => timer--, 1000)"
@@ -195,7 +194,7 @@
                 </div>
             `;
 
-        container.prepend(notification.firstElementChild);
-    }
-</script>
+            container.prepend(notification.firstElementChild);
+        }
+    </script>
 </x-app-layout>
