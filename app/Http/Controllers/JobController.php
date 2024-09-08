@@ -75,38 +75,9 @@ class JobController extends Controller
         // Decode the skills JSON string into an array
         $job->skills = json_decode($job->skills, true);
         $skills = Skill::all();
-        $locations = [
-            "Cairo, Egypt",
-            "Alexandria, Egypt",
-            "Assiut, Egypt",
-            "Aswan, Egypt",
-            "Beheira, Egypt",
-            "Bani Suef, Egypt",
-            "Daqahliya, Egypt",
-            "Damietta, Egypt",
-            "Fayyoum, Egypt",
-            "Gharbiya, Egypt",
-            "Giza, Egypt",
-            "Ismailia, Egypt",
-            "Kafr El Sheikh, Egypt",
-            "Luxor, Egypt",
-            "Marsa Matrouh, Egypt",
-            "Minya, Egypt",
-            "Monofiya, Egypt",
-            "New Valley, Egypt",
-            "North Sinai, Egypt",
-            "Port Said, Egypt",
-            "Red Sea, Egypt",
-            "Sharqiya, Egypt",
-            "Sohag, Egypt",
-            "South Sinai, Egypt",
-            "Suez, Egypt",
-            "Tanta, Egypt"
-        ];
-        $categories = ["Programming", "Management", "IT"];
+        $locations = Location::all();
+        $categories = Category::all();
         $experienceLevel = ["Internship", "Entry Level", "Junior", "Mid Level", "Senior"];
-
-        // Fetch all skills from the database
         $allSkills = Skill::all();
 
         return view('employer.jobs.edit', compact('job', 'allSkills', 'skills', 'locations', 'categories', 'experienceLevel'));
@@ -132,7 +103,6 @@ class JobController extends Controller
             ],
             'skills' => 'array',
             'skills.*' => 'string',
-            'status' => 'required|string|in:pending,approved,declined'
         ]);
 
         // Find the job by ID

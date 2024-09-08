@@ -5,7 +5,6 @@
             <div
                 class="bg-white dark:bg-zinc-800 overflow-hidden shadow rounded-lg p-6 text-zinc-800 dark:text-zinc-300">
                 <form id="jobForm" method="POST" action="{{ route('jobs.store') }}" class="space-y-6" novalidate>
-                    <!-- Job Title -->
                     <div class="flex flex-wrap gap-6 sm:gap-0 sm:divide-x-2 divide-zinc-100 dark:divide-zinc-700">
                         <div class="space-y-6 flex-grow pr-3">
                             <div>
