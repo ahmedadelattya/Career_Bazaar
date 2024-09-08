@@ -4,12 +4,28 @@
             {{ __('Employer_DashBoard') }}
         </h2>
     </x-slot>
-    @if (session('success'))
+    {{-- @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    @endif
+    @endif --}}
+
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+
+        <!-- Display notifications -->
+        <div class="mt-4">
+            <h3 class="text-lg font-medium">Notifications</h3>
+            <ul>
+                @foreach ($notifications as $notification)
+                    <li>
+                        {{ $notification->data['message'] }} - {{ $notification->created_at->diffForHumans() }}
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">

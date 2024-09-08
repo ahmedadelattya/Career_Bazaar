@@ -101,6 +101,24 @@
                         <x-input-error :messages="$errors->get('category')" class="mt-2" />
                     </div>
 
+                    <!-- Status Field -->
+                    <div class="mb-4">
+                        <x-input-label for="status" :value="__('Job Status')" />
+                        <select id="status" name="status" class="block mt-1 w-full" required>
+                            <option value="pending" {{ old('status', $job->status) === 'pending' ? 'selected' : '' }}>
+                                Pending
+                            </option>
+                            <option value="approved"
+                                {{ old('status', $job->status) === 'approved' ? 'selected' : '' }}>
+                                Approved
+                            </option>
+                            <option value="declined"
+                                {{ old('status', $job->status) === 'declined' ? 'selected' : '' }}>
+                                Declined
+                            </option>
+                        </select>
+                        <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                    </div>
                     <!-- Submit Button -->
                     <div class="flex items-center justify-end mt-4">
                         <x-primary-button>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use App\Models\Skill;
+use App\Notifications\JobStatusChanged;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -62,7 +63,8 @@ class JobController extends Controller
         Gate::authorize('viewAny', Job::class);
         $user = Auth::user();
         $jobs = $user->jobs()->paginate(10);
-        return view('employer.jobs.index', compact('jobs'));
+        $notifications = $user->unreadNotifications;
+        return view('employer.jobs.index', compact('jobs', 'notifications'));
     }
 
     public function show($id)
@@ -115,6 +117,7 @@ class JobController extends Controller
             ],
             'skills' => 'array',
             'skills.*' => 'string',
+            'status' => 'required|string|in:pending,approved,declined'
         ]);
 
         // Find the job by ID
@@ -129,8 +132,16 @@ class JobController extends Controller
         $data = $request->except('skills'); // Exclude 'skills' from the $data array
         $data['skills'] = json_encode($skills); // Convert the array to a JSON string
 
+        // Check if the status is being changed
+        $statusChanged = $job->status !== $data['status'];
+
         // Update the job listing
         $job->update($data);
+
+        // If the status has changed, send a notification
+        if ($statusChanged) {
+            $job->user->notify(new JobStatusChanged($job, $data['status']));
+        }
 
         // Redirect with success message
         return redirect()->route('jobs.index')->with('success', 'Job updated successfully!');
