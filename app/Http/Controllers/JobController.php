@@ -15,7 +15,37 @@ class JobController extends Controller
     {
         Gate::authorize('create', Job::class);
         $skills = Skill::all();
-        return view('employer.jobs.job-create', compact('skills'));
+        $locations = [
+            "Cairo, Egypt",
+            "Alexandria, Egypt",
+            "Assiut, Egypt",
+            "Aswan, Egypt",
+            "Beheira, Egypt",
+            "Bani Suef, Egypt",
+            "Daqahliya, Egypt",
+            "Damietta, Egypt",
+            "Fayyoum, Egypt",
+            "Gharbiya, Egypt",
+            "Giza, Egypt",
+            "Ismailia, Egypt",
+            "Kafr El Sheikh, Egypt",
+            "Luxor, Egypt",
+            "Marsa Matrouh, Egypt",
+            "Minya, Egypt",
+            "Monofiya, Egypt",
+            "New Valley, Egypt",
+            "North Sinai, Egypt",
+            "Port Said, Egypt",
+            "Red Sea, Egypt",
+            "Sharqiya, Egypt",
+            "Sohag, Egypt",
+            "South Sinai, Egypt",
+            "Suez, Egypt",
+            "Tanta, Egypt"
+        ];
+        $categories = ["Programming", "Management", "IT"];
+        $experienceLevel = ["Internship", "Entry Level", "Junior", "Mid Level", "Senior"];
+        return view('employer.jobs.job-create', compact('skills', 'locations', 'categories', 'experienceLevel'));
     }
 
     public function store(Request $request)
@@ -62,9 +92,8 @@ class JobController extends Controller
     {
         Gate::authorize('viewAny', Job::class);
         $user = Auth::user();
-        $jobs = $user->jobs()->paginate(10);
-        $notifications = $user->unreadNotifications;
-        return view('employer.jobs.index', compact('jobs', 'notifications'));
+        $jobs = $user->jobs()->paginate(9);
+        return view('employer.jobs.index', compact('jobs'));
     }
 
     public function show($id)

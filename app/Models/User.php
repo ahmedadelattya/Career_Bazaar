@@ -25,11 +25,12 @@ class User extends Authenticatable
         'role',
         'company_name',
         'website',
+        'about',
+        'image',
         'candidate_skills',
         'candidate_projects',
         'candidate_job_title',
         'candidate_job_description',
-
     ];
 
     /**
