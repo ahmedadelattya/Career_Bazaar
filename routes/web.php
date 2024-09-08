@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Job;
 
 
 Route::get('/', function () {
@@ -15,7 +16,7 @@ Route::get('/dashboard', function () {
     if (Auth::user()->role == 'employer') {
         return redirect()->route('jobs.index');
     } else if (Auth::user()->role == 'candidate') {
-        return view('candidate-dashboard');
+        return view('candidate-dashboard' ,['jobs' => Job::all()]);
     } else if (Auth::user()->role == 'admin') {
         return view('admin-dashboard');
     }
@@ -27,6 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
+
+
 
 //Employer_jobs Routing
 Route::middleware(['auth'])->group(function () {
