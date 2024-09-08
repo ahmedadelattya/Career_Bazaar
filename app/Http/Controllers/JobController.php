@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\Job;
 use App\Models\Skill;
 use App\Models\Location;
-use App\Notifications\JobStatusChanged;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
