@@ -136,49 +136,98 @@
                                 {{ $job->updated_at->diffForHumans() }}
                             </h4>
                         </div>
+                        <!-- Conditional buttons based on user role -->
+                        @if (auth()->user()->role === 'employer' && auth()->id() === $job->employer_id)
+                            <!-- Show Edit and Delete buttons for employers -->
+                            <div class="inline-flex rounded-md shadow-sm" role="group">
+                                <a href="{{ route('jobs.edit', $job->id) }}"
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-s-lg hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
+                                    <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2" />
+                                    </svg>
+                                    Edit
+                                </a>
 
-
-                        <div class="inline-flex rounded-md shadow-sm" role="group">
-                            <a href="{{ route('jobs.edit', $job->id) }}"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-s-lg hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
-                                <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2" />
-                                </svg>
-                                Edit
-                            </a>
-
-                            <button type="button" onclick="submitDeleteForm({{ $job->id }})"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-e-lg hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 me-2" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" aria-hidden="true" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path
-                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                    </path>
-                                    <line x1="10" y1="11" x2="10" y2="17"></line>
-                                    <line x1="14" y1="11" x2="14" y2="17"></line>
-                                </svg>
-                                Delete
+                                <button type="button" onclick="submitDeleteForm({{ $job->id }})"
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-e-lg hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 me-2" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" aria-hidden="true" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path
+                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                        </path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                    Delete
+                                </button>
+                            </div>
+                        @elseif (auth()->user()->role === 'candidate')
+                            <!-- Show Apply button for candidates -->
+                            <button type="button" data-modal-target="apply-modal" data-modal-toggle="apply-modal"
+                                class="btn btn-primary">
+                                Apply
                             </button>
-                        </div>
-
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Apply Modal -->
+    <div id="apply-modal" tabindex="-1" aria-hidden="true"
+        class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="relative p-4 w-full max-w-md bg-white rounded-lg shadow dark:bg-zinc-800">
+            <button type="button" data-modal-toggle="apply-modal"
+                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-zinc-700 dark:hover:text-white">
+                <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Apply for {{ $job->title }}</h3>
+            <form action="{{ route('jobs.apply', $job->id) }}" method="POST" class="mt-4">
+                @csrf
+                <div class="mb-4">
+                    <label for="cover_letter" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cover
+                        Letter</label>
+                    <textarea id="cover_letter" name="cover_letter" rows="4"
+                        class="block w-full mt-1 rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                        required></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600">
+                        Submit Application
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
+    <!-- Hidden form for delete action -->
     <form id="delete-form-{{ $job->id }}" method="POST" action="{{ route('jobs.destroy', $job->id) }}"
         style="display: none;">
         @csrf
         @method('DELETE')
     </form>
+
+    <!-- JavaScript for modals and delete action -->
     <script>
+        document.querySelectorAll('[data-modal-toggle]').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-modal-target');
+                document.getElementById(targetId).classList.toggle('hidden');
+            });
+        });
+
         function submitDeleteForm(jobId) {
             document.getElementById('delete-form-' + jobId).submit();
         }

@@ -136,4 +136,14 @@ class JobController extends Controller
         // Redirect with success message
         return redirect()->route('jobs.index')->with('success', 'Job deleted successfully!');
     }
+
+    public function candidateDashboard()
+    {
+        Gate::authorize('viewCandidateDashboard', Job::class);
+
+        // Fetch only jobs with the status 'approved'
+        $jobs = Job::where('status', 'approved')->paginate(10);
+        $appliedJobs = Auth::user()->applications->pluck('job_id')->toArray();
+        return view('candidate-dashboard', compact('jobs', 'appliedJobs'));
+    }
 }

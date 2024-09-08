@@ -23,7 +23,7 @@ class JobPolicy
     public function view(User $user, Job $job): bool
     {
         // Allow only the job owner (employer) or admin to view the job
-        return $user->id === $job->employer_id || $user->role === 'admin';
+        return $user->id === $job->employer_id || $user->role === 'admin' ||  $user->role === 'candidate';
     }
 
     /**
@@ -51,5 +51,23 @@ class JobPolicy
     {
         // Allow only the job owner (employer) to delete the job
         return $user->id === $job->employer_id;
+    }
+
+    /**
+     * Determine whether the user can view the candidate dashboard.
+     */
+    public function viewCandidateDashboard(User $user): bool
+    {
+        // Allow only candidates to view the candidate dashboard
+        return $user->role === 'candidate';
+    }
+
+    /**
+     * Determine whether the user can apply for the job.
+     */
+    public function apply(User $user, Job $job): bool
+    {
+        // Allow only candidates to apply for jobs
+        return $user->role === 'candidate';
     }
 }
