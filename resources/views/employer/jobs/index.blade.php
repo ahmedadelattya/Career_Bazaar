@@ -13,8 +13,7 @@
                         <div class="flex justify-end mb-12">
                             <a href="{{ route('jobs.create') }}" title="Add new job"
                                 class="group cursor-pointer outline-none hover:rotate-90 duration-300 text-4xl">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                    viewBox="0 0 24 24"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"
                                     class="stroke-indigo-400 fill-none group-hover:fill-indigo-100 group-hover:stroke-indigo-600 group-active:stroke-indigo-500 group-active:fill-indigo-200 group-active:duration-0 duration-300 dark:group-hover:fill-indigo-800 dark:group-active:stroke-indigo-200 dark:group-active:fill-indigo-600">
                                     <path
                                         d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
@@ -25,7 +24,7 @@
                             </a>
 
                         </div>
-                        <div class="mb-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                        <div class="mb-auto grid grid-cols-1 lg:grid-cols-2  gap-4">
                             @foreach ($jobs as $job)
                                 <div
                                     class="bg-zinc-50 dark:bg-zinc-800 p-6 rounded-lg shadow-md hover:shadow-lg dark:shadow-indigo-950 border border-zinc-50 hover:border-indigo-200 dark:border-zinc-800 dark:hover:border-indigo-700 dark:hover:bg-zinc-950 hover:bg-white duration-500 text-zinc-600 dark:text-zinc-200">
@@ -38,17 +37,17 @@
                                     <span
                                         class="mt-2 text-sm text-zinc-400 dark:text-zinc-600">{{ $job->created_at->diffForHumans() }}</span>
                                     <div class="flex items-center mt-4 gap-2 capitalize">
-                                        <p>{{ $job->category }}</p>
-                                        <span>-</span>
-                                        <p>{{ $job->location }}</p>
+                                        <div class="flex flex-col">
+                                            <p class="dark:text-zinc-400">{{ $job->category }}</p>
+                                            <p class="dark:text-zinc-500">{{ $job->location }}</p>
+                                        </div>
                                         <a href="{{ route('jobs.show', $job->id) }}"
                                             class="flex items-center gap-1 text-md text-indigo-400 ml-auto hover:text-indigo-600 hover:animate-pulse duration-150 group">
                                             <span>View</span>
-                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                width="1em" height="1em"
-                                                class="transform duration-300 group-hover:rotate-45">
-                                                <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                height="1em" class="transform duration-300 group-hover:rotate-45">
+                                                <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round">
                                                 </path>
                                             </svg>
                                         </a>

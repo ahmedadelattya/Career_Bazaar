@@ -123,23 +123,24 @@
                                             {{ $location->name }}
                                         </option>
                                     @endforeach
-                                    l/select>
+                                </select>
                             </div>
                             <!-- Experience Level -->
-                            <div class="">
+                            <div>
                                 <label for="experience"
                                     class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Experience</label>
                                 <select id="experience" name="experience_level"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
-                                    <option value="entry-level" {{ old('experience_level') == 'entry-level' ? 'selected' : '' }}>Entry Level
+                                    <option value="entry-level" {{ old('experience_level') == 'entry-level' ? 'selected' : '' }}>{{__('Entry Level')}}
                                     </option>
-                                    <option value="intermediate" {{ old('experience_level') == 'intermediate' ? 'selected' : '' }}>Intermediate
+                                    <option value="intermediate" {{ old('experience_level') == 'intermediate' ? 'selected' : '' }}>{{__('Intermediate')}}
                                     </option>
                                     <option value="expert" {{ old('experience_level') == 'expert' ? 'selected' : '' }}>
-                                        Expert
+                                        {{__('Expert')}}
                                     </option>
                                 </select>
                             </div>
+
                         </div>
                     </div>
 
