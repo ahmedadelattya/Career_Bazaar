@@ -13,8 +13,7 @@
                         <div class="flex justify-end mb-12">
                             <a href="{{ route('jobs.create') }}" title="Add new job"
                                 class="group cursor-pointer outline-none hover:rotate-90 duration-300 text-4xl">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                    viewBox="0 0 24 24"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"
                                     class="stroke-indigo-400 fill-none group-hover:fill-indigo-100 group-hover:stroke-indigo-600 group-active:stroke-indigo-500 group-active:fill-indigo-200 group-active:duration-0 duration-300 dark:group-hover:fill-indigo-800 dark:group-active:stroke-indigo-200 dark:group-active:fill-indigo-600">
                                     <path
                                         d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
@@ -44,11 +43,10 @@
                                         <a href="{{ route('jobs.show', $job->id) }}"
                                             class="flex items-center gap-1 text-md text-indigo-400 ml-auto hover:text-indigo-600 hover:animate-pulse duration-150 group">
                                             <span>View</span>
-                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                width="1em" height="1em"
-                                                class="transform duration-300 group-hover:rotate-45">
-                                                <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                height="1em" class="transform duration-300 group-hover:rotate-45">
+                                                <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round">
                                                 </path>
                                             </svg>
                                         </a>
@@ -103,34 +101,3 @@
         </div>
     </div>
 </x-app-layout>
-
-<!--  <table class="min-w-full leading-normal">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Category</th>
-                                <th>Location</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($jobs as $job)
-<tr>
-                                    <td>{{ $job->title }}</td>
-                                    <td>{{ $job->category }}</td>
-                                    <td>{{ $job->location }}</td>
-                                    <td>{{ $job->status }}</td>
-                                    <td>
-                                        <a href="{{ route('jobs.show', $job->id) }}">Show</a> |
-                                        <a href="{{ route('jobs.edit', $job) }}">Edit</a> |
-                                        <form method="POST" action="{{ route('jobs.destroy', $job->id) }}" class="inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-@endforeach
-                        </tbody>
-                    </table> -->
