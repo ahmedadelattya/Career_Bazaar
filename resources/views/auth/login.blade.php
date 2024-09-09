@@ -47,6 +47,11 @@
                         {{ __('Log in') }}
                     </x-primary-button>
                 </div>
+                <a href="{{route('choose-role')}}"
+                    class="mt-6 inline-block text-zinc-600 hover:text-indigo-800 dark:text-zinc-500 dark:hover:text-indigo-600 duration-150">Don't
+                    have
+                    an account?
+                    Register</a>
             </form>
         </div>
         <div class="mx-auto flex items-center flex-col mb-8">
