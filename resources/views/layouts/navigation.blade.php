@@ -1,3 +1,4 @@
+<script src="/theme-toggle.js" defer></script>
 <nav x-data="{ open: false }" class="bg-white dark:bg-zinc-800 border-b border-zinc-100 dark:border-zinc-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,11 +14,14 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Career Bazaar') }}
                     </x-nav-link>
                 </div>
             </div>
+            <div class="ml-auto flex items-center">
+            <button id="theme-icon-button" class="cursor-pointer text-zinc-500 hover:text-indigo-600 dark:text-zinc-600 dark:hover:text-indigo-700 focus:ring-0 focus:outline-none font-medium text-2xl text-center inline-flex items-center duration-200"></button>
 
+            </div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
@@ -82,7 +86,6 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
