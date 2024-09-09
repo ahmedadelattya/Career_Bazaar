@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+
     public function getAllJobs(Request $request)
     {
         return view('admin-dashboard', ['jobs' => Job::get()->where('status', '=', 'pending')]);

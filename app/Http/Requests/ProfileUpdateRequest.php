@@ -23,18 +23,18 @@ class ProfileUpdateRequest extends FormRequest
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
                 'candidate_job_title' => ['nullable', 'string', 'max:255'],
                 'candidate_job_description' => ['nullable', 'string', 'max:500'],
-                'candidate_skills' => ['required', 'array'],
-                'candidate_projects' => ['required', 'array'],
-                "image" => "image|mimes:jpeg,jpg,png|max:2048",
+                'candidate_skills' => ['nullable', 'array'],
+                'candidate_projects' => ['nullable', 'array'],
+                "image" => "nullable|image|mimes:jpeg,jpg,png|max:2048",
             ];
         } else {
             return [
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'max:255', 'email', Rule::unique(User::class)->ignore($this->user()->id)],
                 'company_name' => ['required', 'string', 'max:255'],
-                'about' => ['required', 'string', 'max:255'],
-                "image" => "image|mimes:jpeg,jpg,png|max:2048",
-                'website' => ['nullable', 'required', 'string', 'max:255']
+                'about' => ['nullable', 'string', 'max:255'],
+                "image" => "nullable|image|mimes:jpeg,jpg,png|max:2048",
+                'website' => ['nullable', 'string', 'max:255']
             ];
         }
     }
