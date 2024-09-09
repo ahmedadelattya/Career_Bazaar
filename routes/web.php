@@ -6,6 +6,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\Auth\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\CandidateController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -40,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/candidate/dashboard', [JobController::class, 'candidateDashboard'])->name('candidate.dashboard');
+    Route::get('/candidate/dashboard', [CandidateController::class, 'candidateDashboard'])->name('candidate.dashboard');
     Route::get('/employer/jobs/{job}/applications', [ApplicationController::class, 'manageApplications'])->name('employer.applications');
     Route::put('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
     Route::post('/jobs/{job}/apply', [ApplicationController::class, 'apply'])->name('jobs.apply');
