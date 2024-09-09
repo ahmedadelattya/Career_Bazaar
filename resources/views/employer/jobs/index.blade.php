@@ -2,7 +2,7 @@
     <div id="notificationsContainer" class="fixed top-0 right-0 z-50 w-full p-4 space-y-4 md:w-1/3">
         @foreach (Auth::user()->notifications as $notification)
             <div x-data="{ show: true, timer: 5 }" x-show="show" x-init="setTimeout(() => show = false, 5000);
-            setInterval(() => timer--, 1000)"
+                                                                                        setInterval(() => timer--, 1000)"
                 x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 transform translate-x-full"
                 x-transition:enter-end="opacity-100 transform translate-x-0"
@@ -10,7 +10,7 @@
                 x-transition:leave-start="opacity-100 transform translate-x-0"
                 x-transition:leave-end="opacity-0 transform translate-x-full"
                 class="relative flex items-center p-4 text-gray-700 bg-white border-l-4 rounded-lg shadow-lg dark:bg-zinc-800 dark:text-gray-100
-                        {{ $notification->data['status'] === 'approved' ? 'border-green-500' : 'border-red-500' }}">
+                                                                                                    {{ $notification->data['status'] === 'approved' ? 'border-green-500' : 'border-red-500' }}">
                 <div class="flex-shrink-0 mr-3">
                     @if ($notification->data['status'] === 'approved')
                         <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -19,8 +19,8 @@
                         </svg>
                     @else
                         <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                            </path>
                         </svg>
                     @endif
                 </div>
@@ -48,10 +48,7 @@
         </h2>
     </x-slot>
     @if (session('success'))
-        <!-- <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div> -->
+        <x-success-toast :message="session('success')" />
     @endif
     <div class="py-12">
         <div class="container mx-auto">
@@ -78,9 +75,63 @@
                                     class="p-6 duration-500 border rounded-lg shadow-md bg-zinc-50 dark:bg-zinc-800 hover:shadow-lg dark:shadow-indigo-950 border-zinc-50 hover:border-indigo-200 dark:border-zinc-800 dark:hover:border-indigo-700 dark:hover:bg-zinc-950 hover:bg-white text-zinc-600 dark:text-zinc-200">
                                     <div class="flex items-center justify-between">
                                         <h2 class="text-xl">{{ $job->title }}</h2>
-                                        <span
-                                            class="px-3 py-1 text-sm text-white capitalize bg-indigo-800 rounded-md shadow">{{ $job->status }}
-                                        </span>
+                                        <!-- Status badges -->
+                                        <div>
+                                            @if ($job->status === 'pending')
+                                                <span data-tooltip-target="tooltip-pending" data-tooltip-placement="bottom"
+                                                    class="bg-amber-100 text-amber-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded  dark:bg-amber-700 dark:text-amber-400 border border-amber-500 capitalize ">
+                                                    <svg class="w-[1em] h-[1em] me-1.5" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path
+                                                            d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
+                                                    </svg>
+                                                    {{ $job->status }}
+                                                </span>
+                                                <div id="tooltip-pending" role="tooltip"
+                                                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-zinc-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-zinc-700">
+                                                    Pending manual review.
+                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                </div>
+                                            @elseif ($job->status === 'approved')
+                                                <span
+                                                    class="bg-emerald-100 text-emerald-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded  dark:bg-emerald-700 dark:text-emerald-400 border border-emerald-500 capitalize">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-[1em] h-[1em] me-1.5"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-check-circle">
+                                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                                    </svg>
+                                                    Published
+                                                </span>
+                                            @elseif ($job->status === 'declined')
+                                                <span data-tooltip-target="tooltip-declined" data-tooltip-placement="bottom"
+                                                    class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded  dark:bg-red-700 dark:text-red-100 border border-red-500 capitalize">
+                                                    <svg class="fill-current w-[1em] h-[1em] me-1.5" viewBox="0 0 36 36"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M23.7,10.41a1,1,0,0,1-.71-.29L15.56,2.69A1,1,0,0,1,17,1.28l7.44,7.43a1,1,0,0,1-.71,1.7Z">
+                                                        </path>
+                                                        <path
+                                                            d="M11.86,22.25a1,1,0,0,0-.29-.71L4.14,14.11a1,1,0,0,0-1.42,1.42L10.15,23a1,1,0,0,0,1.42,0A1,1,0,0,0,11.86,22.25Z">
+                                                        </path>
+                                                        <path
+                                                            d="M21.93,34H3a1,1,0,0,1-1-1.27l1.13-4a1,1,0,0,1,1-.73H20.8a1,1,0,0,1,1,.73l1.13,4a1,1,0,0,1-.17.87A1,1,0,0,1,21.93,34ZM4.31,32H20.6L20,30H4.87Z">
+                                                        </path>
+                                                        <path
+                                                            d="M33.11,27.44l-14-14,2.36-2.36L14.52,4.13,5.58,13.07,12.51,20l2.35-2.34,14,14a3,3,0,0,0,4.24,0A3,3,0,0,0,33.11,27.44ZM8.4,13.07,14.52,7l4.11,4.11-6.12,6.11Zm23.29,17.2a1,1,0,0,1-1.41,0l-14-14,1.41-1.41,14,14A1,1,0,0,1,31.69,30.27Z">
+                                                        </path>
+                                                    </svg>
+
+                                                    {{ $job->status }}
+                                                </span>
+                                                <div id="tooltip-declined" role="tooltip"
+                                                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-zinc-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-zinc-700 max-w-48">
+                                                    Sorry, your post will not be publish since it does not follow our policies.
+                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
                                     <span
                                         class="mt-2 text-sm text-zinc-400 dark:text-zinc-600">{{ $job->created_at->diffForHumans() }}</span>
@@ -171,9 +222,9 @@
                             ${data.status === 'approved' ? 'border-green-500' : 'border-red-500'}">
                     <div class="flex-shrink-0 mr-3">
                         ${data.status === 'approved'
-                            ? '<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path></svg>'
-                            : '<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>'
-                        }
+                    ? '<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path></svg>'
+                    : '<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>'
+                }
                     </div>
                     <div class="flex-grow">
                         <p class="text-sm font-medium">
