@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ApplicationStoreRequest;
-
-
+use App\Notifications\ApplicationStatus;
+use App\Notifications\CandidateApplied;
 
 class ApplicationController extends Controller
 {
@@ -41,6 +41,9 @@ class ApplicationController extends Controller
             'phone' => $request->input('phone'),
         ]);
 
+        // Notify the employer
+        $employer = $job->user;
+        $employer->notify(new CandidateApplied($user, $job));
         return redirect()->route('candidate.dashboard')->with('success', 'Application submitted successfully!');
     }
 
@@ -71,7 +74,9 @@ class ApplicationController extends Controller
         $application->update(['status' => $request->status]);
 
         // Notify the candidate
-        // $application->candidate->notify(new ApplicationStatusNotification($application));
+        $candidate = $application->candidate;
+        $status = $request->status === 'accepted' ? 'approved' : 'rejected';
+        $candidate->notify(new ApplicationStatus($application->job, $status));
 
         return redirect()->route('employer.applications', $application->job_id)
             ->with('success', 'Application status updated!');
