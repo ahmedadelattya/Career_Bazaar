@@ -34,7 +34,6 @@ Route::middleware('auth')->group(function () {
 // Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
 
 
-
 //Employer_jobs Routing
 Route::middleware(['auth'])->group(function () {
     Route::get('/employer/jobs', [JobController::class, 'index'])->name('jobs.index');

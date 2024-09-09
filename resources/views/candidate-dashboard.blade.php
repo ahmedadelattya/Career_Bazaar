@@ -2,30 +2,30 @@
 
     <body class="bg-gray-100 ">
 
-        <div class="container mx-auto p-6 text-white ">
+        <div class="container mx-auto p-6  ">
             <div class="mx-auto mt-6 max-w-7xl sm:px-6 lg:px-8 text-center ">
                 <h1>All Jobs</h1>
 
                 <div class="overflow-x-auto bg-white rounded-lg shadow-md dark:bg-zinc-800">
                     <table id="default-table" class="min-w-full text-sm bg-white dark:bg-zinc-800">
-                        <thead class="text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
-                            <tr>
-                                <th class="px-6 py-3 text-xs font-medium text-left uppercase">Title</th>
-                                <th class="px-6 py-3 text-xs font-medium text-left uppercase">Creator</th>
-                                <th class="px-6 py-3 text-xs font-medium text-left uppercase">Category</th>
-                                <th class="px-6 py-3 text-xs font-medium text-left uppercase">Location</th>
-                                <th class="px-6 py-3 text-xs font-medium text-left uppercase">Salary Type</th>
-                                <th class="px-6 py-3 text-xs font-medium text-left uppercase">Salary</th>
-                                <th class="px-6 py-3 text-xs font-medium text-left uppercase">Status</th>
-                                <th class="px-6 py-3 text-xs font-medium text-left uppercase">Skills</th>
-                                <th class="px-6 py-3 text-xs font-medium text-left uppercase">Created At</th>
-                                <th class="px-6 py-3 text-xs font-medium text-center uppercase">Actions</th>
+                        <thead class="text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-300 ">
+                            <tr class="">
+                                <th class="px-6 py-3 text-xs font-medium text-left uppercase text-white">Title</th>
+                                <th class="px-6 py-3 text-xs font-medium text-left uppercase text-white">Creator</th>
+                                <th class="px-6 py-3 text-xs font-medium text-left uppercase text-white">Category</th>
+                                <th class="px-6 py-3 text-xs font-medium text-left uppercase text-white">Location</th>
+                                <th class="px-6 py-3 text-xs font-medium text-left uppercase text-white">Salary Type</th>
+                                <th class="px-6 py-3 text-xs font-medium text-left uppercase text-white">Salary</th>
+                                <th class="px-6 py-3 text-xs font-medium text-left uppercase text-white">Status</th>
+                                <th class="px-6 py-3 text-xs font-medium text-left uppercase text-white">Skills</th>
+                                <th class="px-6 py-3 text-xs font-medium text-left uppercase text-white">Created At</th>
+                                <th class="px-6 py-3 text-xs font-medium text-center uppercase text-white">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700 ">
                             @foreach ($jobs as $job)
                                 @if ($job->status == 'approved')
-                                    <tr>
+                                    <tr class="text-white">
                                         <td class="px-6 py-4 text-sm font-medium  whitespace-nowrap ">
                                             {{ $job->title }}
                                         </td>

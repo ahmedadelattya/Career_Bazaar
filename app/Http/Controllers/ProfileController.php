@@ -36,7 +36,7 @@ class ProfileController extends Controller
         if ($user->role == 'employer') {
             return view('profiles.employer.edit-employer-profile', ['user' => $user]);
         } elseif ($user->role == 'candidate') {
-            return view('profiles.edit-candidate-profile', ['user' => $user]);
+            return view('profiles.candidate.edit-candidate-profile', ['user' => $user]);
         } elseif ($user->role == 'admin') {
             return view('profiles.admin-profile', ['user' => $user]);
         }
