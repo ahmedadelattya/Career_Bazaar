@@ -36,7 +36,7 @@ class ProfileController extends Controller
         if ($user->role == 'employer') {
             return view('profiles.employer.edit-employer-profile', ['user' => $user]);
         } elseif ($user->role == 'candidate') {
-            return view('profiles.edit-candidate-profile', ['user' => $user]);
+            return view('profiles.candidate.edit-candidate-profile', ['user' => $user]);
         } elseif ($user->role == 'admin') {
             return view('profiles.admin-profile', ['user' => $user]);
         }
@@ -73,7 +73,6 @@ class ProfileController extends Controller
             $image_path = $image->store("images", 'candidates_images');
         } else if ($request->hasFile('image') && $user->role === 'employer') {
             $image_path = $image->store("images", 'employers_images');
-
         }
         $user->name = $request->name;
         $user->email = $request->email;
