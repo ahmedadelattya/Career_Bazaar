@@ -61,8 +61,7 @@
                         <div class="flex justify-end mb-12">
                             <a href="{{ route('jobs.create') }}" title="Add new job"
                                 class="text-4xl duration-300 outline-none cursor-pointer group hover:rotate-90">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                    viewBox="0 0 24 24"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"
                                     class="duration-300 stroke-indigo-400 fill-none group-hover:fill-indigo-100 group-hover:stroke-indigo-600 group-active:stroke-indigo-500 group-active:fill-indigo-200 group-active:duration-0 dark:group-hover:fill-indigo-800 dark:group-active:stroke-indigo-200 dark:group-active:fill-indigo-600">
                                     <path
                                         d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
@@ -93,11 +92,10 @@
                                         <a href="{{ route('jobs.show', $job->id) }}"
                                             class="flex items-center gap-1 ml-auto text-indigo-400 duration-150 text-md hover:text-indigo-600 hover:animate-pulse group">
                                             <span>View</span>
-                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                width="1em" height="1em"
-                                                class="duration-300 transform group-hover:rotate-45">
-                                                <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                height="1em" class="duration-300 transform group-hover:rotate-45">
+                                                <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round">
                                                 </path>
                                             </svg>
                                         </a>

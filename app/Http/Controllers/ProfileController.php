@@ -41,7 +41,7 @@ class ProfileController extends Controller
             return view('profiles.admin-profile', ['user' => $user]);
         }
 
-        return abort(403, 'Unauthorized action.');
+        abort(403, 'Unauthorized action.');
     }
     /**
      * Update the user's profile information.

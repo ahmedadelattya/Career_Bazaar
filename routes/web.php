@@ -3,10 +3,12 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\Auth\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\CandidateController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Job;
 
@@ -18,7 +20,7 @@ Route::get('/dashboard', function () {
     if (Auth::user()->role == 'employer') {
         return redirect()->route('jobs.index');
     } else if (Auth::user()->role == 'candidate') {
-        return view('candidate-dashboard', ['jobs' => Job::all()]);
+        return redirect()->route('candidate.dashboard');
     } else if (Auth::user()->role == 'admin') {
         return redirect()->route('adminDash');
     }
@@ -62,5 +64,12 @@ Route::middleware(['auth'])->group(function () {
 
 // Route::get('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/candidate/dashboard', [CandidateController::class, 'candidateDashboard'])->name('candidate.dashboard');
+    Route::post('/jobs/{job}/apply', [ApplicationController::class, 'apply'])->name('jobs.apply');
+    Route::get('/employer/jobs/{job}/applications', [ApplicationController::class, 'manageApplications'])->name('employer.applications');
+    Route::put('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
+});
 
 require __DIR__ . '/auth.php';
