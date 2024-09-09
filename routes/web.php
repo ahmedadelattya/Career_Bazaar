@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Job;
 
@@ -71,4 +72,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
 });
 
+Route::middleware(['auth'])->group(function () {
+    // Route::get('/search', SearchController::class);
+    Route::get('/searching', [CandidateController::class, 'search'])->name('search');
+    Route::get('/filtering', [CandidateController::class, 'filterSalary'])->name('filter');
+});
 require __DIR__ . '/auth.php';

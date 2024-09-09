@@ -2,6 +2,35 @@
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class=" text-zinc-800 dark:text-zinc-200">
+                <div class="p-5 space-x-4 OMAR_ASEM ">
+                    <div>
+                        <form method="get" action="{{ route('search') }}">
+                            @csrf
+                            <label class="text-2xl font-bold pr-4"> Search with title</label>
+                            <input type="text" name="que" placeholder="Search" class="rounded-xl text-black"
+                                required />
+                            <input type="submit" value="Search"
+                                class="bg-green-600 hover:bg-green-700 px-2 py-2 rounded-xl text-white font-bold">
+                        </form>
+                    </div>
+                    <div class=" ml-4 text-white ">
+                        <form method="get" action="{{ route('filter') }}">
+                            @csrf
+                            <p class="text-2xl">Select type and enter the minimum
+                            </p>
+                            <div>
+                                <label for="fixed"> Fixed </label>
+                                <input type="radio" name="salary_type" id="fixed" value="fixed" checked>
+                                <label for="hourly"> Hourly </label>
+                                <input type="radio" name="salary_type" id="hourly" value="hourly">
+                                <input type="text" name="amount" id="" class="rounded-xl text-black"
+                                    placeholder="Minimum value" name="amount" required>
+                                <input type="submit" value="Filter"
+                                    class="bg-green-600 hover:bg-green-700 px-2 py-2 rounded-xl text-white font-bold">
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <header class="text-2xl font-bold ">
                     {{ __('Newly added jobs') }}
                 </header>
@@ -76,11 +105,11 @@
 </x-app-layout>
 <!--
 <div class="overflow-hidden bg-white shadow-sm dark:bg-zinc-800 sm:rounded-lg">
-            <div class="p-6 text-zinc-900 dark:text-zinc-100">
+<div class="p-6 text-zinc-900 dark:text-zinc-100">
 
 @if (session('success'))
 <div class="relative px-4 py-3 mb-4 text-green-700 bg-green-100 border border-green-400 rounded" role="alert">
-    <strong class="font-bold">{{ session('success') }}</strong>
+<strong class="font-bold">{{ session('success') }}</strong>
 </div>
 @endif
 
@@ -91,18 +120,18 @@
 @else
 @foreach ($jobs as $job)
 <div class="p-4 mb-4 rounded-lg shadow bg-zinc-100 dark:bg-zinc-700">
-        <h4 class="font-bold">{{ $job->title }}</h4>
-        <p>{{ $job->description }}</p>
-        <p><strong>{{ __('Category:') }}</strong> {{ $job->category }}</p>
-        <p><strong>{{ __('Location:') }}</strong> {{ $job->location }}</p>
-        <p><strong>{{ __('Salary Type:') }}</strong> {{ ucfirst($job->salary_type) }}</p>
+<h4 class="font-bold">{{ $job->title }}</h4>
+<p>{{ $job->description }}</p>
+<p><strong>{{ __('Category:') }}</strong> {{ $job->category }}</p>
+<p><strong>{{ __('Location:') }}</strong> {{ $job->location }}</p>
+<p><strong>{{ __('Salary Type:') }}</strong> {{ ucfirst($job->salary_type) }}</p>
 
-        @if (in_array($job->id, $appliedJobs))
+@if (in_array($job->id, $appliedJobs))
 <button disabled class="px-4 py-2 text-white bg-gray-400 rounded">{{ __('Applied') }}</button>
 @else
 <a href="{{ route('jobs.show', $job->id) }}" class="text-blue-500 hover:underline">{{ __('Apply Now') }}</a>
 @endif
-    </div>
+</div>
 @endforeach
 
 {{ $jobs->links() }}
