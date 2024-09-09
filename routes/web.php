@@ -11,6 +11,9 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CandidateController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Job;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+
 
 
 Route::get('/', function () {
@@ -73,3 +76,30 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+
+
+Route::get('auth/github', function () {
+    return Socialite::driver('github')->redirect();
+})->name('auth.github');
+
+Route::get('/auth/github/callback', function () {
+    
+
+    $user = Socialite::driver('github')->stateless()->user();
+
+    // Find or create the user in your database
+    $authUser = User::firstOrCreate(
+        ['email' => $user->email],
+        [
+            'name' => $user->name,
+            'github_id' => $user->id,
+            'avatar' => $user->avatar,
+            
+        ]
+    );
+
+    Auth::login($authUser);
+
+    return redirect('/dashboard');  
+});
