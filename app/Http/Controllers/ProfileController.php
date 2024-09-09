@@ -41,7 +41,7 @@ class ProfileController extends Controller
             return view('profiles.admin-profile', ['user' => $user]);
         }
 
-        return abort(403, 'Unauthorized action.');
+        abort(403, 'Unauthorized action.');
     }
     /**
      * Update the user's profile information.
@@ -73,7 +73,6 @@ class ProfileController extends Controller
             $image_path = $image->store("images", 'candidates_images');
         } else if ($request->hasFile('image') && $user->role === 'employer') {
             $image_path = $image->store("images", 'employers_images');
-
         }
         $user->name = $request->name;
         $user->email = $request->email;
