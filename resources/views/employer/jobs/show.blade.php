@@ -186,7 +186,7 @@
         </div>
     </div>
 
-    <!-- Updated Modal -->
+    <!-- Apply Modal -->
     <div id="apply-modal" tabindex="-1" aria-hidden="true"
         class="fixed inset-0 flex items-center justify-center z-50 hidden">
         <div class="relative p-4 w-full max-w-2xl bg-white rounded-lg shadow dark:bg-zinc-800">

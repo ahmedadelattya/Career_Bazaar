@@ -7,24 +7,38 @@ use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\ApplicationStoreRequest;
+
 
 
 class ApplicationController extends Controller
 {
-    public function apply(Request $request, $jobId)
+    public function apply(ApplicationStoreRequest $request, $jobId)
     {
         $job = Job::findOrFail($jobId);
-
+        $user = Auth::user();
         Gate::authorize('apply', $job);
 
-        // Validate and create application
-        $request->validate([
-            'cover_letter' => 'required|string',
-        ]);
+        // Check if the user has already applied for this job
+        if (Application::where('job_id', $jobId)->where('candidate_id', $user->id)->exists()) {
+            return back()->withErrors(['You have already applied for this job.']);
+        }
+
+        // Handle the file upload
+        if ($request->hasFile('resume')) {
+            $resumePath = $request->file('resume')->store('', 'application_resumes'); // Store file in 'public/resumes'
+        }
+
+
+
         Application::create([
             'job_id' => $job->id,
             'candidate_id' => Auth::id(),
             'cover_letter' => $request->cover_letter,
+            'resume' => $resumePath,
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
         ]);
 
         return redirect()->route('candidate.dashboard')->with('success', 'Application submitted successfully!');
