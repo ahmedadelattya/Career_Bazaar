@@ -67,17 +67,17 @@ return [
         'candidates_images' => [
             "driver" => "local",
             'root' => public_path('images/candidates'),
-        'application_resumes' => [
-            "driver" => "local",
-            'root' => public_path('resumes/applications'),
-            'visibility' => 'public',
-            'url' => env('APP_URL') . '/public',
-            'throw' => false,
+            'application_resumes' => [
+                "driver" => "local",
+                'root' => public_path('resumes/applications'),
+                'visibility' => 'public',
+                'url' => env('APP_URL') . '/public',
+                'throw' => false,
+            ],
+
         ],
 
-    ],
-
-    /*
+        /*
     |--------------------------------------------------------------------------
     | Symbolic Links
     |--------------------------------------------------------------------------
@@ -88,8 +88,9 @@ return [
     |
     */
 
-    'links' => [
-        public_path('storage') => storage_path('app/public'),
-    ],
+        'links' => [
+            public_path('storage') => storage_path('app/public'),
+        ],
 
+    ]
 ];
