@@ -188,7 +188,7 @@
 
     <!-- Apply Modal -->
     <div id="apply-modal" tabindex="-1" aria-hidden="true"
-        class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        class="fixed inset-0 flex items-center justify-center z-50 {{ $errors->any() ? '' : 'hidden' }}">
         <div class="relative p-4 w-full max-w-2xl bg-white rounded-lg shadow dark:bg-zinc-800">
             <!-- Close button -->
             <button type="button" data-modal-toggle="apply-modal"
@@ -206,13 +206,17 @@
             <form action="{{ route('jobs.apply', $job->id) }}" method="POST" enctype="multipart/form-data"
                 class="mt-4">
                 @csrf
+
                 <!-- Candidate Name -->
                 <div class="mb-4">
                     <label for="name" class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Full
                         Name</label>
                     <input type="text" id="name" name="name"
                         class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
-                        required>
+                        value="{{ old('name') }}" required>
+                    @error('name')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Candidate Email -->
@@ -221,7 +225,10 @@
                         class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Email</label>
                     <input type="email" id="email" name="email"
                         class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
-                        required>
+                        value="{{ old('email') }}" required>
+                    @error('email')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Candidate Phone -->
@@ -230,7 +237,10 @@
                         class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Phone Number</label>
                     <input type="tel" id="phone" name="phone"
                         class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
-                        required>
+                        value="{{ old('phone') }}" required>
+                    @error('phone')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Upload Resume -->
@@ -240,6 +250,9 @@
                     <input type="file" id="resume" name="resume"
                         class="block w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 cursor-pointer focus:outline-none focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                         accept=".pdf,.doc,.docx" required>
+                    @error('resume')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Cover Letter -->
@@ -248,7 +261,10 @@
                         class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Cover Letter</label>
                     <textarea id="cover_letter" name="cover_letter" rows="6"
                         class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
-                        required></textarea>
+                        required>{{ old('cover_letter') }}</textarea>
+                    @error('cover_letter')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Submit Button -->
@@ -261,7 +277,6 @@
             </form>
         </div>
     </div>
-
 
     <!-- Delete Modal -->
     <div id="delete-modal" tabindex="-1"
@@ -309,6 +324,7 @@
 
     <!-- JavaScript for modals and delete action -->
     <script>
+        // Function to toggle the visibility of modals
         document.querySelectorAll('[data-modal-toggle]').forEach(button => {
             button.addEventListener('click', () => {
                 const targetId = button.getAttribute('data-modal-target');
@@ -316,6 +332,18 @@
             });
         });
 
+        // Function to show the modal if there are validation errors
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if there are any errors passed from the server
+            if (@json($errors->any())) {
+                const applyModal = document.getElementById('apply-modal');
+                if (applyModal) {
+                    applyModal.classList.remove('hidden'); // Show the modal if errors exist
+                }
+            }
+        });
+
+        // Function to handle the delete action
         function submitDeleteForm(jobId) {
             document.getElementById('delete-form-' + jobId).submit();
         }
