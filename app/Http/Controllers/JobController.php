@@ -56,13 +56,16 @@ class JobController extends Controller
 
         // Find the job by ID
         $job = Job::findOrFail($id);
-
+        $user = Auth::user();
         Gate::authorize('view', $job);
 
         // Decode the skills JSON string into an array
         $job->skills = json_decode($job->skills, true);
 
-        return view('employer.jobs.show', compact('job'));
+        //Check if the user has already applied for this job
+        $hasApplied = $job->applications()->where('candidate_id', $user->id)->exists();
+
+        return view('employer.jobs.show', compact('job', 'hasApplied'));
     }
 
     public function edit($id)

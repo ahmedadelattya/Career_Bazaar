@@ -33,7 +33,8 @@
                                         class="bg-emerald-100 text-emerald-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-emerald-700 dark:text-emerald-400 border border-emerald-500 capitalize">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-[1em] h-[1em] me-1.5"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-check-circle">
                                             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                             <polyline points="22 4 12 14.01 9 11.01"></polyline>
                                         </svg>
@@ -174,8 +175,9 @@
                         @elseif (auth()->user()->role === 'candidate')
                             <!-- Show Apply button for candidates -->
                             <button type="button" data-modal-target="apply-modal" data-modal-toggle="apply-modal"
+                                @if ($hasApplied) disabled @endif
                                 class="focus:outline-none text-zinc-200  bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 duration-150">
-                                Apply
+                                {{ $hasApplied ? 'Already Applied' : 'Apply' }}
                             </button>
                         @endif
                     </div>
@@ -184,10 +186,11 @@
         </div>
     </div>
 
-    <!-- Apply Modal -->
+    <!-- Updated Modal -->
     <div id="apply-modal" tabindex="-1" aria-hidden="true"
-        class="fixed inset-0 items-center justify-center z-50 hidden">
+        class="fixed inset-0 flex items-center justify-center z-50 hidden">
         <div class="relative p-4 w-full max-w-2xl bg-white rounded-lg shadow dark:bg-zinc-800">
+            <!-- Close button -->
             <button type="button" data-modal-toggle="apply-modal"
                 class="absolute top-3 right-2.5 text-zinc-400 bg-transparent hover:bg-zinc-200 hover:text-zinc-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-zinc-700 dark:hover:text-white">
                 <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -197,19 +200,58 @@
                 </svg>
                 <span class="sr-only">Close modal</span>
             </button>
-            <h3 class="text-xl font-bold text-zinc-800 dark:text-zinc-200">Apply for "{{ $job->title }}" vacancy</h3>
-            <form action="{{ route('jobs.apply', $job->id) }}" method="POST" class="mt-4">
+            <!-- Modal content -->
+            <h3 class="text-xl font-bold text-zinc-800 dark:text-zinc-200 mb-4">Apply for "{{ $job->title }}"
+                vacancy</h3>
+            <form action="{{ route('jobs.apply', $job->id) }}" method="POST" enctype="multipart/form-data"
+                class="mt-4">
                 @csrf
+                <!-- Candidate Name -->
+                <div class="mb-4">
+                    <label for="name" class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Full
+                        Name</label>
+                    <input type="text" id="name" name="name"
+                        class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                        required>
+                </div>
+
+                <!-- Candidate Email -->
+                <div class="mb-4">
+                    <label for="email"
+                        class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Email</label>
+                    <input type="email" id="email" name="email"
+                        class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                        required>
+                </div>
+
+                <!-- Candidate Phone -->
+                <div class="mb-4">
+                    <label for="phone"
+                        class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Phone Number</label>
+                    <input type="tel" id="phone" name="phone"
+                        class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                        required>
+                </div>
+
+                <!-- Upload Resume -->
+                <div class="mb-4">
+                    <label for="resume"
+                        class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Resume</label>
+                    <input type="file" id="resume" name="resume"
+                        class="block w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 cursor-pointer focus:outline-none focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                        accept=".pdf,.doc,.docx" required>
+                </div>
+
+                <!-- Cover Letter -->
                 <div class="mb-4">
                     <label for="cover_letter"
-                        class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Cover
-                        Letter</label>
-                    <textarea id="cover_letter" name="cover_letter" rows="8"
+                        class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Cover Letter</label>
+                    <textarea id="cover_letter" name="cover_letter" rows="6"
                         class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                         required></textarea>
-
-
                 </div>
+
+                <!-- Submit Button -->
                 <div class="flex justify-end mt-4">
                     <button type="submit"
                         class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-800 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800">
@@ -219,6 +261,7 @@
             </form>
         </div>
     </div>
+
 
     <!-- Delete Modal -->
     <div id="delete-modal" tabindex="-1"
@@ -243,7 +286,8 @@
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-zinc-500 dark:text-zinc-400">Are you sure you want to
                         delete this post?</h3>
-                    <button data-modal-hide="delete-modal" type="button" onclick="submitDeleteForm({{ $job->id }})"
+                    <button data-modal-hide="delete-modal" type="button"
+                        onclick="submitDeleteForm({{ $job->id }})"
                         class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                         Yes, I'm sure
                     </button>
