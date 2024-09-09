@@ -76,7 +76,13 @@ return [
             ],
 
         ],
-
+        'application_resumes' => [
+            "driver" => "local",
+            'root' => public_path('resumes/applications'),
+            'visibility' => 'public',
+            'url' => env('APP_URL') . '/public',
+            'throw' => false,
+        ],
         /*
     |--------------------------------------------------------------------------
     | Symbolic Links

@@ -22,7 +22,7 @@ Route::get('/dashboard', function () {
     } else if (Auth::user()->role == 'candidate') {
         return redirect()->route('candidate.dashboard');
     } else if (Auth::user()->role == 'admin') {
-        return redirect()->route('adminDash');
+        return redirect()->route('admin.dash');
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
