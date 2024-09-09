@@ -7,28 +7,28 @@
             <div class="flex-shrink-0 mb-4 sm:mb-0 mx-auto md:mx-0">
                 <!-- Profile Picture -->
                 <div class="relative w-36 h-36">
-                    @if($user->image)
+                    @if($user->image && file_exists(public_path("images/candidates/$user->image")))
                         <img class="w-full h-full rounded-full object-cover border-4 border-indigo-500 shadow-lg"
-                            src="{{ asset('images/candidates/' . $user->image) }}" alt="Profile Picture">
+                            src="{{ asset("images/candidates/$user->image") }}" alt="Profile Picture">
                     @else
                         <img class="w-full h-full rounded-full object-cover border-4 border-indigo-500 shadow-lg"
                             src="{{ asset('images/default-avatar.jpg') }}" alt="Default Profile Picture">
                     @endif
 
                     <!-- CV Download Icon -->
-                    {{--@if($user->cv_pdf)--}}
-                    <a href="{{ asset('pdfs/' . $user->cv_pdf) }}" target="_blank"
-                        class="absolute bottom-0 right-0 bg-indigo-500 p-2 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-110">
-                        <svg class="w-6 h-6 text-indigo-800 dark:text-white" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path fill-rule="evenodd"
-                                d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z"
-                                clip-rule="evenodd" />
-                        </svg>
+                    @if($user->cv_pdf)
+                        <a href="{{ asset('pdfs/' . $user->cv_pdf) }}" target="_blank"
+                            class="absolute bottom-0 right-0 bg-indigo-500 p-2 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-110">
+                            <svg class="w-6 h-6 text-indigo-800 dark:text-white" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                    d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z"
+                                    clip-rule="evenodd" />
+                            </svg>
 
-                    </a>
-                    {{--@endif--}}
+                        </a>
+                    @endif
                 </div>
             </div>
 
@@ -67,7 +67,7 @@
                 <div class="mb-4">
                     <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-200 mb-2">Skills</h3>
                     <div class="flex flex-wrap gap-2">
-                        @if($user->candidate_skills && count($user->candidate_skills) > 0)
+                        @if($user->candidate_skills && count($user->candidate_skills) > 0 && $user->candidate_skills[0] !== null)
                             @foreach($user->candidate_skills as $skill)
                                 <span
                                     class="bg-indigo-100 dark:bg-indigo-700 text-indigo-600 dark:text-indigo-100 px-2.5 py-0.5 rounded-lg text-sm shadow-md">
@@ -84,7 +84,7 @@
                 <div class="mb-4">
                     <h3 class="text-lg font-semibold text-zinc-800 dark:text-zinc-200 mb-2">Projects</h3>
                     <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-                        @if($user->candidate_projects && count($user->candidate_projects) > 0)
+                        @if($user->candidate_projects && count($user->candidate_projects) > 0 && $user->candidate_projects[0] !== null)
                             @foreach($user->candidate_projects as $project)
                                 <div>
                                     <a href="{{ $project }}" target="_blank"
