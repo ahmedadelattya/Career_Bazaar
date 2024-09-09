@@ -17,8 +17,13 @@ class ProfileController extends Controller
 
     public function show()
     {
+        // testing employer profile with route /profile/employer
         $user = Auth::user();
-        return view('profiles.employer.show-employer-profile', compact('user'));
+        if ($user->role == 'employer') {
+            return view('profiles.employer.show-employer-profile', compact('user'));
+        } else {
+            return view('profiles.candidate.show-candidate-profile', compact('user'));
+        }
     }
     /**
      * Display the user's profile form.
@@ -107,9 +112,9 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    public function show()
-    {
+    // public function show()
+    // {
 
-        return view('profiles.show-candidate-profile', ['user' => Auth::user()]);
-    }
+    //     return view('profiles.show-candidate-profile', ['user' => Auth::user()]);
+    // }
 }

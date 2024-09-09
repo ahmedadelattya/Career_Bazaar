@@ -16,20 +16,20 @@ Route::get('/dashboard', function () {
     if (Auth::user()->role == 'employer') {
         return redirect()->route('jobs.index');
     } else if (Auth::user()->role == 'candidate') {
-        return view('candidate-dashboard' ,['jobs' => Job::all()]);
+        return view('candidate-dashboard', ['jobs' => Job::all()]);
     } else if (Auth::user()->role == 'admin') {
         return view('admin-dashboard');
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile/employer', [ProfileController::class, 'show'])->name('profile.show'); // this route tests employer profile view
+    Route::get('/profile/employer', [ProfileController::class, 'show'])->name('profile.show'); // this route tests profile view for candidate and employer
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
+// Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
 
 
 

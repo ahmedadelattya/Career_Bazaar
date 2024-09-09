@@ -16,8 +16,12 @@ return new class extends Migration
             $table->foreignId('employer_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('title');
             $table->text('description');
+            $table->text('requirements');
             $table->string('category');
             $table->string('location');
+            $table->enum('job_type', ['full-time', 'part-time']);
+            $table->enum('work_place', ['on-site', 'remote', 'hybrid']);
+            $table->enum('experience_level', ['entry-level', 'intermediate', 'expert']);
             $table->enum('salary_type', ['fixed', 'hourly']);
             $table->decimal('fixed_salary', 10, 2)->nullable();
             $table->decimal('hourly_rate', 10, 2)->nullable();

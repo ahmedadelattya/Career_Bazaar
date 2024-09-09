@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JobStoreRequest;
+use App\Models\Category;
 use App\Models\Job;
 use App\Models\Skill;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -14,32 +17,15 @@ class JobController extends Controller
     {
         Gate::authorize('create', Job::class);
         $skills = Skill::all();
-        return view('employer.jobs.job-create', compact('skills'));
+        $locations = Location::all();
+        $categories = Category::all();
+        return view('employer.jobs.job-create', compact('skills', 'locations', 'categories'));
     }
 
-    public function store(Request $request)
+    public function store(JobStoreRequest $request)
     {
         Gate::authorize('create', Job::class);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category' => 'required|string',
-            'location' => 'required|string',
-            'salary_type' => 'required|string|in:fixed,hourly',
-            'fixed_salary' => [
-                'nullable',
-                'required_if:salary_type,fixed',
-                'numeric',
-            ],
-            'hourly_rate' => [
-                'nullable',
-                'required_if:salary_type,hourly',
-                'numeric',
-            ],
-            'skills' => 'array',
-            'skills.*' => 'string', // Each skill should be a string
-        ]);
 
         // Convert skills input to an array
         $skills = $request->input('skills', []);
@@ -61,7 +47,7 @@ class JobController extends Controller
     {
         Gate::authorize('viewAny', Job::class);
         $user = Auth::user();
-        $jobs = $user->jobs()->paginate(10);
+        $jobs = $user->jobs()->paginate(9);
         return view('employer.jobs.index', compact('jobs'));
     }
 
@@ -88,11 +74,13 @@ class JobController extends Controller
 
         // Decode the skills JSON string into an array
         $job->skills = json_decode($job->skills, true);
-
-        // Fetch all skills from the database
+        $skills = Skill::all();
+        $locations = Location::all();
+        $categories = Category::all();
+        $experienceLevel = ["Internship", "Entry Level", "Junior", "Mid Level", "Senior"];
         $allSkills = Skill::all();
 
-        return view('employer.jobs.edit', compact('job', 'allSkills'));
+        return view('employer.jobs.edit', compact('job', 'allSkills', 'skills', 'locations', 'categories', 'experienceLevel'));
     }
 
     public function update(Request $request, $id)
