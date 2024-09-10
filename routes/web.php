@@ -72,9 +72,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
 });
 
+// these routes are for searching and filtering jobs at candidate dashboard view
 Route::middleware(['auth'])->group(function () {
     // Route::get('/search', SearchController::class);
     Route::get('/searching', [CandidateController::class, 'search'])->name('search');
     Route::get('/filtering', [CandidateController::class, 'filterSalary'])->name('filter');
+    Route::get('/filterskills', [CandidateController::class, 'filterSkills'])->name('skillsearch');
 });
 require __DIR__ . '/auth.php';

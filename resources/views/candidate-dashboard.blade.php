@@ -2,7 +2,21 @@
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class=" text-zinc-800 dark:text-zinc-200">
-                <div class="p-5 space-x-4 OMAR_ASEM ">
+                {{-- search functionality startedddddddddddddddddddd --}}
+                <div class="p-5 space-x-4 OMAR_ASEMMMMMMMMMMMMMMMMMMMMMMM flex-col space-y-2 ">
+                    <div class="text-black">
+                        <form method="get" action="{{ route('skillsearch') }}">
+                            @csrf
+                            <select name="select_skill" class="rounded-xl">
+                                @foreach ($skills as $skill)
+                                    <option value="{{ $skill->name }}"> {{ $skill->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <input type="submit" value="Go"
+                                class="bg-green-600 hover:bg-green-700 px-2 py-2 rounded-xl text-white font-bold">
+                        </form>
+                    </div>
                     <div>
                         <form method="get" action="{{ route('search') }}">
                             @csrf
@@ -31,6 +45,7 @@
                         </form>
                     </div>
                 </div>
+                {{-- search functionality endedddddddddddddddddddddddddddddd --}}
                 <header class="text-2xl font-bold ">
                     {{ __('Newly added jobs') }}
                 </header>

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Job;
-
+use App\Models\Skill;
 
 class CandidateController extends Controller
 {
@@ -16,8 +16,9 @@ class CandidateController extends Controller
 
         // Fetch only jobs with the status 'approved'
         $jobs = Job::where('status', 'approved')->paginate(10);
+        $skills = Skill::all();
         $appliedJobs = Auth::user()->applications->pluck('job_id')->toArray();
-        return view('candidate-dashboard', compact('jobs', 'appliedJobs'));
+        return view('candidate-dashboard', compact('jobs', 'appliedJobs', 'skills'));
     }
 
     public function search()
@@ -54,6 +55,14 @@ class CandidateController extends Controller
         return view('test', compact('jobs'));
     }
 
+    public function filterSkills()
+    {
+        $keyword = request('select_skill');
+        // dd($keyword);
+        // $jobs = Job::where('skills', 'LIKE', '%' . $keyword . '%')->get();
+        $jobs = Job::where('skills', 'LIKE', '%' . $keyword . '%')->get();
+        return view("test", compact('jobs'));
+    }
     // public function filter()
     // {
     //     $keyword = request('sal');

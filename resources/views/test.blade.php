@@ -3,7 +3,7 @@
     <div class="container text-white text-center mx-auto pt-6">
 
         <header class="text-2xl font-bold text-white">
-            {{ __('Results ') }}
+            {{ __('Results for ??? ') }}
         </header>
 
         <div class="mt-6 space-y-6 ">
@@ -11,7 +11,7 @@
                 <div class="p-4 border rounded-lg shadow bg-zinc-100 dark:bg-zinc-800 dark:border-zinc-700">
                     <div class="flex justify-between">
                         <div>
-                            <h2 class="mb-2 text-2xl font-semibold">{{ $job->title }} </h2>
+                            <h2 class="mb-2 text-2xl font-semibold">{{ $job->title }}  </h2>
                             <div class="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
                                 <p class="">{{ $job->user->company_name ?? 'N/A' }}</p>
                                 <span>-</span>
