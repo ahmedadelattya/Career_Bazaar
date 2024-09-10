@@ -49,6 +49,16 @@
             @endif
 
         </div>
+        {{-- Old Image field --}}
+        <div class="mt-4">
+            <x-input-label :value="__('Current Image/Logo')" />
+            @if ($user->image)
+                <img src="{{ asset('images/' . $user->role . 's/' . $user->image) }}" alt="Current Image/Logo"
+                    class="mt-2 rounded-md h-20 w-20 object-cover" />
+            @else
+                <p>{{ __('No image uploaded') }}</p>
+            @endif
+        </div>
 
         @if (Auth::user()->role == 'candidate')
             {{-- image field --}}
@@ -93,6 +103,12 @@
         @endif
 
         @if (Auth::user()->role == 'employer')
+            {{-- New Image field --}}
+            <div class="mt-4">
+                <x-input-label :value="__('Image/Logo')" />
+                <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" />
+                <x-input-error :messages="$errors->get('image')" class="mt-2" />
+            </div>
             {{-- Company Name field --}}
             <div class="mt-4">
                 <x-input-label for="company_name" :value="__('Company Name')" />
@@ -100,17 +116,11 @@
                     :value="old('company_name', $user->company_name)" required />
                 <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
             </div>
-            {{-- image field --}}
-            <div class="mt-4">
-                <x-input-label :value="__('Image/Logo')" />
-                <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" required />
-                <x-input-error :messages="$errors->get('image')" class="mt-2" />
-            </div>
             {{-- about me field --}}
             <div class="mt-4">
                 <x-input-label for="about" :value="__('About')" />
-                <x-text-input id="about" class="block mt-1 w-full" type="text" name="about" :value="old('about', $user->about)"
-                    required />
+                <x-text-input id="about" class="block mt-1 w-full" type="text" name="about"
+                    :value="old('about', $user->about)" />
                 <x-input-error :messages="$errors->get('about')" class="mt-2" />
             </div>
             {{-- Web site field --}}
