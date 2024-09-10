@@ -27,7 +27,7 @@ class ProfileUpdateRequest extends FormRequest
             return array_merge($commonRules, [
                 'candidate_job_title' => ['nullable', 'string', 'max:255'],
                 'candidate_job_description' => ['nullable', 'string', 'max:500'],
-                'candidate_skills' => ['required', 'array'],
+                'candidate_skills' => ['nullable', 'array'],
                 'candidate_projects' => ['required', 'array'],
             ]);
         }

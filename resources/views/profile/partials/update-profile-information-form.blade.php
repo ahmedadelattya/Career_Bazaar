@@ -105,10 +105,7 @@
 
                 <!-- Display Existing Projects -->
                 @php
-
-                    # code...
-                    $existingProjects = old('candidate_projects', $user->candidate_projects);
-
+                    $existingProjects = old('candidate_projects', $user->candidate_projects ?? []);
                 @endphp
                 @foreach ($existingProjects as $project)
                     @if ($project != null)

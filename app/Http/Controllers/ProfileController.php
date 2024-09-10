@@ -20,7 +20,7 @@ class ProfileController extends Controller
     {
         // testing employer profile with route /profile/employer
         $user = Auth::user();
-        // $user->candidate_skills = json_decode($user->candidate_skills, true);
+        $user->candidate_skills = json_decode($user->candidate_skills, true) ?? [];
         if ($user->role == 'employer') {
             return view('profiles.employer.show-employer-profile', compact('user'));
         } else {
@@ -39,7 +39,8 @@ class ProfileController extends Controller
             return view('profiles.employer.edit-employer-profile', ['user' => $user]);
         } elseif ($user->role == 'candidate') {
             $skills = Skill::all();
-            // $user->candidate_skills = json_decode($user->candidate_skills, true);
+            // Ensure candidate_skills is always an array
+            $user->candidate_skills = json_decode($user->candidate_skills, true) ?? [];
             return view('profiles.candidate.edit-candidate-profile', ['user' => $user, 'skills' => $skills]);
         } elseif ($user->role == 'admin') {
             return view('profiles.admin-profile', ['user' => $user]);
@@ -70,7 +71,7 @@ class ProfileController extends Controller
 
         // Handle role-specific fields
         if ($user->role === 'candidate') {
-            $user->candidate_skills = $request->input('candidate_skills');
+            $user->candidate_skills = json_encode($request->input('candidate_skills'));
             $user->candidate_projects = $request->input('candidate_projects');
             $user->candidate_job_description = $request->input('candidate_job_description');
             $user->candidate_job_title = $request->input('candidate_job_title');
