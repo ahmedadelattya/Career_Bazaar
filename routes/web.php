@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Job;
 use Laravel\Socialite\Facades\Socialite;
@@ -46,7 +48,6 @@ Route::middleware('auth')->group(function () {
 // Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
 
 
-
 //Employer_jobs Routing
 Route::middleware(['auth'])->group(function () {
     Route::get('/employer/jobs', [JobController::class, 'index'])->name('jobs.index');
@@ -58,7 +59,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/employer/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
 });
 
-
+// testing comment routes
+Route::middleware('auth')->group(function () {
+    Route::post('/employer/jobs/{job}', [CommentController::class, 'store'])->name('comment-store');
+});
 
 // Admin Routes
 
@@ -82,6 +86,14 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
 });
 
+// these routes are for searching and filtering jobs at candidate dashboard view
+Route::middleware(['auth'])->group(function () {
+    // Route::get('/search', SearchController::class);
+    Route::get('/searching', [CandidateController::class, 'search'])->name('search');
+    Route::get('/filtering', [CandidateController::class, 'filterSalary'])->name('filter');
+    Route::get('/filterskills', [CandidateController::class, 'filterSkills'])->name('skillsearch');
+    Route::get('/filterdate', [CandidateController::class, 'filterDate'])->name('datesearch');
+});
 require __DIR__ . '/auth.php';
 
 

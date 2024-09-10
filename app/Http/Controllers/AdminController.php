@@ -28,9 +28,9 @@ class AdminController extends Controller
         $admin = User::where('id', '=', Auth::user()->id)->first();
         $admin->notify(new JobStatusNotification($job, 'approved'));
         $employer = User::findOrFail($job->user->id);
-        $employer->notify(new JobStatusNotification($job, 'approved'));
+        // $employer->notify(new JobStatusNotification($job, 'approved'));
         return redirect()->back()->with('success', 'Job approved and admin notified.');
-        return redirect()->back();
+        // return redirect()->back();
     }
 
     public function rejectJob($jobId)
@@ -46,6 +46,6 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Job rejected and admin notified.');
 
-        return redirect()->back();
+        // return redirect()->back();
     }
 }

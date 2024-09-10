@@ -169,7 +169,7 @@
                         </div>
                         <div class="mt-4">
                             <!--** TODO: Customize Tailwind Pagination **-->
-                            {{ $jobs->links() }}
+                            {{-- $jobs->links() --}}
                             <!--** TODO: Customize Tailwind Pagination **-->
                         </div>
                     </div>

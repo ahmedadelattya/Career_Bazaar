@@ -47,7 +47,8 @@ class JobController extends Controller
     {
         Gate::authorize('viewAny', Job::class);
         $user = Auth::user();
-        $jobs = $user->jobs()->paginate(9);
+
+        $jobs = $user->jobs();
 
         // Retrieve unread notifications for the logged-in user
         $notifications = $user->unreadNotifications;
@@ -64,6 +65,7 @@ class JobController extends Controller
         // Find the job by ID
         $job = Job::findOrFail($id);
         $user = Auth::user();
+        $comments = $job->comments;
         Gate::authorize('view', $job);
 
         // Decode the skills JSON string into an array
@@ -72,7 +74,7 @@ class JobController extends Controller
         //Check if the user has already applied for this job
         $hasApplied = $job->applications()->where('candidate_id', $user->id)->exists();
 
-        return view('employer.jobs.show', compact('job', 'hasApplied'));
+        return view('employer.jobs.show', compact('job', 'hasApplied', 'comments'));
     }
 
     public function edit($id)
