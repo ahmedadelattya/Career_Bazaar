@@ -38,19 +38,8 @@ class UserFactory extends Factory
             'role' => $this->faker->randomElement(['employer', 'candidate', 'admin']),
             'company_name' => $this->faker->company,
             'website' => $this->faker->url,
-            'candidate_projects' => json_encode([
-                'project1' => [
-                    'title' => $this->faker->sentence,
-                    'description' => $this->faker->paragraph,
-                    'technologies' => $this->faker->randomElements(['PHP', 'Laravel', 'JavaScript', 'React', 'Vue.js'], 3),
-                ],
-                // Add more projects as needed
-            ]),
-            'candidate_skills' => json_encode([
-                'skill1' => $this->faker->randomElement(['PHP', 'Laravel', 'JavaScript', 'React', 'Vue.js']),
-                'skill2' => $this->faker->randomElement(['PHP', 'Laravel', 'JavaScript', 'React', 'Vue.js']),
-                // Add more skills as needed
-            ]),
+            'candidate_projects' => ["https:\/\/github.com\/ahmedadelattya\/Career_Bazaar\/tree\/fixing_bugs", "https:\/\/github.com\/ahmedadelattya\/Career_Bazaar\/tree\/fixing_bugs"],
+            'candidate_skills' => json_encode(['PHP', 'Laravel']),
             'candidate_job_title' => $this->faker->jobTitle,
             'candidate_job_description' => $this->faker->paragraph,
         ];
