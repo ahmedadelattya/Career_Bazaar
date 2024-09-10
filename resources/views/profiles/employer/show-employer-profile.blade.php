@@ -3,8 +3,16 @@
         <div class="bg-zinc-50 dark:bg-zinc-800 p-6 rounded-lg shadow-lg">
             <div class="flex items-center gap-4 mb-4 relative">
                 <!-- User Image -->
-                <img src="{{ asset('images/employers/' . $user->image) }}" alt="User image"
-                    class="w-32 h-32 rounded-full border-2 border-indigo-400 dark:border-indigo-700 shadow-lg">
+                @if ($user->image && Str::startsWith($user->image, 'http'))
+                    <img src="{{ $user->image }}" alt="Company Logo"
+                        class="w-32 h-32 rounded-full border-2 border-indigo-400 dark:border-indigo-700 shadow-lg">
+                @elseif ($user->image && file_exists(public_path('images/candidate/' . $job->user->image)))
+                    <img src="{{ asset('images/employers/' . $user->image) }}" alt="Company Logo"
+                        class="w-32 h-32 rounded-full border-2 border-indigo-400 dark:border-indigo-700 shadow-lg">
+                @else
+                    <img src="{{ asset('images/default-avatar.jpg') }}" alt="Company Logo"
+                        class="w-32 h-32 rounded-full border-2 border-indigo-400 dark:border-indigo-700 shadow-lg">
+                @endif
                 <div>
                     <!-- User Name -->
                     <h2 class="text-2xl font-semibold text-zinc-800 dark:text-zinc-200 capitalize">{{$user->name}}</h2>
