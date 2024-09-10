@@ -24,17 +24,19 @@ class CandidateController extends Controller
     public function search()
     {
         $keyword = request('que');
-        $jobs = Job::where('title', 'LIKE', '%' . $keyword . '%')
-            ->orWhere('description', 'LIKE', '%' . $keyword . '%')
-            ->orWhere('location', 'LIKE', '%' . $keyword . '%')
-            ->orWhere('category', 'LIKE', '%' . $keyword . '%')
-            ->orWhere('experience_level', 'LIKE', '%' . $keyword . '%')
+        // Ensure 'status' is 'approved' and add other search conditions
+        $jobs = Job::where('status', 'approved')  // Filter by 'approved' status
+            ->where(function ($query) use ($keyword) {
+                $query->where('title', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('description', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('location', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('category', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('experience_level', 'LIKE', '%' . $keyword . '%');
+            })
             ->get();
-        // $jobs = Job::where('title', 'LIKE', '%' . request('que') . '%')->get();
-        // return $jobs;
         return view('test', compact('jobs', 'keyword'));
-        // dd("hi");
     }
+
 
 
     public function filterSalary()

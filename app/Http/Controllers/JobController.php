@@ -47,7 +47,7 @@ class JobController extends Controller
     {
         Gate::authorize('viewAny', Job::class);
         $user = Auth::user();
-        $jobs = $user->jobs->paginate(9);
+        $jobs = $user->jobs;
         return view('employer.jobs.index', compact('jobs'));
     }
 

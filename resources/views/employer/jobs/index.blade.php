@@ -2,15 +2,13 @@
     <div id="notificationsContainer" class="fixed top-0 right-0 z-50 w-full p-4 space-y-4 md:w-1/3">
         @foreach (Auth::user()->notifications as $notification)
             <div x-data="{ show: true, timer: 5 }" x-show="show" x-init="setTimeout(() => show = false, 5000);
-            setInterval(() => timer--, 1000)"
-                x-transition:enter="transition ease-out duration-300"
+                setInterval(() => timer--, 1000)" x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 transform translate-x-full"
                 x-transition:enter-end="opacity-100 transform translate-x-0"
                 x-transition:leave="transition ease-in duration-300"
                 x-transition:leave-start="opacity-100 transform translate-x-0"
-                x-transition:leave-end="opacity-0 transform translate-x-full"
-                class="relative flex items-center p-4 text-gray-700 bg-white border-l-4 rounded-lg shadow-lg dark:bg-zinc-800 dark:text-gray-100
-                        {{ $notification->data['status'] === 'approved' ? 'border-green-500' : 'border-red-500' }}">
+                x-transition:leave-end="opacity-0 transform translate-x-full" class="relative flex items-center p-4 text-gray-700 bg-white border-l-4 rounded-lg shadow-lg dark:bg-zinc-800 dark:text-gray-100
+                            {{ $notification->data['status'] === 'approved' ? 'border-green-500' : 'border-red-500' }}">
                 <div class="flex-shrink-0 mr-3">
                     @if ($notification->data['status'] === 'approved')
                         <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -19,8 +17,8 @@
                         </svg>
                     @else
                         <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                            </path>
                         </svg>
                     @endif
                 </div>
@@ -49,9 +47,9 @@
     </x-slot>
     @if (session('success'))
         <!-- <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div> -->
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div> -->
     @endif
     <div class="py-12">
         <div class="container mx-auto">
@@ -105,7 +103,7 @@
                         </div>
                         <div class="mt-4">
                             <!--** TODO: Customize Tailwind Pagination **-->
-                            {{ $jobs->links() }}
+                            {{-- $jobs->links() --}}
                             <!--** TODO: Customize Tailwind Pagination **-->
                         </div>
                     </div>
@@ -171,9 +169,9 @@
                             ${data.status === 'approved' ? 'border-green-500' : 'border-red-500'}">
                     <div class="flex-shrink-0 mr-3">
                         ${data.status === 'approved'
-                            ? '<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path></svg>'
-                            : '<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>'
-                        }
+                    ? '<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path></svg>'
+                    : '<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>'
+                }
                     </div>
                     <div class="flex-grow">
                         <p class="text-sm font-medium">
