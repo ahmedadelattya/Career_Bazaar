@@ -7,16 +7,21 @@ use App\Models\User;
 use App\Notifications\JobStatusNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AdminController extends Controller
 {
+
+
     public function getAllJobs(Request $request)
     {
+        Gate::authorize('viewAdminDashboard', Job::class);
         return view('admin-dashboard', ['jobs' => Job::get()->where('status', '=', 'pending')]);
     }
 
     public function approveJob($jobId)
     {
+
         $job = Job::find($jobId);
         $job->status = 'approved';
         $job->save();
@@ -30,6 +35,7 @@ class AdminController extends Controller
 
     public function rejectJob($jobId)
     {
+
         $job = Job::find($jobId);
         $job->status = 'declined';
         $job->save();

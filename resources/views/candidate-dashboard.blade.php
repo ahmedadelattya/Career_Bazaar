@@ -63,8 +63,10 @@
                                         {{ $job->created_at->diffForHumans() }}</span>
                                 </div>
                                 <div class="object-cover">
-                                    <img src="{{ asset('images/employers/images/ktBcKk3j1feuHcLgtvSyX2LLL2Uh8ov5iRo1urPs.jpg') }}"
-                                        alt="Company logo" class="max-w-28">
+                                    @if($job->image && file_exists(public_path("images/candidates/$job->image")))
+                                        <img src="{{ asset('images/employers/images/ktBcKk3j1feuHcLgtvSyX2LLL2Uh8ov5iRo1urPs.jpg') }}"
+                                            alt="Company logo" class="max-w-28">
+                                    @endif
                                 </div>
                             </div>
                             <div class="flex items-center gap-2 mt-4">
@@ -91,34 +93,39 @@
                                             <li class="text-xs font-medium text-zinc-800 dark:text-zinc-300">
                                                 and more...
                                             </li>
-                                        @break
-                                    @endif
-                                @endforeach
-                            </ul>
+                                            @break
+                                        @endif
+                                    @endforeach
+                                </ul>
 
-                            <a href="{{ route('jobs.show', $job->id) }}"
-                                class="flex justify-center gap-2 items-center ml-auto text-sm bg-zinc-50 dark:bg-zinc-700 backdrop-blur-md lg:font-semibold isolation-auto border-zinc-50 dark:border-zinc-500 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-indigo-600 hover:text-zinc-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-2.5 py-1 overflow-hidden border-2 rounded-full group">
-                                More details
-                                <svg class="justify-end w-8 h-8 p-2 duration-300 ease-linear rotate-45 rounded-full group-hover:rotate-90 group-hover:bg-zinc-50 text-zinc-50 group-hover:border-none"
-                                    viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"
-                                        class="fill-zinc-600 group-hover:fill-zinc-600"></path>
-                                </svg>
-                            </a>
+                                <a href="{{ route('jobs.show', $job->id) }}"
+                                    class="flex justify-center gap-2 items-center ml-auto text-sm bg-zinc-50 dark:bg-zinc-700 backdrop-blur-md lg:font-semibold isolation-auto border-zinc-50 dark:border-zinc-500 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-indigo-600 hover:text-zinc-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-2.5 py-1 overflow-hidden border-2 rounded-full group">
+                                    More details
+                                    <svg class="justify-end w-8 h-8 p-2 duration-300 ease-linear rotate-45 rounded-full group-hover:rotate-90 group-hover:bg-zinc-50 text-zinc-50 group-hover:border-none"
+                                        viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"
+                                            class="fill-zinc-600 group-hover:fill-zinc-600"></path>
+                                    </svg>
+                                </a>
 
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+    {{ $jobs->links() }}
+=======
 </div>
 {{ $jobs->links() }}
 <script>
     function createNotification(data) {
         const container = document.getElementById('notificationsContainer');
         const notification = document.createElement('div');
+>>>>>>> baa39b7c6399a6f6517962387eb23b3cb772abf5
 
         notification.innerHTML = `
         <div x-data="{ show: true, timer: 5 }"
@@ -159,3 +166,42 @@
     }
 </script>
 </x-app-layout>
+<<<<<<< HEAD
+<!--
+<div class="overflow-hidden bg-white shadow-sm dark:bg-zinc-800 sm:rounded-lg">
+            <div class="p-6 text-zinc-900 dark:text-zinc-100">
+
+@if (session('success'))
+<div class="relative px-4 py-3 mb-4 text-green-700 bg-green-100 border border-green-400 rounded" role="alert">
+    <strong class="font-bold">{{ session('success') }}</strong>
+</div>
+@endif
+
+<h3 class="mb-4 font-semibold">{{ __('Approved Job Listings') }}</h3>
+
+@if ($jobs->isEmpty())
+<p>{{ __('No approved jobs available.') }}</p>
+@else
+@foreach ($jobs as $job)
+<div class="p-4 mb-4 rounded-lg shadow bg-zinc-100 dark:bg-zinc-700">
+        <h4 class="font-bold">{{ $job->title }}</h4>
+        <p>{{ $job->description }}</p>
+        <p><strong>{{ __('Category:') }}</strong> {{ $job->category }}</p>
+        <p><strong>{{ __('Location:') }}</strong> {{ $job->location }}</p>
+        <p><strong>{{ __('Salary Type:') }}</strong> {{ ucfirst($job->salary_type) }}</p>
+
+        @if (in_array($job->id, $appliedJobs))
+<button disabled class="px-4 py-2 text-white bg-gray-400 rounded">{{ __('Applied') }}</button>
+@else
+<a href="{{ route('jobs.show', $job->id) }}" class="text-blue-500 hover:underline">{{ __('Apply Now') }}</a>
+@endif
+    </div>
+@endforeach
+
+{{ $jobs->links() }}
+@endif
+</div>
+</div>
+-->
+=======
+>>>>>>> baa39b7c6399a6f6517962387eb23b3cb772abf5

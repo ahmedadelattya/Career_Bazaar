@@ -62,6 +62,12 @@ class JobPolicy
         return $user->role === 'candidate';
     }
 
+    public function viewAdminDashboard(User $user): bool
+    {
+        // Allow only candidates to view the admin dashboard
+        return $user->role === 'admin';
+    }
+
     /**
      * Determine whether the user can apply for the job.
      */
