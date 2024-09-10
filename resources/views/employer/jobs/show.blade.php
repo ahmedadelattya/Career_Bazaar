@@ -33,8 +33,7 @@
                                         class="bg-emerald-100 text-emerald-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-emerald-700 dark:text-emerald-400 border border-emerald-500 capitalize">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-[1em] h-[1em] me-1.5"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-check-circle">
+                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
                                             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                             <polyline points="22 4 12 14.01 9 11.01"></polyline>
                                         </svg>
@@ -69,8 +68,13 @@
                                 @endif
                             </div>
                         @elseif (auth()->user()->role === 'candidate')
-                            <img src="{{ asset('images/employers/images/ktBcKk3j1feuHcLgtvSyX2LLL2Uh8ov5iRo1urPs.jpg') }}"
-                                alt="Company logo" class="max-w-24 object-cover rounded">
+                            @if(File::exists(public_path("images/employers/j" . $job->image)))
+                                <img src="{{ asset("images/employers/j" . $job->image) }}" alt="Company logo"
+                                    class="max-w-24 object-cover rounded">
+                            @else
+                                <img src="{{ asset('/images/image-not-found.jpg') }}" alt="Company logo"
+                                    class="max-w-24 object-cover rounded">
+                            @endif
                         @endif
                     </div>
                 </header>
@@ -129,17 +133,6 @@
                                 @endforeach
                             </ul>
                         @endif
-                        {{-- Comments section started --}}
-                        @if (count($job->comments))
-                            <h2 class="text-xl font-semibold">Comments</h2>
-                            <ul>
-                                @foreach ($job->comments as $comment)
-                                    <span>{{ $comment->user->name }} </span>
-                                    <li class="text-zinc-400 ">{{ $comment->body }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
-                        {{-- Comments section ended --}}
                     </div>
                 </div>
                 <div class="p-6 border-t border-zinc-200 dark:border-zinc-700">
@@ -186,26 +179,66 @@
                         @elseif (auth()->user()->role === 'candidate')
                             <!-- Show Apply button for candidates -->
                             <button type="button" data-modal-target="apply-modal" data-modal-toggle="apply-modal"
-                                @if ($hasApplied) disabled @endif
-                                class="focus:outline-none text-zinc-200  bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 duration-150">
+                                class="focus:outline-none text-zinc-200 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 duration-150"
+                                @if ($hasApplied) disabled @endif>
                                 {{ $hasApplied ? 'Already Applied' : 'Apply' }}
                             </button>
-                        @endif
-                        {{-- start Comment functionality  --}}
-                        <div>
-                            <form method="post" action="{{ route('comment-store', $job) }}">
 
-                                @csrf
-                                <label class="text-xl font-semibold">Add Comment</label>
-                                <input type="text" name="comment" id="" class="text-black rounded-xl">
-                                <input type="submit" value="Add"
-                                    class="bg-green-600 hover:bg-green-700 px-2 py-2 rounded-xl text-white font-bold">
-                            </form>
-                        </div>
-                        {{-- End Comment functionality  --}}
+                        @endif
                     </div>
                 </div>
             </div>
+
+            <!-- Comments -->
+            <div class="mt-6 mx-4 sm:mx-0 bg-white text-zinc-800 shadow rounded-lg dark:bg-zinc-800 dark:text-zinc-200">
+                <h2 class="text-2xl font-bold mb-4 p-4 border-b border-zinc-700">Comments</h2>
+                @if (count($job->comments) > 0)
+                    <ul class="p-4 space-y-6">
+                        @foreach ($job->comments as $comment)
+                            <li class="">
+                                <div class="flex items-start justify-between">
+                                    <h4 class="text-xl mb-2 font-semibold text-zinc-600 dark:text-zinc-300 flex flex-col gap-1">
+                                        {{ $comment->user->name }}
+                                        <span class="text-sm dark:text-zinc-600">{{$comment->user->role}}</span>
+                                    </h4>
+                                    <span class="text-sm dark:text-zinc-600">{{$comment->created_at->DiffForHumans()}}</span>
+                                </div>
+
+                                <p class="my-2 dark:text-zinc-200">
+                                    {{ $comment->body }}
+                                </p>
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <div class="flex items-center justify-center min-h-28">
+                        <h2 class="text-xl font-semibold text-zinc-400 dark:text-zinc-600 text-center">This post does not
+                            has any comments yet</h2>
+                    </div>
+                @endif
+                <div class="p-4 border-t border-zinc-300 dark:border-zinc-700">
+                    <form method="post" action="{{ route('comment-store', $job) }}">
+                        @csrf
+                        <h2 class="text-lg font-semibold mb-4">Add new comment</h2>
+                        <div
+                            class="w-full mb-4 border border-zinc-200 rounded-lg bg-zinc-50 dark:bg-zinc-700 dark:border-zinc-600">
+                            <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-zinc-700">
+                                <label for="comment" class="sr-only">Your comment</label>
+                                <textarea id="comment" rows="4" name="comment"
+                                    class="w-full px-0 text-sm text-zinc-900 bg-white border-0 dark:bg-zinc-700 focus:ring-0 dark:text-white dark:placeholder-zinc-400"
+                                    placeholder="Write a comment..." required></textarea>
+                            </div>
+                            <div class="flex items-center justify-end px-3 py-2 border-t dark:border-zinc-600">
+                                <button type="submit"
+                                    class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-indigo-700 rounded-lg focus:ring-4 focus:ring-indigo-200 dark:focus:ring-indigo-900 hover:bg-indigo-800">
+                                    Post comment
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -226,8 +259,7 @@
             <!-- Modal content -->
             <h3 class="text-xl font-bold text-zinc-800 dark:text-zinc-200 mb-4">Apply for "{{ $job->title }}"
                 vacancy</h3>
-            <form action="{{ route('jobs.apply', $job->id) }}" method="POST" enctype="multipart/form-data"
-                class="mt-4">
+            <form action="{{ route('jobs.apply', $job->id) }}" method="POST" enctype="multipart/form-data" class="mt-4">
                 @csrf
 
                 <!-- Candidate Name -->
@@ -256,8 +288,8 @@
 
                 <!-- Candidate Phone -->
                 <div class="mb-4">
-                    <label for="phone"
-                        class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Phone Number</label>
+                    <label for="phone" class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Phone
+                        Number</label>
                     <input type="tel" id="phone" name="phone"
                         class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                         value="{{ old('phone') }}" required>
@@ -324,13 +356,12 @@
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-zinc-500 dark:text-zinc-400">Are you sure you want to
                         delete this post?</h3>
-                    <button data-modal-hide="delete-modal" type="button"
-                        onclick="submitDeleteForm({{ $job->id }})"
+                    <button data-modal-hide="delete-modal" type="button" onclick="submitDeleteForm({{ $job->id }})"
                         class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                         Yes, I'm sure
                     </button>
                     <button data-modal-hide="delete-modal" type="button"
-                        class="py-2.5 px-5 ms-3 text-sm font-medium text-zinc-900 focus:outline-none bg-white rounded-lg border border-zinc-200 hover:bg-zinc-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-zinc-100 dark:focus:ring-zinc-700 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-600 dark:hover:text-white dark:hover:bg-zinc-700">No,
+                        class="py-2.5 px-5 ms-3 text-sm font-medium text-zinc-900 focus:outline-none bg-white rounded-lg border border-zinc-200 hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-4 focus:ring-zinc-100 dark:focus:ring-zinc-700 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-600 dark:hover:text-white dark:hover:bg-zinc-700">No,
                         cancel</button>
                 </div>
             </div>
@@ -356,7 +387,7 @@
         });
 
         // Function to show the modal if there are validation errors
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Check if there are any errors passed from the server
             if (@json($errors->any())) {
                 const applyModal = document.getElementById('apply-modal');
@@ -371,4 +402,6 @@
             document.getElementById('delete-form-' + jobId).submit();
         }
     </script>
+
+
 </x-app-layout>
