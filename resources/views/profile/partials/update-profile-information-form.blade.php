@@ -53,12 +53,16 @@
         {{-- Old Image field --}}
         <div class="mt-4">
             <x-input-label :value="__('Current Image/Logo')" />
-            @if ($user->image)
-                <img src="{{ asset('images/' . $user->role . 's/' . $user->image) }}" alt="Current Image/Logo"
-                    class="object-cover w-20 h-20 mt-2 rounded-md" />
-            @else
-                <p>{{ __('No image uploaded') }}</p>
-            @endif
+            @if ($user->image && Str::startsWith($user->image, 'http'))
+                        <img src="{{ $user->image }}" alt="Profile Picture"
+                            class="object-cover w-20 h-20 mt-2 rounded-md">
+                    @elseif ($user->image && file_exists(public_path('images/' . $user->role . 's/' . $user->image)))
+                        <img src="{{asset('images/' . $user->role . 's/' . $user->image) }}" alt="Profile Picture"
+                            class="object-cover w-20 h-20 mt-2 rounded-md">
+                    @else
+                        <img src="{{ asset('images/default-avatar.jpg') }}" alt="Profile Picture"
+                            class="object-cover w-20 h-20 mt-2 rounded-md">
+                    @endif
         </div>
         {{-- New Image field --}}
         <div class="mt-4">

@@ -6,7 +6,7 @@
                 @if ($user->image && Str::startsWith($user->image, 'http'))
                     <img src="{{ $user->image }}" alt="Company Logo"
                         class="w-32 h-32 rounded-full border-2 border-indigo-400 dark:border-indigo-700 shadow-lg">
-                @elseif ($user->image && file_exists(public_path('images/candidate/' . $job->user->image)))
+                @elseif ($user->image && file_exists(public_path('images/employers/' . $user->image)))
                     <img src="{{ asset('images/employers/' . $user->image) }}" alt="Company Logo"
                         class="w-32 h-32 rounded-full border-2 border-indigo-400 dark:border-indigo-700 shadow-lg">
                 @else
