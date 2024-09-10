@@ -17,8 +17,15 @@ use App\Models\User;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    // Check if the user is authenticated
+    if (Auth::check()) {
+        // Redirect to the dashboard if authenticated
+        return redirect('/dashboard');
+    }
+    // Redirect to the login page if not authenticated
+    return redirect('/login');
 });
+
 Route::get('/dashboard', function () {
     if (Auth::user()->role == 'employer') {
         return redirect()->route('jobs.index');
