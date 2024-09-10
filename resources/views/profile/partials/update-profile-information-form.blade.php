@@ -68,7 +68,7 @@
             <div>
                 <x-input-label for="candidate_job_title" :value="__('Candidate Job Title')" />
                 <x-text-input id="candidate_job_title" name="candidate_job_title" type="text"
-                    class="block w-full mt-1" :value="old('job_title', $user->job_title)" required autofocus autocomplete="job_title" />
+                    class="block w-full mt-1" :value="old('candidate_job_title', $user->candidate_job_title)" required autofocus autocomplete="job_title" />
                 <x-input-error class="mt-2" :messages="$errors->get('job_title')" />
             </div>
 
@@ -76,7 +76,7 @@
             <div>
                 <x-input-label for="candidate_job_description" :value="__('Candidate Job Description')" />
                 <textarea name="candidate_job_description" id="candidate_job_description" rows="5"
-                    class="block w-full mt-1 rounded-md shadow-sm border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-zinc-100">{{ old('job_description', $user->job_description) }}</textarea>
+                    class="block w-full mt-1 rounded-md shadow-sm border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-zinc-100">{{ old('candidate_job_description', $user->candidate_job_description) }}</textarea>
             </div>
 
             <!-- Skills Dropdown -->
@@ -96,9 +96,35 @@
             <!-- Projects Section -->
             <div id="projects" class="mt-4">
                 <x-input-label for="projects" :value="__('Projects')" />
-                <!-- Initial project input -->
-                <x-text-input type="url" name="candidate_projects[]" class="block w-full mt-1"
-                    placeholder="Enter GitHub project link" />
+
+                <!-- Display Existing Projects -->
+                @php
+
+                    # code...
+                    $existingProjects = old('candidate_projects', $user->candidate_projects);
+
+                @endphp
+                @foreach ($existingProjects as $project)
+                    @if ($project != null)
+                        <div class="relative mt-2">
+                            <x-text-input type="url" name="candidate_projects[]"
+                                class="block w-full rounded-md shadow-sm border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-zinc-100"
+                                value="{{ $project }}" placeholder="Enter GitHub project link" />
+                            <button type="button"
+                                class="absolute top-0 right-0 px-2 py-1 text-red-600 hover:text-red-800 focus:outline-none"
+                                onclick="removeProject(this)">
+                                Remove
+                            </button>
+                        </div>
+                    @endif
+                @endforeach
+
+                <!-- Button to add new project fields -->
+                <div class="relative mt-2">
+                    <x-text-input type="url" name="candidate_projects[]"
+                        class="block w-full rounded-md shadow-sm border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-zinc-100"
+                        placeholder="Enter new GitHub project link" />
+                </div>
             </div>
 
             <!-- Button to add more project fields -->
@@ -106,6 +132,7 @@
                 class="inline-flex items-center px-4 py-2 mt-2 text-xs font-semibold tracking-widest uppercase border border-transparent rounded-md bg-zinc-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-800">
                 Add More Projects
             </button>
+
 
         @endif
 
@@ -168,14 +195,31 @@
 
 
     // Function to dynamically add more project inputs
+    // function addProject() {
+    //     const projectContainer = document.getElementById('projects');
+    //     const newProject = document.createElement('input');
+    //     newProject.type = 'url';
+    //     newProject.name = 'candidate_projects[]';
+    //     newProject.className =
+    //         'mt-2 block w-full border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-zinc-800 dark:text-zinc-100';
+    //     newProject.placeholder = 'Enter GitHub project link';
+    //     projectContainer.appendChild(newProject);
+    // }
     function addProject() {
         const projectContainer = document.getElementById('projects');
-        const newProject = document.createElement('input');
-        newProject.type = 'url';
-        newProject.name = 'candidate_projects[]';
-        newProject.className =
-            'mt-2 block w-full border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm dark:bg-zinc-800 dark:text-zinc-100';
-        newProject.placeholder = 'Enter GitHub project link';
+        const newProject = document.createElement('div');
+        newProject.className = 'relative mt-2';
+        newProject.innerHTML = `
+            <x-text-input type="url" name="candidate_projects[]" class="block w-full rounded-md shadow-sm border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-zinc-100"
+                placeholder="Enter new GitHub project link" />
+            <button type="button" class="absolute top-0 right-0 px-2 py-1 text-red-600 hover:text-red-800 focus:outline-none" onclick="removeProject(this)">
+                Remove
+            </button>`;
         projectContainer.appendChild(newProject);
+    }
+
+    // Function to remove project input fields
+    function removeProject(button) {
+        button.parentElement.remove();
     }
 </script>
