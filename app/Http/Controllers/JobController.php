@@ -129,6 +129,13 @@ class JobController extends Controller
         $data = $request->except('skills'); // Exclude 'skills' from the $data array
         $data['skills'] = json_encode($skills); // Convert the array to a JSON string
 
+        // Set the appropriate salary values based on the salary type
+        if ($request->input('salary_type') === 'fixed') {
+            $data['hourly_rate'] = null; // Set hourly_rate to null if salary type is fixed
+        } elseif ($request->input('salary_type') === 'hourly') {
+            $data['fixed_salary'] = null; // Set fixed_salary to null if salary type is hourly
+        }
+
         // Update the job listing
         $job->update($data);
 

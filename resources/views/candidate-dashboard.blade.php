@@ -233,7 +233,6 @@
         const container = document.getElementById('notificationsContainer');
         const notification = document.createElement('div');
 
-
         notification.innerHTML = `
         <div x-data="{ show: true, timer: 5 }"
              x-show="show"
