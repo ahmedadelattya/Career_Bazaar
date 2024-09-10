@@ -78,5 +78,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/searching', [CandidateController::class, 'search'])->name('search');
     Route::get('/filtering', [CandidateController::class, 'filterSalary'])->name('filter');
     Route::get('/filterskills', [CandidateController::class, 'filterSkills'])->name('skillsearch');
+    Route::get('/filterdate', [CandidateController::class, 'filterDate'])->name('datesearch');
 });
 require __DIR__ . '/auth.php';

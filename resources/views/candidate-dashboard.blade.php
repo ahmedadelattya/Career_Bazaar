@@ -4,6 +4,18 @@
             <div class=" text-zinc-800 dark:text-zinc-200">
                 {{-- search functionality startedddddddddddddddddddd --}}
                 <div class="p-5 space-x-4 OMAR_ASEMMMMMMMMMMMMMMMMMMMMMMM flex-col space-y-2 ">
+                    <div class="text-black ">
+                        <form method="GET" action="{{ route('datesearch') }}">
+                            @csrf
+                            <label class="text-white font-bold text-2xl block">filter by date</label>
+                            <label class="text-white font-bold text-2xl ">Started</label>
+                            <input type="date" name="start" id="" class="" required>
+                            <label class="text-white font-bold text-2xl ">Ended</label>
+                            <input type="date" name="end" id="" class="" required>
+                            <input type="submit" value="Go"
+                                class="bg-green-600 hover:bg-green-700 px-2 py-2 rounded-xl text-white font-bold">
+                        </form>
+                    </div>
                     <div class="text-black">
                         <form method="get" action="{{ route('skillsearch') }}">
                             @csrf
@@ -17,10 +29,11 @@
                                 class="bg-green-600 hover:bg-green-700 px-2 py-2 rounded-xl text-white font-bold">
                         </form>
                     </div>
-                    <div>
+                    <div class="">
                         <form method="get" action="{{ route('search') }}">
                             @csrf
-                            <label class="text-2xl font-bold pr-4"> Search with title</label>
+                            <label class="text-2xl font-bold pr-4 "> Search with
+                                title/description/experience/category/location</label>
                             <input type="text" name="que" placeholder="Search" class="rounded-xl text-black"
                                 required />
                             <input type="submit" value="Search"
@@ -30,6 +43,7 @@
                     <div class=" ml-4 text-white ">
                         <form method="get" action="{{ route('filter') }}">
                             @csrf
+                            {{-- if user entered minimum amount more than the maximum amount he gets the whole records --}}
                             <p class="text-2xl">Select type and enter the minimum
                             </p>
                             <div>
@@ -37,8 +51,10 @@
                                 <input type="radio" name="salary_type" id="fixed" value="fixed" checked>
                                 <label for="hourly"> Hourly </label>
                                 <input type="radio" name="salary_type" id="hourly" value="hourly">
-                                <input type="text" name="amount" id="" class="rounded-xl text-black"
-                                    placeholder="Minimum value" name="amount" required>
+                                <input type="text" name="min" id="" class="rounded-xl text-black"
+                                    placeholder="Minimum value" required>
+                                <input type="text" name="max" id="" class="rounded-xl text-black"
+                                    placeholder="Maximum value" required>
                                 <input type="submit" value="Filter"
                                     class="bg-green-600 hover:bg-green-700 px-2 py-2 rounded-xl text-white font-bold">
                             </div>

@@ -47,10 +47,15 @@ class CandidateController extends Controller
         } else {
             $keyword = 'hourly_rate';
         }
-        $amount = request()->all()['amount'];
-
+        $min = request('min');
+        $max = request('max');
+        if ($min > $max) {
+            $min = 1;
+            $max = 10000000;
+        }
         $jobs = Job::where('salary_type', '=', $type)
-            ->where($keyword, '>=', $amount)
+            ->where($keyword, '>=', $min)
+            ->where($keyword, '<=', $max)
             ->get();
         return view('test', compact('jobs'));
     }
@@ -59,9 +64,22 @@ class CandidateController extends Controller
     {
         $keyword = request('select_skill');
         // dd($keyword);
-        // $jobs = Job::where('skills', 'LIKE', '%' . $keyword . '%')->get();
         $jobs = Job::where('skills', 'LIKE', '%' . $keyword . '%')->get();
         return view("test", compact('jobs'));
+    }
+
+
+    public function filterDate()
+    {
+        // dd(request(['start', 'end']));
+        $start = request('start');
+        $end = request('end');
+        // dd(date('Y-m-d'));
+        $jobs = Job::where('created_at', '>=', $start)
+            ->where('created_at', '<=', $end)
+            ->get();
+        return view("test", compact('jobs'));
+
     }
     // public function filter()
     // {
