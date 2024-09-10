@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployerUpdateRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Skill;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +37,9 @@ class ProfileController extends Controller
         if ($user->role == 'employer') {
             return view('profiles.employer.edit-employer-profile', ['user' => $user]);
         } elseif ($user->role == 'candidate') {
-            return view('profiles.candidate.edit-candidate-profile', ['user' => $user]);
+            $skills = Skill::all();
+
+            return view('profiles.candidate.edit-candidate-profile', ['user' => $user, 'skills' => $skills]);
         } elseif ($user->role == 'admin') {
             return view('profiles.admin-profile', ['user' => $user]);
         }
@@ -75,9 +78,10 @@ class ProfileController extends Controller
             $user->email = $request->email;
         }
         if ($request->has('candidate_skills') && $request->candidate_skills) {
-            $user->candidate_skills = $request->candidate_skills;
+            $skills = $request->input('candidate_skills', []);
+            $user->candidate_skills = json_encode($skills);
         }
-        if ($request->has('candidate_projects') && $request->candidate_projects) {
+        if ($request->has('candidate_projects') && $request->candidate_projects != null) {
             $user->candidate_projects = $request->candidate_projects;
         }
         if ($request->has('candidate_job_description') && $request->candidate_job_description) {
