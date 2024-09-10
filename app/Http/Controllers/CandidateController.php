@@ -16,7 +16,7 @@ class CandidateController extends Controller
         Gate::authorize('viewCandidateDashboard', Job::class);
 
         // Fetch only jobs with the status 'approved'
-        $jobs = Job::where('status', 'approved')->paginate(10);
+        $jobs = Job::where('status', 'approved')->get();
         $skills = Skill::all();
         $appliedJobs = Auth::user()->applications->pluck('job_id')->toArray();
 

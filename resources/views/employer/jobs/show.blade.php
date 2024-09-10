@@ -1,13 +1,13 @@
 <x-app-layout>
     <div class="py-12">
         <div class="container mx-auto ">
-            <div class="mx-4 sm:mx-0 bg-white text-zinc-800 shadow rounded-lg dark:bg-zinc-800 dark:text-zinc-200 ">
+            <div class="mx-4 bg-white rounded-lg shadow sm:mx-0 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 ">
                 <!-- Header -->
                 <header class="p-6 border-b border-zinc-200 dark:border-zinc-700">
                     <div class="flex justify-between">
                         <div>
                             <h1 class="text-2xl font-bold">{{ $job->title }}</h1>
-                            <h4 class="dark:text-zinc-500 capitalize mt-2">{{ $job->category }} - {{ $job->location }}
+                            <h4 class="mt-2 capitalize dark:text-zinc-500">{{ $job->category }} - {{ $job->location }}
                             </h4>
                         </div>
                         @if (auth()->user()->role === 'employer' && auth()->id() === $job->employer_id)
@@ -24,7 +24,7 @@
                                         {{ $job->status }}
                                     </span>
                                     <div id="tooltip-pending" role="tooltip"
-                                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-zinc-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-zinc-700">
+                                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white rounded-lg shadow-sm opacity-0 bg-zinc-900 tooltip dark:bg-zinc-700">
                                         Pending manual review.
                                         <div class="tooltip-arrow" data-popper-arrow></div>
                                     </div>
@@ -33,7 +33,8 @@
                                         class="bg-emerald-100 text-emerald-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-emerald-700 dark:text-emerald-400 border border-emerald-500 capitalize">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-[1em] h-[1em] me-1.5"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-check-circle">
                                             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                             <polyline points="22 4 12 14.01 9 11.01"></polyline>
                                         </svg>
@@ -61,24 +62,27 @@
                                         {{ $job->status }}
                                     </span>
                                     <div id="tooltip-declined" role="tooltip"
-                                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-zinc-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-zinc-700 max-w-48">
+                                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white rounded-lg shadow-sm opacity-0 bg-zinc-900 tooltip dark:bg-zinc-700 max-w-48">
                                         Sorry, your post will not be publish since it does not follow our policies.
                                         <div class="tooltip-arrow" data-popper-arrow></div>
                                     </div>
                                 @endif
                             </div>
                         @elseif (auth()->user()->role === 'candidate')
-                            @if(File::exists(public_path("images/employers/j" . $job->image)))
-                                <img src="{{ asset("images/employers/j" . $job->image) }}" alt="Company logo"
-                                    class="max-w-24 object-cover rounded">
+                            @if ($job->user->image && Str::startsWith($job->user->image, 'http'))
+                                <img src="{{ $job->user->image }}" alt="Company logo"
+                                    class="object-cover rounded max-w-24">
+                            @elseif ($job->user->image && file_exists(public_path('images/employers/' . $job->user->image)))
+                                <img src="{{ asset('images/employers/' . $job->user->image) }}" alt="Company logo"
+                                    class="object-cover rounded max-w-24">
                             @else
-                                <img src="{{ asset('/images/image-not-found.jpg') }}" alt="Company logo"
-                                    class="max-w-24 object-cover rounded">
+                                <img src="{{ asset('images/image-not-found.jpg') }}"
+                                    class="object-cover rounded max-w-24">
                             @endif
                         @endif
                     </div>
                 </header>
-                <div class="p-6 grid grid-cols-2 gap-6">
+                <div class="grid grid-cols-2 gap-6 p-6">
                     <div class="space-y-2">
                         <h3 class="text-xl font-semibold">Job type</h3>
                         <p class="text-zinc-400">{{ $job->job_type ?? 'N/A' }}</p>
@@ -122,7 +126,7 @@
                         @if (!$job->skills)
                             <p class="text-zinc-400">N/A</p>
                         @else
-                            <ul class="mt-2 flex items-center gap-2 flex-wrap">
+                            <ul class="flex flex-wrap items-center gap-2 mt-2">
                                 @foreach ($job->skills as $skill)
                                     <li>
                                         <span
@@ -151,7 +155,7 @@
                             <!-- Show Edit and Delete buttons for employers -->
                             <div class="inline-flex rounded-md shadow-sm" role="group">
                                 <a href="{{ route('jobs.edit', $job->id) }}"
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-s-lg hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium bg-white border text-zinc-900 border-zinc-200 rounded-s-lg hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
                                     <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="none" viewBox="0 0 20 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -160,14 +164,18 @@
                                     </svg>
                                     Edit
                                 </a>
-                                <a href="{{ route('employer.applications', $job->id) }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-900 bg-white border-t border-b border-zinc-200 hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
-                                    <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M4.5 17H4a1 1 0 0 1-1-1 3 3 0 0 1 3-3h1m0-3.05A2.5 2.5 0 1 1 9 5.5M19.5 17h.5a1 1 0 0 0 1-1 3 3 0 0 0-3-3h-1m0-3.05a2.5 2.5 0 1 0-2-4.45m.5 13.5h-7a1 1 0 0 1-1-1 3 3 0 0 1 3-3h3a3 3 0 0 1 3 3 1 1 0 0 1-1 1Zm-1-9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
+                                <a href="{{ route('employer.applications', $job->id) }}"
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium bg-white border-t border-b text-zinc-900 border-zinc-200 hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
+                                    <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                            d="M4.5 17H4a1 1 0 0 1-1-1 3 3 0 0 1 3-3h1m0-3.05A2.5 2.5 0 1 1 9 5.5M19.5 17h.5a1 1 0 0 0 1-1 3 3 0 0 0-3-3h-1m0-3.05a2.5 2.5 0 1 0-2-4.45m.5 13.5h-7a1 1 0 0 1-1-1 3 3 0 0 1 3-3h3a3 3 0 0 1 3 3 1 1 0 0 1-1 1Zm-1-9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
                                     </svg>
                                     Applicants
                                 </a>
-                                <button type="button" data-modal-target="delete-modal" data-modal-toggle="delete-modal"
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-e-lg hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
+                                <button type="button" data-modal-target="delete-modal"
+                                    data-modal-toggle="delete-modal"
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium bg-white border text-zinc-900 border-zinc-200 rounded-e-lg hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 me-2" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" aria-hidden="true" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round">
@@ -184,29 +192,31 @@
                         @elseif (auth()->user()->role === 'candidate')
                             <!-- Show Apply button for candidates -->
                             <button type="button" data-modal-target="apply-modal" data-modal-toggle="apply-modal"
-                                class="focus:outline-none text-zinc-200 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 duration-150"
+                                class="px-4 py-2 mb-2 text-sm font-medium duration-150 bg-purple-700 rounded-lg focus:outline-none text-zinc-200 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
                                 @if ($hasApplied) disabled @endif>
                                 {{ $hasApplied ? 'Already Applied' : 'Apply' }}
                             </button>
-
                         @endif
                     </div>
                 </div>
             </div>
 
             <!-- Comments -->
-            <div class="mt-6 mx-4 sm:mx-0 bg-white text-zinc-800 shadow rounded-lg dark:bg-zinc-800 dark:text-zinc-200">
-                <h2 class="text-2xl font-bold mb-4 p-4 border-b border-zinc-700">Comments</h2>
+            <div
+                class="mx-4 mt-6 bg-white rounded-lg shadow sm:mx-0 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
+                <h2 class="p-4 mb-4 text-2xl font-bold border-b border-zinc-700">Comments</h2>
                 @if (count($job->comments) > 0)
                     <ul class="p-4 space-y-6">
                         @foreach ($job->comments as $comment)
                             <li class="">
                                 <div class="flex items-start justify-between">
-                                    <h4 class="text-xl mb-2 font-semibold text-zinc-600 dark:text-zinc-300 flex flex-col gap-1">
+                                    <h4
+                                        class="flex flex-col gap-1 mb-2 text-xl font-semibold text-zinc-600 dark:text-zinc-300">
                                         {{ $comment->user->name }}
-                                        <span class="text-sm dark:text-zinc-600">{{$comment->user->role}}</span>
+                                        <span class="text-sm dark:text-zinc-600">{{ $comment->user->role }}</span>
                                     </h4>
-                                    <span class="text-sm dark:text-zinc-600">{{$comment->created_at->DiffForHumans()}}</span>
+                                    <span
+                                        class="text-sm dark:text-zinc-600">{{ $comment->created_at->DiffForHumans() }}</span>
                                 </div>
 
                                 <p class="my-2 dark:text-zinc-200">
@@ -217,20 +227,21 @@
                     </ul>
                 @else
                     <div class="flex items-center justify-center min-h-28">
-                        <h2 class="text-xl font-semibold text-zinc-400 dark:text-zinc-600 text-center">This post does not
+                        <h2 class="text-xl font-semibold text-center text-zinc-400 dark:text-zinc-600">This post does
+                            not
                             has any comments yet</h2>
                     </div>
                 @endif
                 <div class="p-4 border-t border-zinc-300 dark:border-zinc-700">
                     <form method="post" action="{{ route('comment-store', $job) }}">
                         @csrf
-                        <h2 class="text-lg font-semibold mb-4">Add new comment</h2>
+                        <h2 class="mb-4 text-lg font-semibold">Add new comment</h2>
                         <div
-                            class="w-full mb-4 border border-zinc-200 rounded-lg bg-zinc-50 dark:bg-zinc-700 dark:border-zinc-600">
+                            class="w-full mb-4 border rounded-lg border-zinc-200 bg-zinc-50 dark:bg-zinc-700 dark:border-zinc-600">
                             <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-zinc-700">
                                 <label for="comment" class="sr-only">Your comment</label>
                                 <textarea id="comment" rows="4" name="comment"
-                                    class="w-full px-0 text-sm text-zinc-900 bg-white border-0 dark:bg-zinc-700 focus:ring-0 dark:text-white dark:placeholder-zinc-400"
+                                    class="w-full px-0 text-sm bg-white border-0 text-zinc-900 dark:bg-zinc-700 focus:ring-0 dark:text-white dark:placeholder-zinc-400"
                                     placeholder="Write a comment..." required></textarea>
                             </div>
                             <div class="flex items-center justify-end px-3 py-2 border-t dark:border-zinc-600">
@@ -250,7 +261,7 @@
     <!-- Apply Modal -->
     <div id="apply-modal" tabindex="-1" aria-hidden="true"
         class="fixed inset-0 flex items-center justify-center z-50 {{ $errors->any() ? '' : 'hidden' }}">
-        <div class="relative p-4 w-full max-w-2xl bg-white rounded-lg shadow dark:bg-zinc-800">
+        <div class="relative w-full max-w-2xl p-4 bg-white rounded-lg shadow dark:bg-zinc-800">
             <!-- Close button -->
             <button type="button" data-modal-toggle="apply-modal"
                 class="absolute top-3 right-2.5 text-zinc-400 bg-transparent hover:bg-zinc-200 hover:text-zinc-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-zinc-700 dark:hover:text-white">
@@ -262,68 +273,70 @@
                 <span class="sr-only">Close modal</span>
             </button>
             <!-- Modal content -->
-            <h3 class="text-xl font-bold text-zinc-800 dark:text-zinc-200 mb-4">Apply for "{{ $job->title }}"
+            <h3 class="mb-4 text-xl font-bold text-zinc-800 dark:text-zinc-200">Apply for "{{ $job->title }}"
                 vacancy</h3>
-            <form action="{{ route('jobs.apply', $job->id) }}" method="POST" enctype="multipart/form-data" class="mt-4">
+            <form action="{{ route('jobs.apply', $job->id) }}" method="POST" enctype="multipart/form-data"
+                class="mt-4">
                 @csrf
 
                 <!-- Candidate Name -->
                 <div class="mb-4">
-                    <label for="name" class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Full
+                    <label for="name" class="block mb-2 font-medium text-md text-zinc-700 dark:text-zinc-300">Full
                         Name</label>
                     <input type="text" id="name" name="name"
                         class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                         value="{{ old('name') }}" required>
                     @error('name')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                        <span class="text-sm text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <!-- Candidate Email -->
                 <div class="mb-4">
                     <label for="email"
-                        class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Email</label>
+                        class="block mb-2 font-medium text-md text-zinc-700 dark:text-zinc-300">Email</label>
                     <input type="email" id="email" name="email"
                         class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                         value="{{ old('email') }}" required>
                     @error('email')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                        <span class="text-sm text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <!-- Candidate Phone -->
                 <div class="mb-4">
-                    <label for="phone" class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Phone
+                    <label for="phone"
+                        class="block mb-2 font-medium text-md text-zinc-700 dark:text-zinc-300">Phone
                         Number</label>
                     <input type="tel" id="phone" name="phone"
                         class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                         value="{{ old('phone') }}" required>
                     @error('phone')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                        <span class="text-sm text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <!-- Upload Resume -->
                 <div class="mb-4">
                     <label for="resume"
-                        class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Resume</label>
+                        class="block mb-2 font-medium text-md text-zinc-700 dark:text-zinc-300">Resume</label>
                     <input type="file" id="resume" name="resume"
-                        class="block w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 cursor-pointer focus:outline-none focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                        class="block w-full border rounded-lg cursor-pointer text-md text-zinc-900 bg-zinc-50 border-zinc-300 focus:outline-none focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                         accept=".pdf,.doc,.docx" required>
                     @error('resume')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                        <span class="text-sm text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <!-- Cover Letter -->
                 <div class="mb-4">
                     <label for="cover_letter"
-                        class="block text-md mb-2 font-medium text-zinc-700 dark:text-zinc-300">Cover Letter</label>
+                        class="block mb-2 font-medium text-md text-zinc-700 dark:text-zinc-300">Cover Letter</label>
                     <textarea id="cover_letter" name="cover_letter" rows="6"
                         class="block p-2.5 w-full text-md text-zinc-900 bg-zinc-50 rounded-lg border border-zinc-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                         required>{{ old('cover_letter') }}</textarea>
                     @error('cover_letter')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                        <span class="text-sm text-red-500">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -341,7 +354,7 @@
     <!-- Delete Modal -->
     <div id="delete-modal" tabindex="-1"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative w-full max-w-md max-h-full p-4">
             <div class="relative bg-white rounded-lg shadow dark:bg-zinc-700">
                 <button type="button"
                     class="absolute top-3 end-2.5 text-zinc-400 bg-transparent hover:bg-zinc-200 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-zinc-600 dark:hover:text-white"
@@ -353,15 +366,16 @@
                     </svg>
                     <span class="sr-only">Close modal</span>
                 </button>
-                <div class="p-4 md:p-5 text-center">
-                    <svg class="mx-auto mb-4 text-zinc-400 w-12 h-12 dark:text-zinc-200" aria-hidden="true"
+                <div class="p-4 text-center md:p-5">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-zinc-400 dark:text-zinc-200" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-zinc-500 dark:text-zinc-400">Are you sure you want to
                         delete this post?</h3>
-                    <button data-modal-hide="delete-modal" type="button" onclick="submitDeleteForm({{ $job->id }})"
+                    <button data-modal-hide="delete-modal" type="button"
+                        onclick="submitDeleteForm({{ $job->id }})"
                         class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                         Yes, I'm sure
                     </button>
@@ -392,7 +406,7 @@
         });
 
         // Function to show the modal if there are validation errors
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Check if there are any errors passed from the server
             if (@json($errors->any())) {
                 const applyModal = document.getElementById('apply-modal');

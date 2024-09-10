@@ -161,7 +161,8 @@
                 </header>
                 <div class="mt-6 space-y-6">
                     @foreach ($jobs as $job)
-                        <div class="p-4 border rounded-lg shadow bg-zinc-100 dark:bg-zinc-800 dark:border-zinc-700">
+                        <div
+                            class="p-4 border rounded-lg shadow bg-zinc-100 text-zinc-800 dark:text-zinc-200 dark:bg-zinc-800 dark:border-zinc-700">
                             <div class="flex justify-between">
                                 <div>
                                     <h2 class="mb-2 text-2xl font-semibold">{{ $job->title }}</h2>
@@ -174,9 +175,13 @@
                                         {{ $job->created_at->diffForHumans() }}</span>
                                 </div>
                                 <div class="object-cover overflow-hidden rounded-lg shadow-sm">
-                                    @if ($job->user->image && file_exists(public_path('images/employers/' . $job->user->image)))
+                                    @if ($job->user->image && Str::startsWith($job->user->image, 'http'))
+                                        <img src="{{ $job->user->image }}" alt="Company logo" class="max-w-28">
+                                    @elseif ($job->user->image && file_exists(public_path('images/employers/' . $job->user->image)))
                                         <img src="{{ asset('images/employers/' . $job->user->image) }}"
                                             alt="Company logo" class="max-w-28">
+                                    @else
+                                        <img src="{{ asset('images/image-not-found.jpg') }}" class="max-w-28">
                                     @endif
 
                                 </div>
@@ -224,6 +229,7 @@
                         </div>
                     </div>
                 @endforeach
+
             </div>
         </div>
 

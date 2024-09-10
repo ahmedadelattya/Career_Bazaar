@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
-
+            'image' => 'https://picsum.photos/800/600?random=12965',
             'remember_token' => Str::random(10),
             'role' => $this->faker->randomElement(['employer', 'candidate', 'admin']),
             'company_name' => $this->faker->company,
