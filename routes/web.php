@@ -84,23 +84,24 @@ Route::get('auth/github', function () {
 })->name('auth.github');
 
 Route::get('/auth/github/callback', function () {
-    
+
 
     $user = Socialite::driver('github')->stateless()->user();
+
 
     // Find or create the user in your database
     $authUser = User::firstOrCreate(
         ['email' => $user->email],
         [
-            'name' => $user->name,
+            'name' => $user->getNickname(),
             'github_id' => $user->id,
             'avatar' => $user->avatar,
             'password' => $user->token
-            
+
         ]
     );
 
     Auth::login($authUser);
 
-    return redirect('/dashboard');  
+    return redirect('/dashboard');
 });
