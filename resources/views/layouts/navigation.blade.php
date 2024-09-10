@@ -1,7 +1,7 @@
 <script src="/theme-toggle.js" defer></script>
 <nav x-data="{ open: false }" class="bg-white border-b dark:bg-zinc-800 border-zinc-100 dark:border-zinc-700">
     <!-- Primary Navigation Menu -->
-    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="px-4 mx-auto container sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
