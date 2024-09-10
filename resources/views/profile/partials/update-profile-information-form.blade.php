@@ -121,13 +121,6 @@
                         </div>
                     @endif
                 @endforeach
-
-                <!-- Button to add new project fields -->
-                <div class="relative mt-2">
-                    <x-text-input type="url" name="candidate_projects[]"
-                        class="block w-full rounded-md shadow-sm border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-zinc-100"
-                        placeholder="Enter new GitHub project link" />
-                </div>
             </div>
 
             <!-- Button to add more project fields -->
