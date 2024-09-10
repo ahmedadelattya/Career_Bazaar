@@ -48,7 +48,7 @@ class JobController extends Controller
         Gate::authorize('viewAny', Job::class);
         $user = Auth::user();
 
-        $jobs = $user->jobs();
+        $jobs = $user->jobs()->paginate(10);
 
         // Retrieve unread notifications for the logged-in user
         $notifications = $user->unreadNotifications;

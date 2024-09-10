@@ -25,7 +25,7 @@ class CandidateController extends Controller
 
         // Mark all notifications as read
         $user->unreadNotifications->markAsRead();
-        return view('candidate-dashboard', compact('jobs', 'appliedJobs', 'notifications'));
+        return view('candidate-dashboard', compact('jobs', 'appliedJobs', 'notifications', 'skills'));
     }
 
     public function search()
@@ -88,7 +88,6 @@ class CandidateController extends Controller
             ->where('created_at', '<=', $end)
             ->get();
         return view("test", compact('jobs'));
-
     }
     // public function filter()
     // {

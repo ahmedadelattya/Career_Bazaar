@@ -1,41 +1,40 @@
 <x-app-layout>
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 p-6">
+        <div class="p-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <x-input-error :messages="$errors->all()" class="mt-2" />
             <div
-                class="bg-white dark:bg-zinc-800 overflow-hidden shadow rounded-lg p-6 text-zinc-800 dark:text-zinc-300">
+                class="p-6 overflow-hidden bg-white rounded-lg shadow dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300">
                 <form id="jobForm" method="POST" action="{{ route('jobs.store') }}" class="space-y-6" novalidate>
                     <div class="flex flex-wrap gap-6 sm:gap-0 sm:divide-x-2 divide-zinc-100 dark:divide-zinc-700">
-                        <div class="space-y-6 flex-grow pr-3">
+                        <div class="flex-grow pr-3 space-y-6">
                             <div>
                                 <x-input-label for="title" :value="__('Job Title')" />
-                                <x-text-input id="title" class="block mt-2 w-full
-                        " type="text" name="title" :value="old('title')" required autofocus />
+                                <x-text-input id="title" class="block w-full mt-2 " type="text" name="title"
+                                    :value="old('title')" required autofocus />
                             </div>
                             <!-- Job Description & Requirements -->
                             <!-- Job Description -->
                             <div class="">
                                 <x-input-label for="description" :value="__('Job Description')" />
                                 <textarea id="description"
-                                    class="block mt-1 w-full
-                        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                    class="block w-full mt-1 rounded-md shadow-sm border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
                                     name="description" required>{{ old('description') }}</textarea>
                             </div>
                             <!-- Job Requirements -->
                             <div class="">
                                 <x-input-label for="requirements" :value="__('Job Requirements')" />
                                 <textarea id="requirements"
-                                    class="block mt-1 w-full
-                        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                    class="block w-full mt-1 rounded-md shadow-sm border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
                                     name="requirements" required>{{ old('requirements') }}</textarea>
                             </div>
                             <!-- Skills Dropdown -->
-                            <div>
+                            <div class="max-w-[755px]">
                                 <x-input-label for="skills" :value="__('Skills')" />
                                 <div class="mt-2"></div>
                                 <select id="skills" name="skills[]" multiple>
                                     @foreach ($skills as $skill)
-                                        <option value="{{ $skill->name }}" {{ in_array($skill->name, old('skills', [])) ? 'selected' : '' }}>
+                                        <option value="{{ $skill->name }}"
+                                            {{ in_array($skill->name, old('skills', [])) ? 'selected' : '' }}>
                                             {{ $skill->name }}
                                         </option>
                                     @endforeach
@@ -47,29 +46,30 @@
                                 <div class="flex mt-1">
                                     <div class="flex">
                                         <!-- Fixed -->
-                                        <input id="fixed" type="radio" name="salary_type" value="fixed" {{ old('salary_type', 'fixed') == 'fixed' ? 'checked' : '' }}
+                                        <input id="fixed" type="radio" name="salary_type" value="fixed"
+                                            {{ old('salary_type', 'fixed') == 'fixed' ? 'checked' : '' }}
                                             class="sr-only peer/fixed">
                                         <label for="fixed"
-                                            class="cursor-pointer py-auto flex items-center justify-center px-4 rounded-s-lg bg-indigo-200 text-indigo-900 peer-checked/fixed:bg-indigo-700 peer-checked/fixed:text-indigo-50 duration-75 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/fixed:bg-indigo-900 dark:peer-checked/fixed:text-indigo-50">
+                                            class="flex items-center justify-center px-4 text-indigo-900 duration-75 bg-indigo-200 cursor-pointer py-auto rounded-s-lg peer-checked/fixed:bg-indigo-700 peer-checked/fixed:text-indigo-50 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/fixed:bg-indigo-900 dark:peer-checked/fixed:text-indigo-50">
                                             {{ __('Fixed') }}
                                         </label>
 
                                         <!-- Hourly -->
-                                        <input id="hourly" type="radio" name="salary_type" value="hourly" {{ old('salary_type', 'fixed') == 'hourly' ? 'checked' : '' }}
+                                        <input id="hourly" type="radio" name="salary_type" value="hourly"
+                                            {{ old('salary_type', 'fixed') == 'hourly' ? 'checked' : '' }}
                                             class="sr-only peer/hourly">
                                         <label for="hourly"
-                                            class="cursor-pointer py-auto flex items-center justify-center px-4 bg-indigo-200 text-indigo-900 peer-checked/hourly:bg-indigo-700 peer-checked/hourly:text-indigo-50 duration-75 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/hourly:bg-indigo-900 dark:peer-checked/hourly:text-indigo-50">
+                                            class="flex items-center justify-center px-4 text-indigo-900 duration-75 bg-indigo-200 cursor-pointer py-auto peer-checked/hourly:bg-indigo-700 peer-checked/hourly:text-indigo-50 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/hourly:bg-indigo-900 dark:peer-checked/hourly:text-indigo-50">
                                             {{ __('Hourly') }}
                                         </label>
                                     </div>
                                     <input type="text" id="salary-input"
                                         value="{{ old('fixed_salary') ?: old('hourly_rate') }}"
-                                        class="rounded-e-lg flex-1
-        border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 shadow-sm border-l-0 border-l-transparent" />
+                                        class="flex-1 border-l-0 shadow-sm rounded-e-lg border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 border-l-transparent" />
                                 </div>
                             </div>
                         </div>
-                        <div class="space-y-6 sm:space-y-0 pl-3 flex flex-col justify-between">
+                        <div class="flex flex-col justify-between pl-3 space-y-6 sm:space-y-0">
                             <!-- Category -->
                             <div class="">
                                 <label for="categories"
@@ -77,7 +77,8 @@
                                 <select id="categories" name="category"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->name }}" {{ old('category') == $category->name ? 'selected' : '' }}>
+                                        <option value="{{ $category->name }}"
+                                            {{ old('category') == $category->name ? 'selected' : '' }}>
                                             {{ $category->name }}
                                         </option>
                                     @endforeach
@@ -118,7 +119,8 @@
                                 <select id="locations" name="location"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
                                     @foreach ($locations as $location)
-                                        <option value="{{ $location->name }}" {{ old('location') == $location->name ? 'selected' : '' }}>
+                                        <option value="{{ $location->name }}"
+                                            {{ old('location') == $location->name ? 'selected' : '' }}>
                                             {{ $location->name }}
                                         </option>
                                     @endforeach
@@ -130,12 +132,16 @@
                                     class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Experience</label>
                                 <select id="experience" name="experience_level"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
-                                    <option value="entry-level" {{ old('experience_level') == 'entry-level' ? 'selected' : '' }}>{{__('Entry Level')}}
+                                    <option value="entry-level"
+                                        {{ old('experience_level') == 'entry-level' ? 'selected' : '' }}>
+                                        {{ __('Entry Level') }}
                                     </option>
-                                    <option value="intermediate" {{ old('experience_level') == 'intermediate' ? 'selected' : '' }}>{{__('Intermediate')}}
+                                    <option value="intermediate"
+                                        {{ old('experience_level') == 'intermediate' ? 'selected' : '' }}>
+                                        {{ __('Intermediate') }}
                                     </option>
                                     <option value="expert" {{ old('experience_level') == 'expert' ? 'selected' : '' }}>
-                                        {{__('Expert')}}
+                                        {{ __('Expert') }}
                                     </option>
                                 </select>
                             </div>
@@ -147,21 +153,21 @@
                     <!-- Submit Button -->
                     <div class="flex flex-row-reverse items-center justify-between mt-4">
                         <button type="submit"
-                            class="rounded-lg relative w-36 h-10 cursor-pointer flex items-center border border-indigo-700 bg-indigo-700 group hover:bg-indigo-700 active:bg-indigo-700 active:border-indigo-700">
+                            class="relative flex items-center h-10 bg-indigo-700 border border-indigo-700 rounded-lg cursor-pointer w-36 group hover:bg-indigo-700 active:bg-indigo-700 active:border-indigo-700">
                             <span
-                                class="text-gray-200 font-semibold ml-8 transform group-hover:opacity-0 group-focus:opacity-0 transition-all duration-300">Create</span>
+                                class="ml-8 font-semibold text-gray-200 transition-all duration-300 transform group-hover:opacity-0 group-focus:opacity-0">Create</span>
                             <span
-                                class="absolute right-0 h-full w-10 rounded-lg bg-indigo-700 flex items-center justify-center transform group-hover:translate-x-0  group-focus:translate-x-0 group-hover:w-full group-focus:w-full transition-all duration-300">
-                                <svg class="svg w-8 text-white" fill="none" height="24" stroke="currentColor"
-                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
-                                    width="24" xmlns="http://www.w3.org/2000/svg">
+                                class="absolute right-0 flex items-center justify-center w-10 h-full transition-all duration-300 transform bg-indigo-700 rounded-lg group-hover:translate-x-0 group-focus:translate-x-0 group-hover:w-full group-focus:w-full">
+                                <svg class="w-8 text-white svg" fill="none" height="24" stroke="currentColor"
+                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                                     <line x1="12" x2="12" y1="5" y2="19"></line>
                                     <line x1="5" x2="19" y1="12" y2="12"></line>
                                 </svg>
                             </span>
                         </button>
                         <a href="{{ route('jobs.index') }}"
-                            class="text-zinc-600 dark:text-zinc-300 hover:text-indigo-800 duration-150">Cancel</a>
+                            class="duration-150 text-zinc-600 dark:text-zinc-300 hover:text-indigo-800">Cancel</a>
 
                     </div>
                     @csrf
@@ -174,7 +180,7 @@
 <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const skillInput = document.getElementById('skills');
         if (skillInput) {
             new Choices(skillInput, {
@@ -187,7 +193,7 @@
         }
 
 
-        document.querySelector('form#jobForm').addEventListener('submit', function (event) {
+        document.querySelector('form#jobForm').addEventListener('submit', function(event) {
             // event.preventDefault(); // Prevent form from submitting normally
 
             const formData = new FormData(this); // Gather form data
@@ -225,7 +231,7 @@
 
     updateSalaryInputName();
 
-    document.getElementById('salary-input').addEventListener('input', function (e) {
+    document.getElementById('salary-input').addEventListener('input', function(e) {
         const regex = /[^0-9]/g;
         e.target.value = e.target.value.replace(regex, '');
     });
