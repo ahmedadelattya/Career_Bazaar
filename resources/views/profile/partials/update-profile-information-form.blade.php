@@ -60,6 +60,12 @@
                 <p>{{ __('No image uploaded') }}</p>
             @endif
         </div>
+        {{-- New Image field --}}
+        <div class="mt-4">
+            <x-input-label :value="__('Image/Logo')" />
+            <x-text-input id="image" class="block w-full mt-1" type="file" name="image" />
+            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+        </div>
 
         <!-- Fields for Candidate -->
         @if (Auth::user()->role == 'candidate')
@@ -138,12 +144,6 @@
 
         <!-- Fields for Employer -->
         @if (Auth::user()->role == 'employer')
-            {{-- New Image field --}}
-            <div class="mt-4">
-                <x-input-label :value="__('Image/Logo')" />
-                <x-text-input id="image" class="block w-full mt-1" type="file" name="image" />
-                <x-input-error :messages="$errors->get('image')" class="mt-2" />
-            </div>
             {{-- Company Name field --}}
             <div class="mt-4">
                 <x-input-label for="company_name" :value="__('Company Name')" />
