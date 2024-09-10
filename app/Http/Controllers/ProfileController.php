@@ -60,51 +60,26 @@ class ProfileController extends Controller
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-
-        $image_path = "images/{$user->role}s/{$user->image}";
-
-        if ($user->image != null) {
-            if (file_exists(public_path($image_path))) {
-                unlink(public_path($image_path));
-            }
-        }
-        $image = $request->file('image');
+        // Handle image upload
         if ($request->hasFile('image')) {
-            $image_path = $image->store("images", "{$user->role}s_images");
+            $this->handleImageUpload($request, $user);
         }
-        if ($request->has('name') && $request->name) {
-            $user->name = $request->name;
-        }
-        if ($request->has('email') && $request->email) {
-            $user->email = $request->email;
-        }
-        if ($request->has('candidate_skills') && $request->candidate_skills) {
-            $skills = $request->input('candidate_skills', []);
-            $user->candidate_skills = json_encode($skills);
-        }
-        if ($request->has('candidate_projects') && $request->candidate_projects != null) {
-            $user->candidate_projects = $request->candidate_projects;
-        }
-        if ($request->has('candidate_job_description') && $request->candidate_job_description) {
-            $user->candidate_job_description = $request->candidate_job_description;
-        }
-        if ($request->has('candidate_job_title') && $request->candidate_job_title) {
-            $user->candidate_job_title = $request->candidate_job_title;
-        }
-        if ($request->has('company_name') && $request->company_name) {
-            $user->company_name = $request->company_name;
-        }
-        if ($request->has('about') && $request->about) {
-            $user->about = $request->about;
-        }
-        if ($request->has('website') && $request->website) {
-            $user->website = $request->website;
-        }
-        if ($request->hasFile('image') && $image_path) {
-            $user->image = $image_path;
-        }
+        //common fields
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
 
-        $user->update();
+        // Handle role-specific fields
+        if ($user->role === 'candidate') {
+            $user->candidate_skills = $request->input('candidate_skills');
+            $user->candidate_projects = $request->input('candidate_projects');
+            $user->candidate_job_description = $request->input('candidate_job_description');
+            $user->candidate_job_title = $request->input('candidate_job_title');
+        } elseif ($user->role === 'employer') {
+            $user->company_name = $request->input('company_name');
+            $user->about = $request->input('about');
+            $user->website = $request->input('website');
+        }
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -130,9 +105,28 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    // public function show()
-    // {
 
-    //     return view('profiles.show-candidate-profile', ['user' => Auth::user()]);
-    // }
+    /**
+     * Handle image upload process.
+     *
+     * @param ProfileUpdateRequest $request
+     * @param User $user
+     */
+    private function handleImageUpload(ProfileUpdateRequest $request, User $user): void
+    {
+        // Delete old image if exists
+        if ($user->image) {
+            $oldImagePath = public_path("images/{$user->role}s/{$user->image}");
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+        }
+
+        // Store new image
+        $image = $request->file('image');
+        $directory = $user->role === 'candidate' ? 'candidates_images' : 'employers_images';
+        $newImagePath = $image->store('images', $directory);
+
+        $user->image = $newImagePath; // Update user image path
+    }
 }
