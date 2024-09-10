@@ -24,7 +24,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="my-8 space-x-4 flex flex-wrap gap-2">
+                <div class="my-8 space-x-4 flex flex-wrap justify-between gap-2">
                     <!-- Salary -->
                     <div class="text-white ">
                         <form method="get" action="{{ route('filter') }}">
