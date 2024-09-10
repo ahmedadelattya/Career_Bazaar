@@ -45,6 +45,117 @@
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class=" text-zinc-800 dark:text-zinc-200">
+                <div class="w-full">
+                    <form method="get" action="{{ route('search') }}" class="flex items-center gap-4">
+                        @csrf
+                        <label for="default-search"
+                            class="mb-2 text-sm font-medium sr-only text-zinc-900 dark:text-white">Search</label>
+                        <div class="relative w-full">
+                            <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
+                                <svg class="w-4 h-4 text-zinc-500 dark:text-zinc-400" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                </svg>
+                            </div>
+                            <input type="search" id="default-search"
+                                class="block w-full p-4 text-sm border rounded-lg ps-10 text-zinc-900 border-zinc-300 bg-zinc-50 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                                name="que" placeholder="i.e., title, description, experience, category, or location"
+                                required />
+                            <button type="submit"
+                                class="text-white absolute end-2.5 bottom-2.5 bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">Search</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="flex flex-wrap justify-between gap-2 my-8 space-x-4">
+                    <!-- Salary -->
+                    <div class="text-white ">
+                        <form method="get" action="{{ route('filter') }}">
+                            @csrf
+                            {{-- if user entered minimum amount more than the maximum amount he gets the whole records
+                            --}}
+                            <div class="flex">
+                                <div class="flex">
+                                    <!-- Fixed -->
+                                    <input type="radio" name="salary_type" id="fixed" value="fixed" checked
+                                        class="sr-only peer/fixed">
+                                    <label for="fixed"
+                                        class="flex items-center justify-center px-4 text-indigo-900 duration-75 bg-indigo-200 cursor-pointer py-auto rounded-s-lg peer-checked/fixed:bg-indigo-700 peer-checked/fixed:text-indigo-50 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/fixed:bg-indigo-900 dark:peer-checked/fixed:text-indigo-50">
+                                        {{ __('Fixed') }}
+                                    </label>
+
+                                    <!-- Hourly -->
+                                    <input type="radio" name="salary_type" id="hourly" value="hourly"
+                                        class="sr-only peer/hourly">
+                                    <label for="hourly"
+                                        class="flex items-center justify-center px-4 text-indigo-900 duration-75 bg-indigo-200 cursor-pointer py-auto peer-checked/hourly:bg-indigo-700 peer-checked/hourly:text-indigo-50 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/hourly:bg-indigo-900 dark:peer-checked/hourly:text-indigo-50">
+                                        {{ __('Hourly') }}
+                                    </label>
+                                </div>
+                                <!-- Min -->
+                                <div class="relative">
+                                    <input type="text" id="min" name="min"
+                                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-zinc-900 bg-transparent  border-1 border-zinc-300 appearance-none dark:text-white dark:border-zinc-600 dark:focus:border-indigo-500 focus:outline-none focus:ring-0 focus:border-indigo-600 peer"
+                                        placeholder=" " required />
+                                    <label for="min"
+                                        class="absolute text-sm text-zinc-500 dark:text-zinc-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-zinc-900 px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-focus:dark:text-indigo-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Min</label>
+                                </div>
+                                <!-- Max -->
+                                <div class="relative">
+                                    <input type="text" id="max" name="max"
+                                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-zinc-900 bg-transparent border-1 border-zinc-300 appearance-none dark:text-white dark:border-zinc-600 dark:focus:border-indigo-500 focus:outline-none focus:ring-0 focus:border-indigo-600 peer"
+                                        placeholder=" " required />
+                                    <label for="max"
+                                        class="absolute text-sm text-zinc-500 dark:text-zinc-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-zinc-900 px-2 peer-focus:px-2 peer-focus:text-indigo-600 peer-focus:dark:text-indigo-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Max</label>
+                                </div>
+                                <button type="submit"
+                                    class="px-5 text-sm font-medium text-white bg-indigo-700 focus:outline-none hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 rounded-e-lg dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-900">
+                                    Filter
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Skill -->
+                    <div class="text-zinc-800 dark:text-zinc-200">
+                        <form method="get" action="{{ route('skillsearch') }}" class="flex items-center gap-2">
+                            @csrf
+                            <label for="underline_select" class="sr-only">Underline select</label>
+                            <select id="underline_select" name="select_skill"
+                                class="block py-2.5 px-0 w-full text-sm text-zinc-500 bg-transparent border-0 border-b-2 border-zinc-200 appearance-none dark:text-zinc-400 dark:border-zinc-700 focus:outline-none focus:ring-0 focus:border-zinc-200 peer">
+                                @foreach ($skills as $skill)
+                                    <option value="{{ $skill->name }}"
+                                        class="text-zinc-800 bg-zinc-100 dark:bg-zinc-700 dark:text-zinc-200">
+                                        {{ $skill->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <button type="submit"
+                                class="px-3 py-2 text-sm font-medium text-center text-white bg-indigo-700 rounded-lg hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">Filter</button>
+                        </form>
+                    </div>
+                    <!-- Date -->
+                    <div class="text-zinc-800 dark:text-zinc-200">
+                        <form method="GET" action="{{ route('datesearch') }}" class="flex items-center gap-2">
+                            @csrf
+                            <div class="relative z-0">
+                                <input type="date" name="start" id="date-from"
+                                    class="block py-2.5 px-0 w-full text-sm text-zinc-900 bg-transparent border-0 border-b-2 border-zinc-300 appearance-none dark:text-white dark:border-zinc-600 dark:focus:border-indigo-500 focus:outline-none focus:ring-0 focus:border-indigo-600 peer"
+                                    placeholder=" " />
+                                <label for="date-from"
+                                    class="absolute text-sm text-zinc-500 dark:text-zinc-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-indigo-600 peer-focus:dark:text-indigo-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">From</label>
+                            </div>
+                            <div class="relative z-0">
+                                <input type="date" name="end" id="date-to"
+                                    class="block py-2.5 px-0 w-full text-sm text-zinc-900 bg-transparent border-0 border-b-2 border-zinc-300 appearance-none dark:text-white dark:border-zinc-600 dark:focus:border-indigo-500 focus:outline-none focus:ring-0 focus:border-indigo-600 peer"
+                                    placeholder=" " />
+                                <label for="date-to"
+                                    class="absolute text-sm text-zinc-500 dark:text-zinc-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-indigo-600 peer-focus:dark:text-indigo-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">To</label>
+                            </div>
+                            <button type="submit"
+                                class="px-3 py-2 text-sm font-medium text-center text-white bg-indigo-700 rounded-lg hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">Filter</button>
+                        </form>
+                    </div>
+                </div>
                 <header class="text-2xl font-bold ">
                     {{ __('Newly added jobs') }}
                 </header>
@@ -115,9 +226,7 @@
             </div>
         </div>
     </div>
-
 </div>
-{{ $jobs->links() }}
 
 <script>
     function createNotification(data) {
