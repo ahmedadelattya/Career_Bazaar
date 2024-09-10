@@ -20,6 +20,7 @@ class ProfileController extends Controller
     {
         // testing employer profile with route /profile/employer
         $user = Auth::user();
+        $user->candidate_skills = json_decode($user->candidate_skills, true);
         if ($user->role == 'employer') {
             return view('profiles.employer.show-employer-profile', compact('user'));
         } else {
@@ -38,7 +39,7 @@ class ProfileController extends Controller
             return view('profiles.employer.edit-employer-profile', ['user' => $user]);
         } elseif ($user->role == 'candidate') {
             $skills = Skill::all();
-
+            $user->candidate_skills = json_decode($user->candidate_skills, true);
             return view('profiles.candidate.edit-candidate-profile', ['user' => $user, 'skills' => $skills]);
         } elseif ($user->role == 'admin') {
             return view('profiles.admin-profile', ['user' => $user]);

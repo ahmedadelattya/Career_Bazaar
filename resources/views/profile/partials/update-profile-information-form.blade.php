@@ -69,30 +69,26 @@
                     class="block w-full mt-1 rounded-md shadow-sm border-zinc-300 dark:border-zinc-600 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-800 dark:text-zinc-100">{{ old('job_description', $user->job_description) }}</textarea>
             </div>
 
-            <!-- Skills Dropdown with Old Values Retained -->
-            <div class="mt-4">
-                <x-input-label for="skills_dropdown" :value="__('Skills (Dropdown)')" />
-                <select id="skills_dropdown" name="candidate_skills[]" multiple>
+            <!-- Skills Dropdown -->
+            <div>
+                <x-input-label for="skills" :value="__('Skills')" />
+                <div class="mt-2"></div>
+                <select id="skills" name="candidate_skills[]" multiple>
                     @foreach ($skills as $skill)
                         <option value="{{ $skill->name }}"
-                            {{ in_array($skill->name, old('candidate_skills', $user->candidate_skills->pluck('name')->toArray())) ? 'selected' : '' }}>
+                            {{ in_array($skill->name, $user->candidate_skills) ? 'selected' : '' }}>
                             {{ $skill->name }}
                         </option>
                     @endforeach
                 </select>
             </div>
 
-            <!-- Projects Section with Old Values Retained -->
+            <!-- Projects Section -->
             <div id="projects" class="mt-4">
                 <x-input-label for="projects" :value="__('Projects')" />
-                <!-- Existing Projects -->
-                @php
-                    $existingProjects = old('candidate_projects', $user->projects->pluck('url')->toArray());
-                @endphp
-                @foreach ($existingProjects as $project)
-                    <x-text-input type="url" name="candidate_projects[]" class="block w-full mt-1"
-                        placeholder="Enter GitHub project link" value="{{ $project }}" />
-                @endforeach
+                <!-- Initial project input -->
+                <x-text-input type="url" name="candidate_projects[]" class="block w-full mt-1"
+                    placeholder="Enter GitHub project link" />
             </div>
 
             <!-- Button to add more project fields -->
@@ -154,18 +150,14 @@
 
 <script>
     // Initialize Choices.js for the skills dropdown
-    document.addEventListener('DOMContentLoaded', function() {
-        const skillDropdown = document.getElementById('skills_dropdown');
-        if (skillDropdown) {
-            new Choices(skillDropdown, {
-                removeItemButton: true,
-                placeholderValue: 'Select your skills...',
-                duplicateItemsAllowed: false,
-                searchResultLimit: 3,
-                noResultsText: 'No skills found'
-            });
-        }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const skillsInput = document.getElementById('skills');
+        new Choices(skillsInput, {
+            removeItemButton: true
+        });
     });
+
 
     // Function to dynamically add more project inputs
     function addProject() {
