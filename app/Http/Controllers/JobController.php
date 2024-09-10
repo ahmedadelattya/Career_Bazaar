@@ -35,7 +35,7 @@ class JobController extends Controller
         $data['skills'] = json_encode($skills); // Convert the array to a JSON string
         $data['employer_id'] = Auth::id(); // Assign the current employer's ID
 
-        // Create the job listing
+        // Create the job listing   
         Job::create($data);
 
         // Redirect with success message
@@ -48,7 +48,7 @@ class JobController extends Controller
         Gate::authorize('viewAny', Job::class);
         $user = Auth::user();
 
-        $jobs = $user->jobs();
+        $jobs = $user->jobs()->paginate(9);
 
         // Retrieve unread notifications for the logged-in user
         $notifications = $user->unreadNotifications;
