@@ -41,6 +41,16 @@ class CandidateController extends Controller
                     ->orWhere('experience_level', 'LIKE', '%' . $keyword . '%');
             })
             ->get();
+        $user = Auth::user();
+        $skills = Skill::all();
+        $appliedJobs = Auth::user()->applications->pluck('job_id')->toArray();
+
+        // Retrieve unread notifications for the logged-in user
+        $notifications = $user->unreadNotifications;
+
+        // Mark all notifications as read
+        $user->unreadNotifications->markAsRead();
+        return view('candidate-dashboard', compact('jobs', 'appliedJobs', 'notifications', 'skills'));
         return view('test', compact('jobs', 'keyword'));
     }
 
@@ -64,9 +74,20 @@ class CandidateController extends Controller
         }
         $jobs = Job::where('salary_type', '=', $type)
             ->where($keyword, '>=', $min)
-            ->where($keyword, '<=', $max)
+            ->where($keyword, '<=', $max)->where('status', '=', 'approved')
             ->get();
-        return view('test', compact('jobs'));
+        $user = Auth::user();
+        $skills = Skill::all();
+        $appliedJobs = Auth::user()->applications->pluck('job_id')->toArray();
+
+        // Retrieve unread notifications for the logged-in user
+        $notifications = $user->unreadNotifications;
+
+        // Mark all notifications as read
+        $user->unreadNotifications->markAsRead();
+        return view('candidate-dashboard', compact('jobs', 'appliedJobs', 'notifications', 'skills'));
+
+        return redirect()->back()->with('jobs', $jobs);
     }
 
     public function filterSkills()
@@ -74,6 +95,17 @@ class CandidateController extends Controller
         $keyword = request('select_skill');
         // dd($keyword);
         $jobs = Job::where('skills', 'LIKE', '%' . $keyword . '%')->get();
+        $user = Auth::user();
+        $skills = Skill::all();
+        $appliedJobs = Auth::user()->applications->pluck('job_id')->toArray();
+
+        // Retrieve unread notifications for the logged-in user
+        $notifications = $user->unreadNotifications;
+
+        // Mark all notifications as read
+        $user->unreadNotifications->markAsRead();
+        return view('candidate-dashboard', compact('jobs', 'appliedJobs', 'notifications', 'skills'));
+
         return view("test", compact('jobs'));
     }
 
@@ -87,6 +119,17 @@ class CandidateController extends Controller
         $jobs = Job::where('created_at', '>=', $start)
             ->where('created_at', '<=', $end)
             ->get();
+        $user = Auth::user();
+        $skills = Skill::all();
+        $appliedJobs = Auth::user()->applications->pluck('job_id')->toArray();
+
+        // Retrieve unread notifications for the logged-in user
+        $notifications = $user->unreadNotifications;
+
+        // Mark all notifications as read
+        $user->unreadNotifications->markAsRead();
+        return view('candidate-dashboard', compact('jobs', 'appliedJobs', 'notifications', 'skills'));
+
         return view("test", compact('jobs'));
     }
     // public function filter()
