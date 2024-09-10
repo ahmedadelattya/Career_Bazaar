@@ -165,11 +165,7 @@
                                     Edit
                                 </a>
                                 <a href="{{ route('employer.applications', $job->id) }}"
-<<<<<<< HEAD
                                     class="inline-flex items-center px-4 py-2 text-sm font-medium bg-white border-t border-b text-zinc-900 border-zinc-200 hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
-=======
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium bg-white border-t border-b text-zinc-900 border-zinc-200 hover:bg-zinc-100 hover:text-indigo-700 focus:z-10 focus:ring-2 focus:ring-indigo-700 focus:text-indigo-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:hover:text-white dark:hover:bg-zinc-700 dark:focus:ring-indigo-500 dark:focus:text-white">
->>>>>>> d2d6f719bef8b2b664c2f534c2920bc70dcb83d8
                                     <svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
