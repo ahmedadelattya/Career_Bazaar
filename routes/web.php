@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Job;
@@ -48,7 +49,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/employer/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
 });
 
-
+// testing comment routes
+Route::middleware('auth')->group(function () {
+    Route::post('/employer/jobs/{job}', [CommentController::class, 'store'])->name('comment-store');
+});
 
 // Admin Routes
 

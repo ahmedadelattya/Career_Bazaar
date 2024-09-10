@@ -129,6 +129,17 @@
                                 @endforeach
                             </ul>
                         @endif
+                        {{-- Comments section started --}}
+                        @if (count($job->comments))
+                            <h2 class="text-xl font-semibold">Comments</h2>
+                            <ul>
+                                @foreach ($job->comments as $comment)
+                                    <span>{{ $comment->user->name }} </span>
+                                    <li class="text-zinc-400 ">{{ $comment->body }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                        {{-- Comments section ended --}}
                     </div>
                 </div>
                 <div class="p-6 border-t border-zinc-200 dark:border-zinc-700">
@@ -180,6 +191,18 @@
                                 {{ $hasApplied ? 'Already Applied' : 'Apply' }}
                             </button>
                         @endif
+                        {{-- start Comment functionality  --}}
+                        <div>
+                            <form method="post" action="{{ route('comment-store', $job) }}">
+
+                                @csrf
+                                <label class="text-xl font-semibold">Add Comment</label>
+                                <input type="text" name="comment" id="" class="text-black rounded-xl">
+                                <input type="submit" value="Add"
+                                    class="bg-green-600 hover:bg-green-700 px-2 py-2 rounded-xl text-white font-bold">
+                            </form>
+                        </div>
+                        {{-- End Comment functionality  --}}
                     </div>
                 </div>
             </div>
