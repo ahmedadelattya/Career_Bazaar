@@ -173,11 +173,12 @@
                                     <span class="inline-block text-xs text-zinc-300 dark:text-zinc-500">Posted
                                         {{ $job->created_at->diffForHumans() }}</span>
                                 </div>
-                                <div class="object-cover">
-                                    @if ($job->image && file_exists(public_path("images/candidates/$job->image")))
-                                        <img src="{{ asset('images/employers/images/ktBcKk3j1feuHcLgtvSyX2LLL2Uh8ov5iRo1urPs.jpg') }}"
+                                <div class="object-cover overflow-hidden rounded-lg shadow-sm">
+                                    @if ($job->user->image && file_exists(public_path('images/employers/' . $job->user->image)))
+                                        <img src="{{ asset('images/employers/' . $job->user->image) }}"
                                             alt="Company logo" class="max-w-28">
                                     @endif
+
                                 </div>
                             </div>
                             <div class="flex items-center gap-2 mt-4">
