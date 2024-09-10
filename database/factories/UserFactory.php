@@ -38,7 +38,7 @@ class UserFactory extends Factory
             'role' => $this->faker->randomElement(['employer', 'candidate', 'admin']),
             'company_name' => $this->faker->company,
             'website' => $this->faker->url,
-            'candidate_projects' => ["https:\/\/github.com\/ahmedadelattya\/Career_Bazaar\/tree\/fixing_bugs", "https:\/\/github.com\/ahmedadelattya\/Career_Bazaar\/tree\/fixing_bugs"],
+            'candidate_projects' => ["https:\/\/github.com\/ahmedadelattya\/Career_Bazaar", "https:\/\/github.com\/ahmedadelattya\/Career_Bazaar"],
             'candidate_skills' => json_encode(['PHP', 'Laravel']),
             'candidate_job_title' => $this->faker->jobTitle,
             'candidate_job_description' => $this->faker->paragraph,
