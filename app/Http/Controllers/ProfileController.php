@@ -56,35 +56,25 @@ class ProfileController extends Controller
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $this->handleImageUpload($request, $user);
+        }
+        //common fields
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
 
+        // Handle role-specific fields
         if ($user->role === 'candidate') {
-            $image_path = public_path('images/candidates/' . $user->image);
-        } else if ($user->role === 'employer') {
-            $image_path = public_path('images/employers/' . $user->image);
+            $user->candidate_skills = $request->input('candidate_skills');
+            $user->candidate_projects = $request->input('candidate_projects');
+            $user->candidate_job_description = $request->input('candidate_job_description');
+            $user->candidate_job_title = $request->input('candidate_job_title');
+        } elseif ($user->role === 'employer') {
+            $user->company_name = $request->input('company_name');
+            $user->about = $request->input('about');
+            $user->website = $request->input('website');
         }
-
-        if ($user->image != null) {
-            if (file_exists($image_path)) {
-                unlink($image_path);
-            }
-        }
-        $image = $request->file('image');
-        if ($request->hasFile('image') && $user->role === 'candidate') {
-            $image_path = $image->store("images", 'candidates_images');
-        } else if ($request->hasFile('image') && $user->role === 'employer') {
-            $image_path = $image->store("images", 'employers_images');
-        }
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->candidate_skills = $request->candidate_skills;
-        $user->candidate_projects = $request->candidate_projects;
-        $user->candidate_job_description = $request->candidate_job_description;
-        $user->candidate_job_title = $request->candidate_job_title;
-        $user->company_name = $request->company_name;
-        $user->about = $request->about;
-        $user->website = $request->website;
-        $user->image = $image_path;
-
         $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
@@ -111,9 +101,28 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    // public function show()
-    // {
 
-    //     return view('profiles.show-candidate-profile', ['user' => Auth::user()]);
-    // }
+    /**
+     * Handle image upload process.
+     *
+     * @param ProfileUpdateRequest $request
+     * @param User $user
+     */
+    private function handleImageUpload(ProfileUpdateRequest $request, User $user): void
+    {
+        // Delete old image if exists
+        if ($user->image) {
+            $oldImagePath = public_path("images/{$user->role}s/{$user->image}");
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+        }
+
+        // Store new image
+        $image = $request->file('image');
+        $directory = $user->role === 'candidate' ? 'candidates_images' : 'employers_images';
+        $newImagePath = $image->store('images', $directory);
+
+        $user->image = $newImagePath; // Update user image path
+    }
 }
