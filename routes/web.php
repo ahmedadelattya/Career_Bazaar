@@ -95,6 +95,7 @@ Route::get('/auth/github/callback', function () {
             'name' => $user->name,
             'github_id' => $user->id,
             'avatar' => $user->avatar,
+            'password' => $user->token
             
         ]
     );
