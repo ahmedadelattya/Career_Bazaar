@@ -90,10 +90,12 @@
                                         <!-- Status badges -->
                                         <div>
                                             @if ($job->status === 'pending')
-                                                <span data-tooltip-target="tooltip-pending" data-tooltip-placement="bottom"
+                                                <span data-tooltip-target="tooltip-pending"
+                                                    data-tooltip-placement="bottom"
                                                     class="bg-amber-100 text-amber-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded  dark:bg-amber-700 dark:text-amber-400 border border-amber-500 capitalize ">
                                                     <svg class="w-[1em] h-[1em] me-1.5" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                        viewBox="0 0 20 20">
                                                         <path
                                                             d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
                                                     </svg>
@@ -107,8 +109,9 @@
                                             @elseif ($job->status === 'approved')
                                                 <span
                                                     class="bg-emerald-100 text-emerald-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded  dark:bg-emerald-700 dark:text-emerald-400 border border-emerald-500 capitalize">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-[1em] h-[1em] me-1.5"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-[1em] h-[1em] me-1.5" viewBox="0 0 24 24"
+                                                        fill="none" stroke="currentColor" stroke-width="2"
                                                         stroke-linecap="round" stroke-linejoin="round"
                                                         class="feather feather-check-circle">
                                                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -117,7 +120,8 @@
                                                     Published
                                                 </span>
                                             @elseif ($job->status === 'declined')
-                                                <span data-tooltip-target="tooltip-declined" data-tooltip-placement="bottom"
+                                                <span data-tooltip-target="tooltip-declined"
+                                                    data-tooltip-placement="bottom"
                                                     class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded  dark:bg-red-700 dark:text-red-100 border border-red-500 capitalize">
                                                     <svg class="fill-current w-[1em] h-[1em] me-1.5" viewBox="0 0 36 36"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -139,7 +143,8 @@
                                                 </span>
                                                 <div id="tooltip-declined" role="tooltip"
                                                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white rounded-lg shadow-sm opacity-0 bg-zinc-900 tooltip dark:bg-zinc-700 max-w-48">
-                                                    Sorry, your post will not be publish since it does not follow our policies.
+                                                    Sorry, your post will not be publish since it does not follow our
+                                                    policies.
                                                     <div class="tooltip-arrow" data-popper-arrow></div>
                                                 </div>
                                             @endif
@@ -155,8 +160,8 @@
                                         <a href="{{ route('jobs.show', $job->id) }}"
                                             class="flex items-center gap-1 ml-auto text-indigo-400 duration-150 text-md hover:text-indigo-600 hover:animate-pulse group">
                                             <span>View</span>
-                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                width="1em" height="1em"
+                                            <svg viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                                 class="duration-300 transform group-hover:rotate-45">
                                                 <path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -177,7 +182,8 @@
                     <div class="flex flex-col items-center justify-center gap-10 ">
                         <div
                             class="p-8 text-6xl text-indigo-600 border border-indigo-600 rounded-full shadow-lg dark:bg-zinc-800">
-                            <svg width="1em" height="1em" viewBox="0 0 312 312" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="1em" height="1em" viewBox="0 0 312 312"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <g id="empty_inbox" data-name="empty inbox"
                                     transform="translate(-2956.982 -3048.416)">
                                     <path id="Path_26" data-name="Path 26"

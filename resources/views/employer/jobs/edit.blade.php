@@ -31,8 +31,7 @@
                                 <textarea id="requirements" rows="6"
                                     class="block mt-1  w-full
                         border-zinc-300 dark:border-zinc-700 dark:bg-zinc-700 dark:text-zinc-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-                                    name="requirements"
-                                    required>{{ old('requirements', $job->requirements) }}</textarea>
+                                    name="requirements" required>{{ old('requirements', $job->requirements) }}</textarea>
                             </div>
 
                             <!-- Skills Dropdown -->
@@ -41,7 +40,9 @@
                                 <div class="mt-2"></div>
                                 <select id="skills" name="skills[]" multiple>
                                     @foreach ($allSkills as $skill)
-                                        <option value="{{ $skill->name }}" {{ in_array($skill->name, $job->skills) ? 'selected' : '' }}>{{ $skill->name }}</option>
+                                        <option value="{{ $skill->name }}"
+                                            {{ in_array($skill->name, $job->skills) ? 'selected' : '' }}>
+                                            {{ $skill->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -51,7 +52,8 @@
                                 <div class="flex mt-1">
                                     <div class="flex">
                                         <!-- Fixed -->
-                                        <input id="fixed" type="radio" name="salary_type" value="fixed" {{ old('salary_type', $job->salary_type) == 'fixed' ? 'checked' : '' }}
+                                        <input id="fixed" type="radio" name="salary_type" value="fixed"
+                                            {{ old('salary_type', $job->salary_type) == 'fixed' ? 'checked' : '' }}
                                             class="sr-only peer/fixed">
                                         <label for="fixed"
                                             class="cursor-pointer py-auto flex items-center justify-center px-4 rounded-s-lg bg-indigo-200 text-indigo-900 peer-checked/fixed:bg-indigo-700 peer-checked/fixed:text-indigo-50 duration-75 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/fixed:bg-indigo-900 dark:peer-checked/fixed:text-indigo-50">
@@ -59,7 +61,8 @@
                                         </label>
 
                                         <!-- Hourly -->
-                                        <input id="hourly" type="radio" name="salary_type" value="hourly" {{ old('salary_type', $job->salary_type) == 'hourly' ? 'checked' : '' }}
+                                        <input id="hourly" type="radio" name="salary_type" value="hourly"
+                                            {{ old('salary_type', $job->salary_type) == 'hourly' ? 'checked' : '' }}
                                             class="sr-only peer/hourly">
                                         <label for="hourly"
                                             class="cursor-pointer py-auto flex items-center justify-center px-4 bg-indigo-200 text-indigo-900 peer-checked/hourly:bg-indigo-700 peer-checked/hourly:text-indigo-50 duration-75 dark:bg-indigo-600 dark:text-indigo-200 dark:peer-checked/hourly:bg-indigo-900 dark:peer-checked/hourly:text-indigo-50">
@@ -82,10 +85,10 @@
                                 <select id="categories" name="category"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->name }}" {{ (old('category') ?? $job->category) === $category->name ? 'selected' : '' }}>
+                                        <option value="{{ $category->name }}"
+                                            {{ (old('category') ?? $job->category) === $category->name ? 'selected' : '' }}>
                                             {{ $category->name }}
                                         </option>
-
                                     @endforeach
 
                                 </select>
@@ -128,7 +131,8 @@
                                 <select id="locations" name="location"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
                                     @foreach ($locations as $location)
-                                        <option value="{{ $location->name }}" {{ old('location') == $location->name ? 'selected' : '' }}>
+                                        <option value="{{ $location->name }}"
+                                            {{ old('location') == $location->name ? 'selected' : '' }}>
                                             {{ $location->name }}
                                         </option>
                                     @endforeach
@@ -140,12 +144,16 @@
                                     class="block mb-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">Experience</label>
                                 <select id="experience" name="experience_level"
                                     class="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-indigo-700 dark:focus:border-indigo-700">
-                                    <option value="entry-level" {{ old('experience_level') == 'entry-level' ? 'selected' : '' }}>{{__('Entry Level')}}
+                                    <option value="entry-level"
+                                        {{ old('experience_level') == 'entry-level' ? 'selected' : '' }}>
+                                        {{ __('Entry Level') }}
                                     </option>
-                                    <option value="intermediate" {{ old('experience_level') == 'intermediate' ? 'selected' : '' }}>{{__('Intermediate')}}
+                                    <option value="intermediate"
+                                        {{ old('experience_level') == 'intermediate' ? 'selected' : '' }}>
+                                        {{ __('Intermediate') }}
                                     </option>
                                     <option value="expert" {{ old('experience_level') == 'expert' ? 'selected' : '' }}>
-                                        {{__('Expert')}}
+                                        {{ __('Expert') }}
                                     </option>
                                 </select>
                             </div>
@@ -157,12 +165,12 @@
                         <button type="submit"
                             class="rounded-lg relative w-36 h-10 cursor-pointer flex items-center border border-indigo-700 bg-indigo-700 group hover:bg-indigo-700 active:bg-indigo-700 active:border-indigo-700">
                             <span
-                                class="text-gray-200 font-semibold ml-8 transform group-hover:opacity-0 group-focus:opacity-0 transition-all duration-300">Updae</span>
+                                class="text-gray-200 font-semibold ml-8 transform group-hover:opacity-0 group-focus:opacity-0 transition-all duration-300">Update</span>
                             <span
                                 class="absolute right-0 h-full w-10 rounded-lg bg-indigo-700 flex items-center justify-center transform group-hover:translate-x-0  group-focus:translate-x-0 group-hover:w-full group-focus:w-full transition-all duration-300">
                                 <svg class="svg w-8 text-white" fill="none" height="24" stroke="currentColor"
-                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
-                                    width="24" xmlns="http://www.w3.org/2000/svg">
+                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                                     <line x1="12" x2="12" y1="5" y2="19"></line>
                                     <line x1="5" x2="19" y1="12" y2="12"></line>
                                 </svg>
@@ -181,7 +189,9 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const skillsInput = document.getElementById('skills');
-            new Choices(skillsInput, { removeItemButton: true });
+            new Choices(skillsInput, {
+                removeItemButton: true
+            });
         });
     </script>
 
@@ -204,33 +214,9 @@
 
         updateSalaryInputName();
 
-        document.getElementById('salary-input').addEventListener('input', function (e) {
+        document.getElementById('salary-input').addEventListener('input', function(e) {
             const regex = /[^0-9]/g;
             e.target.value = e.target.value.replace(regex, '');
         });
     </script>
 </x-app-layout>
-
-
-<!-- Salary -->
-<!-- <div>
-                                <x-input-label for="salary_type" :value="__('Salary Type')" />
-                                <div class="flex mt-1">
-                                    <div class="flex">
-                                        <input id="fixed" type="radio" name="salary_type" value="fixed" {{ $job->salary_type == 'fixed' ? 'checked' : '' }} class="sr-only peer/fixed">
-                                        <label for="fixed"
-                                            class="cursor-pointer py-auto flex items-center justify-center px-4 rounded-s-lg bg-zinc-50 border dark:bg-zinc-800 peer-checked/fixed:bg-sky-400 peer-checked/fixed:text-white">
-                                            {{ __('Fixed') }}
-                                        </label>
-                                        <input id="hourly" type="radio" name="salary_type" value="hourly" {{ $job->salary_type == 'hourly' ? 'checked' : '' }} class="sr-only peer/hourly">
-                                        <label for="hourly"
-                                            class="cursor-pointer py-auto flex items-center justify-center px-4 rounded-e-lg bg-zinc-50 border dark:bg-zinc-800 peer-checked/hourly:bg-sky-400 peer-checked/hourly:text-white">
-                                            {{ __('Hourly') }}
-                                        </label>
-                                    </div>
-                                    <input type="text" id="salary-input"
-                                        class="rounded-e-lg flex-1 bg-zinc-50 border-zinc-100 dark:bg-zinc-900 dark:border-zinc-600"
-                                        name="{{ $job->salary_type == 'fixed' ? 'fixed_salary' : 'hourly_rate' }}"
-                                        value="{{ $job->salary }}" />
-                                </div>
-                            </div> -->
