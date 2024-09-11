@@ -11,7 +11,7 @@
                     @if ($user->image && Str::startsWith($user->image, 'http'))
                         <img src="{{ $user->image }}" alt="Profile Picture"
                             class="object-cover w-full h-full border-4 border-indigo-500 rounded-full shadow-lg">
-                    @elseif ($user->image && file_exists(public_path('images/candidate/' . $job->user->image)))
+                    @elseif ($user->image && file_exists(public_path('images/candidates/' . $user->image)))
                         <img src="{{ asset("images/candidates/$user->image") }}" alt="Profile Picture"
                             class="object-cover w-full h-full border-4 border-indigo-500 rounded-full shadow-lg">
                     @else
